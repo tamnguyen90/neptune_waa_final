@@ -2,12 +2,9 @@ package edu.miu.cs.neptune.controller;
 
 import edu.miu.cs.neptune.domain.Role;
 import edu.miu.cs.neptune.domain.RoleCode;
-import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.service.UserService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -25,14 +22,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String list(Model model) {
         model.addAttribute("users", userService.getAll());
         return "user/list";
     }
 
     @RequestMapping("/create")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String create(Model model) {
         model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> {
             Role role = new Role();
