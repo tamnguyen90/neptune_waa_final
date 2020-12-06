@@ -29,6 +29,9 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Role> roles = new ArrayList<>();
 
+    @OneToMany
+    private List<Bid> bids = new ArrayList<>();
+
     public Long getUserId() {
         return userId;
     }
