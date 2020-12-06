@@ -3,7 +3,6 @@ package edu.miu.cs.neptune.domain;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,8 @@ public class User {
     private ProfileVerificationType profileVerificationType;
     private Boolean isResetPassword;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
 
     @ManyToMany(mappedBy = "users")
     private List<Role> roles = new ArrayList<>();
@@ -40,98 +41,99 @@ public class User {
         return userId;
     }
 
-    public User setUserId(Long userId) {
-        this.userId = userId;
-        return this;
-    }
-
     public String getUsername() {
         return username;
     }
 
-    public User setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
-        return this;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public User setRoles(List<Role> roles) {
-        this.roles = roles;
-        return this;
-    }
-
-    public List<Bid> getBids() {
-        return bids;
-    }
-
-    public User setBids(List<Bid> bids) {
-        this.bids = bids;
-        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public User setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public User setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public User setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
-        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public User setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
     }
 
     public String getLicenseNumber() {
         return licenseNumber;
     }
 
-    public User setLicenseNumber(String licenseNumber) {
+    public void setLicenseNumber(String licenseNumber) {
         this.licenseNumber = licenseNumber;
-        return this;
     }
 
     public ProfileVerificationType getProfileVerificationType() {
         return profileVerificationType;
     }
 
-    public User setProfileVerificationType(ProfileVerificationType profileVerificationType) {
+    public void setProfileVerificationType(ProfileVerificationType profileVerificationType) {
         this.profileVerificationType = profileVerificationType;
-        return this;
     }
 
     public Boolean getResetPassword() {
         return isResetPassword;
     }
 
-    public User setResetPassword(Boolean resetPassword) {
+    public void setResetPassword(Boolean resetPassword) {
         isResetPassword = resetPassword;
-        return this;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
+    }
+
+    public void addBid(Bid bid) {
+        this.bids.add(bid);
     }
 }
