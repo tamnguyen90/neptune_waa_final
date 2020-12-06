@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head_crud"></th:block>
+<body class="sb-nav-fixed">
+<th:block th:insert="fragments/navbar :: navbar"></th:block>
+<div id="layoutSidenav">
+    <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Users</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="${'/'}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="${'/users'}">Users</a></li>
+                    <li class="breadcrumb-item active">Add</li>
+                </ol>
+                <form method="post" th:action="@{/users}">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add User</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input class="form-control" name="firstName" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input class="form-control" name="lastName" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input class="form-control" name="username" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" name="password" type="password">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input class="form-control" name="email" type="text">
+                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <label>DOB</label>-->
+<!--                            <input class="form-control" name="dob" type="date">-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label>Street</label>-->
+<!--                            <input class="form-control" name="address.street" type="text">-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label>City</label>-->
+<!--                            <input class="form-control" name="address.city" type="text">-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label>State</label>-->
+<!--                            <input class="form-control" name="address.state" type="text">-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label>Zip Code</label>-->
+<!--                            <input class="form-control" name="address.zip" type="text">-->
+<!--                        </div>-->
+                        <div class="form-group">
+                            <label>Roles</label>
+                            <ul>
+                                <li th:each="role : ${availableRoles}">
+                                    <input name="roles" th:value="${role.code}" type="checkbox"/>
+                                    <label th:text="${role.name}"></label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input class="btn btn-success" type="submit" value="Save">
+                    </div>
+                </form>
+            </div>
+        </main>
+        <th:block th:insert="fragments/footer :: footer"></th:block>
+    </div>
+</div>
+<th:block th:insert="fragments/scripts"></th:block>
+</body>
+</html>

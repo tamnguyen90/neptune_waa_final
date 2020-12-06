@@ -2,10 +2,7 @@ package edu.miu.cs.neptune.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +17,7 @@ public class Auction implements Serializable {
     private AuctionStatus auctionStatus;
     private Double beginPrice;
     private Long winnerBidId;
+    @OneToMany
     private List<Bid> bidId;
     private LocalDateTime shippingDate;
     private ShippingStatus shippingStatus;
