@@ -1,11 +1,9 @@
 package edu.miu.cs.neptune.domain;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
 public class Role {
 
     @Id

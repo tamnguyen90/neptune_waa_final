@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
 public class Auction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
