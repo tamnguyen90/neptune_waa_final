@@ -1,11 +1,10 @@
 package edu.miu.cs.neptune.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -26,6 +25,9 @@ public class User {
     private String licenseNumber;
     private ProfileVerificationType profileVerificationType;
     private Boolean isResetPassword;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Role> roles = new ArrayList<>();
 
     public Long getUserId() {
         return userId;

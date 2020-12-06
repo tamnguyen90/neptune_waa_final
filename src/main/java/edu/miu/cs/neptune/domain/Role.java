@@ -1,6 +1,8 @@
 package edu.miu.cs.neptune.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -11,6 +13,7 @@ public class Role {
     private RoleCode code;
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @ManyToMany (cascade = {CascadeType. ALL)
+    @JoinTable
+    private List<User> users = new ArrayList<>();
 }
