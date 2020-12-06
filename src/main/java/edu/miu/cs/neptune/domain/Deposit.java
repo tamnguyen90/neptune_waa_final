@@ -1,20 +1,22 @@
 package edu.miu.cs.neptune.domain;
 
-import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
-
 public class Deposit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long auctionId;
     private Long userId;
+
+    @NotNull
     private Double depositAmount;
+
+    @NotNull
     private DepositStatus status;
 
     public Long getAuctionId() {
