@@ -2,9 +2,11 @@ package edu.miu.cs.neptune.controller;
 
 import edu.miu.cs.neptune.domain.Role;
 import edu.miu.cs.neptune.domain.RoleCode;
+import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -30,7 +32,7 @@ public class UserController {
 
     @RequestMapping("/create")
 //    @PreAuthorize("hasRole('ADMIN')")
-    public String create(Model model) {
+    public String create(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> {
             Role role = new Role();
                     role.setCode(rc);
@@ -55,12 +57,13 @@ public class UserController {
 //        return "user/edit";
 //    }
 //
-//    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
 //    @PreAuthorize("hasRole('ADMIN')")
-//    public String save(User user) {
-//        userService.update(user);
-//        return "redirect:/users";
-//    }
+    public String save(User user) {
+        userService.saveUser(user);
+
+        return "redirect: user/create";
+    }
 //
 //    @RequestMapping("/delete/{username}")
 //    @PreAuthorize("hasRole('ADMIN')")

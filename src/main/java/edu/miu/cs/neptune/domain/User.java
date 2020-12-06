@@ -13,17 +13,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @NotBlank
-    private String username;
+    private String username = "namnguyen";
     @Email
     @NotBlank
-    private String email;
+    private String email = "namco2011@gmail.com";
     @NotBlank
-    private String password;
+    private String password = "123456";
     @NotBlank
-    private String firstName;
+    private String firstName = "Truong Thanh Nam";
     @NotBlank
-    private String lastName;
-    @NotBlank
+    private String lastName = "Nguyen";
+//    @NotBlank
     private String licenseNumber;
     private ProfileVerificationType profileVerificationType;
     private Boolean isResetPassword;

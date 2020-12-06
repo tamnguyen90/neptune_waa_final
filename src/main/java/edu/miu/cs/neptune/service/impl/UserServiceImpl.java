@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Optional<User> getById(String username) {
-    return Optional.empty();
+  public Optional<User> getById(Long userId) {
+    return userRepository.findById(userId);
   }
 
 //  @Override

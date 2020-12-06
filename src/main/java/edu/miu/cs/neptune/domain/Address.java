@@ -7,10 +7,10 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
-    private String street;
-    private String city;
-    private String state;
-    private String zip;
+    private String street = "1302 S Main St";
+    private String city = "Fairfield";
+    private String state = "IA";
+    private String zip = "52557";
 
     public Long getAddressId() {
         return addressId;
