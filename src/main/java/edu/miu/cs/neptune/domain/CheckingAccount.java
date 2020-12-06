@@ -1,6 +1,7 @@
 package edu.miu.cs.neptune.domain;
 
 public class CheckingAccount {
-    Long auctionId;
-//BAO
+    private Long accountId;
+    private Double balance;
+    private Long auctionId;
 }
