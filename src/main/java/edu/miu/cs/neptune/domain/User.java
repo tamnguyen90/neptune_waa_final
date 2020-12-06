@@ -1,11 +1,26 @@
 package edu.miu.cs.neptune.domain;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+    @Email
+    @NotBlank
     private String email;
+    @NotBlank
     private String password;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
+    @NotBlank
     private String licenseNumber;
     private ProfileVerificationType profileVerificationType;
     private Boolean isResetPassword;
