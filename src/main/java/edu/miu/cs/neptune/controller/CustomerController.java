@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 public class CustomerController {
-    @GetMapping("/customer")
-    public String customerPage(){
-        return "Customer";
+    @GetMapping("/hello")
+    public String welcome(){
+        return "index";
     }
 }
