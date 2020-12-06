@@ -27,9 +27,6 @@ public class User {
     private ProfileVerificationType profileVerificationType;
     private Boolean isResetPassword;
 
-    @OneToMany
-    @JoinTable()
-    private Address address;
 
     @ManyToMany(mappedBy = "users")
     private List<Role> roles = new ArrayList<>();
