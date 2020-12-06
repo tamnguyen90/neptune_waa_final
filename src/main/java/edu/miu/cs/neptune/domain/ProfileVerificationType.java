@@ -1,5 +1,5 @@
 package edu.miu.cs.neptune.domain;
 
-public enum ProfileVerification {
+public enum ProfileVerificationType {
     VERIFIED,NEED_TO_VERIFY;
 }

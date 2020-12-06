@@ -7,7 +7,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String licenseNumber;
-    private ProfileVerification profileVerification;
+    private ProfileVerificationType profileVerificationType;
     private Boolean isResetPassword;
 
 }
