@@ -1,7 +1,5 @@
 package edu.miu.cs.neptune.controller;
 
-
-
 import edu.miu.cs.neptune.domain.Role;
 import edu.miu.cs.neptune.domain.RoleCode;
 import edu.miu.cs.neptune.domain.User;
@@ -44,33 +42,33 @@ public class UserController {
         }).collect(Collectors.toList()));
         return "user/create";
     }
-
-    @RequestMapping("/edit/{username}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String edit(@PathVariable String username, Model model) {
-        userService.getById(username).ifPresent(u -> {
-            model.addAttribute("user", u);
-            model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> {
-                        Role role = new Role();
-                        role.setCode(rc);
-                        role.setName(rc.getName());
-                        return role;
-            }).collect(Collectors.toList()));
-        });
-        return "user/edit";
-    }
-
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ADMIN')")
-    public String save(User user) {
-        userService.update(user);
-        return "redirect:/users";
-    }
-
-    @RequestMapping("/delete/{username}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String delete(@PathVariable String username) {
-        userService.delete(username);
-        return "redirect:/users";
-    }
+//
+//    @RequestMapping("/edit/{username}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public String edit(@PathVariable String username, Model model) {
+//        userService.getById(username).ifPresent(u -> {
+//            model.addAttribute("user", u);
+//            model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> {
+//                        Role role = new Role();
+//                        role.setCode(rc);
+//                        role.setName(rc.getName());
+//                        return role;
+//            }).collect(Collectors.toList()));
+//        });
+//        return "user/edit";
+//    }
+//
+//    @RequestMapping(value = "", method = RequestMethod.POST)
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public String save(User user) {
+//        userService.update(user);
+//        return "redirect:/users";
+//    }
+//
+//    @RequestMapping("/delete/{username}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public String delete(@PathVariable String username) {
+//        userService.delete(username);
+//        return "redirect:/users";
+//    }
 }
