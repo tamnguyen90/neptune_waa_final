@@ -3,6 +3,7 @@ package edu.miu.cs.neptune.domain;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,10 @@ public class User {
     private String licenseNumber;
     private ProfileVerificationType profileVerificationType;
     private Boolean isResetPassword;
+
+    @OneToMany
+    @JoinTable()
+    private Address address;
 
     @ManyToMany(mappedBy = "users")
     private List<Role> roles = new ArrayList<>();
