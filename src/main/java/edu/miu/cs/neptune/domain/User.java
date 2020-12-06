@@ -13,6 +13,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+    @NotBlank
+    private String username;
     @Email
     @NotBlank
     private String email;
@@ -27,9 +29,6 @@ public class User {
     private ProfileVerificationType profileVerificationType;
     private Boolean isResetPassword;
 
-    @OneToMany
-    @JoinTable()
-    private Address address;
 
     @ManyToMany(mappedBy = "users")
     private List<Role> roles = new ArrayList<>();
@@ -43,6 +42,33 @@ public class User {
 
     public User setUserId(Long userId) {
         this.userId = userId;
+        return this;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public User setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public User setRoles(List<Role> roles) {
+        this.roles = roles;
+        return this;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public User setBids(List<Bid> bids) {
+        this.bids = bids;
         return this;
     }
 

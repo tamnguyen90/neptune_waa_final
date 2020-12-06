@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Save Category</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+</head>
+<body>
+<section>
+<a href="/">Back to Home</a>
+</section>
+<div id="global">
+    <h4>The cateogry details have been saved.</h4>
+    <p>
+    <h5>Details:</h5>
+    Category ID:<span th:text="${category.categoryId}"></span><br/>
+    Category Name: <span th:text="${category.categoryName}"></span><br/>
+    Category Description: <span th:text="${category.categoryDescription}"></span><br/>
+    </p>
+</div>
+</body>
+</html>
