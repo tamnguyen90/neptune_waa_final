@@ -38,15 +38,12 @@ public class UserServiceImpl implements UserService {
     return Optional.empty();
   }
 
-  @Override
-  public void update(User user) {
+//  @Override
+//  public void update(User user) {
+//  }
 
-  }
-
-  @Override
-  public void delete(String username) {
-
-  }
-
+//  @Override
+//  public void inactive(String username) {
+//  }
 
 }

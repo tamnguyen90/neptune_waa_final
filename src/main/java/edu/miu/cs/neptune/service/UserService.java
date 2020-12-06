@@ -11,7 +11,7 @@ public interface UserService {
 
   Optional<User> getById(String username);
 
-  void update(User user);
-
-  void delete(String username);
+//  void update(User user);
+//
+//  void inactive(String username);
 }
