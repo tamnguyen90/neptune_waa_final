@@ -1,7 +1,6 @@
 package edu.miu.cs.neptune.service.impl;
 
 import edu.miu.cs.neptune.domain.User;
-import edu.miu.cs.neptune.dto.UserDto;
 import edu.miu.cs.neptune.repository.UserRepository;
 import edu.miu.cs.neptune.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<User> getAll() {
-    return null;
+    return userRepository.findAll();
   }
 
   @Override
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void update(UserDto user) {
+  public void update(User user) {
 
   }
 

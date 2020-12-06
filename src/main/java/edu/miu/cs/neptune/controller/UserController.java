@@ -2,8 +2,9 @@ package edu.miu.cs.neptune.controller;
 
 
 
+import edu.miu.cs.neptune.domain.Role;
 import edu.miu.cs.neptune.domain.RoleCode;
-import edu.miu.cs.neptune.dto.UserDto;
+import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,12 @@ public class UserController {
     @RequestMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public String create(Model model) {
-        model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> new RoleDto().setCode(rc).setName(rc.getName())).collect(Collectors.toList()));
+        model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> {
+            Role role = new Role();
+                    role.setCode(rc);
+                    role.setName(rc.getName());
+                    return role;
+        }).collect(Collectors.toList()));
         return "user/create";
     }
 
@@ -44,14 +50,19 @@ public class UserController {
     public String edit(@PathVariable String username, Model model) {
         userService.getById(username).ifPresent(u -> {
             model.addAttribute("user", u);
-            model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> new RoleDto().setCode(rc).setName(rc.getName())).collect(Collectors.toList()));
+            model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> {
+                        Role role = new Role();
+                        role.setCode(rc);
+                        role.setName(rc.getName());
+                        return role;
+            }).collect(Collectors.toList()));
         });
         return "user/edit";
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ADMIN')")
-    public String save(UserDto user) {
+    public String save(User user) {
         userService.update(user);
         return "redirect:/users";
     }

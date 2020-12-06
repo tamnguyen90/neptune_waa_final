@@ -15,4 +15,31 @@ public class Role {
     @ManyToMany (cascade = CascadeType.ALL)
     @JoinTable
     private List<User> users = new ArrayList<>();
+
+    public RoleCode getCode() {
+        return code;
+    }
+
+    public Role setCode(RoleCode code) {
+        this.code = code;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Role setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public Role setUsers(List<User> users) {
+        this.users = users;
+        return this;
+    }
 }
