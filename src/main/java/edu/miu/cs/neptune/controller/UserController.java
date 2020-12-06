@@ -2,9 +2,9 @@ package edu.miu.cs.neptune.controller;
 
 
 
-import edu.miu.cs401.mpp.hotelmanagement.entity.Gender;
-import edu.miu.cs401.mpp.hotelmanagement.entity.RoleCode;
-import edu.miu.cs401.mpp.hotelmanagement.service.UserService;
+import edu.miu.cs.neptune.domain.RoleCode;
+import edu.miu.cs.neptune.dto.UserDto;
+import edu.miu.cs.neptune.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
