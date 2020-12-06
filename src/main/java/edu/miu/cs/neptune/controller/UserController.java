@@ -35,7 +35,6 @@ public class UserController {
     @RequestMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public String create(Model model) {
-        model.addAttribute("genders", Gender.values());
         model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> new RoleDto().setCode(rc).setName(rc.getName())).collect(Collectors.toList()));
         return "user/create";
     }
@@ -45,7 +44,6 @@ public class UserController {
     public String edit(@PathVariable String username, Model model) {
         userService.getById(username).ifPresent(u -> {
             model.addAttribute("user", u);
-            model.addAttribute("genders", Gender.values());
             model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> new RoleDto().setCode(rc).setName(rc.getName())).collect(Collectors.toList()));
         });
         return "user/edit";
