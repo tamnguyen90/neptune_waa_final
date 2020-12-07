@@ -1,0 +1,15 @@
+-- @Id
+--     @GeneratedValue(strategy = GenerationType.IDENTITY)
+--     private Long auctionId;
+--     private LocalDateTime beginDate;
+--     private LocalDateTime endDate;
+--     private AuctionStatus auctionStatus;
+--     private Double beginPrice;
+--     private Long winnerBidId;
+--     @OneToMany
+--     private List<Bid> bidId;
+--     private LocalDateTime shippingDate;
+--     private ShippingStatus shippingStatus;
+
+-- INSERT into AUCTION (auction_id, begin_date, end_date, auction_status, begin_price, winner_bid_id, shipping_date, shipping_status)
+--                     values (1, 1, "2020-12-07 15:00:00", 100, "2020-12-15 15:00:00", , ,);

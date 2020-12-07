@@ -3,6 +3,7 @@ package edu.miu.cs.neptune.controller;
 import edu.miu.cs.neptune.domain.Role;
 import edu.miu.cs.neptune.domain.RoleCode;
 import edu.miu.cs.neptune.domain.User;
+import edu.miu.cs.neptune.service.MailService;
 import edu.miu.cs.neptune.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
+
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -60,6 +62,7 @@ public class UserController {
     @RequestMapping(value = "/return", method = RequestMethod.POST)
 //    @PreAuthorize("hasRole('ADMIN')")
     public String save(User user) {
+
         userService.saveUser(user);
         return "index";
     }

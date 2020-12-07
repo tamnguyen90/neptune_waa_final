@@ -1,5 +1,8 @@
 package edu.miu.cs.neptune.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -7,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
 
@@ -37,6 +41,18 @@ public class User {
 
     @OneToMany
     private List<Bid> bids = new ArrayList<>();
+
+    public User(Long userId, String username, String email, String password, String firstName, String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, Address address) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.licenseNumber = licenseNumber;
+        this.profileVerificationType = profileVerificationType;
+        this.address = address;
+    }
 
     public Long getUserId() {
         return userId;

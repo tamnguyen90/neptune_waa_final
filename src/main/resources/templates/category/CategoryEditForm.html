@@ -8,8 +8,15 @@
     <section>
         <a href="/">Back to Home</a>
     </section>
+    <th:block th:insert="fragments/head_crud"></th:block>
+    <body class="sb-nav-fixed">
+    <th:block th:insert="fragments/navbar :: navbar"></th:block>
+    <div id="layoutSidenav">
+        <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
+        <div id="layoutSidenav_content">
+            <main>
     <div id="global">
-        <form action="#" th:action="@{/category/category_save}" th:object="${category}" method="post">
+        <form action="#" th:action="@{/categories/save}" th:object="${category}" method="post">
             <fieldset>
                 <legend>Add an category</legend>
                 <p>
@@ -17,10 +24,12 @@
                     <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input
                         is incorrect</li>
                 </ul>
+
                 </p>
                 <p>
                     <label for="id"><span th:text="#{category.form.categoryId}">ID: </span></label>
-                    <input type="text" id="id" th:field="*{categoryId}" />
+                    <input type="text" id="id" th:field="*{categoryId}" hidden />
+                    <span th:text="*{categoryId}">ID</span>
                 <p th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}" th:errorclass="fieldError">Incorrect date</p>
                 </p>
                 <p>
@@ -40,5 +49,10 @@
             </fieldset>
         </form>
     </div>
+            </main>
+            <th:block th:insert="fragments/footer :: footer"></th:block>
+        </div>
+    </div>
+    <th:block th:insert="fragments/scripts"></th:block>
 </body>
 </html>
