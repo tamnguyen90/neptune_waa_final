@@ -8,7 +8,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Customer</h1>
+                <h1 class="mt-4">Users</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a th:href="${'/'}">Home</a></li>
                     <li class="breadcrumb-item active">Users</li>
@@ -52,22 +52,22 @@
                                 </tr>
                                 </tfoot>
                                 <tbody>
-<!--                                <tr th:each="user : ${users}">-->
-<!--                                    <td th:text="${user.name}">Tiger Nixon</td>-->
-<!--                                    <td th:text="${user.username}">System Architect</td>-->
-<!--                                    <td th:text="${user.gender}">Edinburgh</td>-->
-<!--                                    <td th:text="${user.phoneNumber}">Edinburgh</td>-->
-<!--                                    <td th:text="${user.dob}">Edinburgh</td>-->
-<!--                                    <td th:text="${user.address?.address}">61</td>-->
-<!--                                    <td>-->
-<!--                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"-->
-<!--                                           th:href="@{/users/edit/{username}(username=${user.username})}">-->
-<!--                                            <i class="material-icons" data-toggle="tooltip"-->
-<!--                                               title="Edit">&#xE254;</i></a>-->
-<!--                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"-->
-<!--                                           th:href="@{/users/delete/{username}(username=${user.username})}">-->
-<!--                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
-<!--                                    </td>-->
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.name}">Tiger Nixon</td>
+                                    <td th:text="${user.username}">System Architect</td>
+                                    <td th:text="${user.gender}">Edinburgh</td>
+                                    <td th:text="${user.phoneNumber}">Edinburgh</td>
+                                    <td th:text="${user.dob}">Edinburgh</td>
+                                    <td th:text="${user.address?.address}">61</td>
+                                    <td>
+                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"
+                                           th:href="@{/users/edit/{username}(username=${user.username})}">
+                                            <i class="material-icons" data-toggle="tooltip"
+                                               title="Edit">&#xE254;</i></a>
+                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"
+                                           th:href="@{/users/delete/{username}(username=${user.username})}">
+                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
