@@ -51,15 +51,15 @@
                                     <td th:text="${product.productName}">System Architect</td>
                                     <td th:text="${product.productDescription}">Edinburgh</td>
                                     <td th:text="${product.imageList}">Edinburgh</td>
-                                    <td>
-                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"
-                                           th:href="@{/users/edit/{username}(username=${user.username})}">
-                                            <i class="material-icons" data-toggle="tooltip"
-                                               title="Edit">&#xE254;</i></a>
-                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"
-                                           th:href="@{/users/delete/{username}(username=${user.username})}">
-                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
+<!--                                    <td>-->
+<!--                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"-->
+<!--                                           th:href="@{/users/edit/{username}(username=${user.username})}">-->
+<!--                                            <i class="material-icons" data-toggle="tooltip"-->
+<!--                                               title="Edit">&#xE254;</i></a>-->
+<!--                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"-->
+<!--                                           th:href="@{/users/delete/{username}(username=${user.username})}">-->
+<!--                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
+<!--                                    </td>-->
                                 </tr>
                                 </tbody>
                             </table>

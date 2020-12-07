@@ -15,6 +15,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 //
 //    List<Product> getProductsByFilter(Map<String, List<String>> filterParams);
 //
-    Product getProductById(String productID);
+    Product getProductByProductId(String Id);
 
 }
