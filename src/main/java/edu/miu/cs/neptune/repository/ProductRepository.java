@@ -1,7 +1,10 @@
 package edu.miu.cs.neptune.repository;
 
+import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,10 +14,13 @@ import java.util.Map;
 public interface ProductRepository extends JpaRepository<Product, Long>{
     List<Product> findAll();
     List<Product> findProductsByProductName(String name);
-    List<Product> findByCategories(String categoryName);
-//
-//    List<Product> getProductsByFilter(Map<String, List<String>> filterParams);
-//
-    Product getProductByProductId(String Id);
+
+    Product getProductByProductId(Long id);
+
+
+    @Query("select p from Product p where p.productId = :id")
+//    SELECT * FROM PRODUCT WHERE PRODUCTS_CATEGORY_ID =1;
+    List<Product> getProductsByCategoryID(@Param("id") long id);
+
 
 }

@@ -1,12 +1,15 @@
 package edu.miu.cs.neptune.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@Data
 public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,21 +17,9 @@ public class Category implements Serializable {
     private String categoryName;
     private String categoryDescription;
 
-    public Category() {}
-    public Category(String categoryName, String categoryDescription) {
-        this.categoryName = categoryName;
-        this.categoryDescription = categoryDescription;
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn
+    private List<Product> products;
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public String getCategoryDescription() {
-        return categoryDescription;
-    }
 }

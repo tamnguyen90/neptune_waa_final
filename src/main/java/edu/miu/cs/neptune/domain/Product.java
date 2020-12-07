@@ -25,19 +25,20 @@ public class Product {
     private User seller;
     private LocalDateTime paymentDueDate;
 
-    @ManyToMany
-    @JoinTable(name = "category_product",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories;
+//Changed by Ha Le - One category has many products
+//    @ManyToMany
+//    @JoinTable(name = "category_product",
+//            joinColumns = @JoinColumn(name = "product_id"),
+//            inverseJoinColumns = @JoinColumn(name = "category_id"))
+//    private List<Category> categories;
 
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
+//    public List<Category> getCategories() {
+//        return categories;
+//    }
+//
+//    public void setCategories(List<Category> categories) {
+//        this.categories = categories;
+//    }
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "auction_id", referencedColumnName = "auctionId")
@@ -106,4 +107,18 @@ public class Product {
     public void setPaymentDueDate(LocalDateTime paymentDueDate) {
         this.paymentDueDate = paymentDueDate;
     }
+
+    //    @Override
+//    public String toString() {
+//        return "Product{" +
+//                "productId=" + productId +
+//                ", productName='" + productName + '\'' +
+//                ", imageList=" + imageList +
+//                ", productDescription='" + productDescription + '\'' +
+//                ", productStatus=" + productStatus +
+//                ", seller=" + seller +
+//                ", paymentDueDate=" + paymentDueDate +
+//                ", categories=" + categories +
+//                '}';
+//    }
 }

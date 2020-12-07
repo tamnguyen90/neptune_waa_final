@@ -26,6 +26,21 @@ INSERT INTO CATEGORY VALUES (1, 'Phone', 'Phone');
 INSERT INTO CATEGORY VALUES (2, 'Laptop', 'Laptop');
 INSERT INTO CATEGORY VALUES (3, 'Table', 'Table');
 
+INSERT INTO PRODUCT VALUES(4, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone6s', 1, null , 1,1 );
+
+INSERT INTO PRODUCT VALUES(5, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron', 1,null ,2,2 );
+
+INSERT INTO PRODUCT VALUES(6, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7', 2,null ,3,3);
+
+INSERT INTO PRODUCT VALUES(7, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12', 1,null , 1,1 );
+
+INSERT INTO PRODUCT VALUES(8, null , 'Dell 2020 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell 2020', 1,null ,2,2 );
+
+INSERT INTO PRODUCT VALUES(9, null , 'Google Nexus 2020 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 2020', 2, null ,3,3);
+
+
+
+
 INSERT INTO IMAGE VALUES (1, NULL , 'IPhone6s');
 INSERT INTO IMAGE VALUES (2, NULL , 'Dell');
 INSERT INTO IMAGE VALUES (3, NULL , 'Nexus');
