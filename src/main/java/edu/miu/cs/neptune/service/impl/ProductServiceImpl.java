@@ -1,0 +1,41 @@
+package edu.miu.cs.neptune.service.impl;
+
+import edu.miu.cs.neptune.Util.Util;
+import edu.miu.cs.neptune.domain.Product;
+import edu.miu.cs.neptune.repository.ProductRepository;
+import edu.miu.cs.neptune.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Map;
+
+public class ProductServiceImpl implements ProductService {
+
+    @Autowired
+    ProductRepository productRepository;
+
+    @Override
+    public List<Product> getAll() {
+        return Util.iterableToCollection(productRepository.findAll());
+    }
+
+    @Override
+    public List<Product> findByName(String name) {
+        return productRepository.findProductsByProductName(name);
+    }
+
+//    @Override
+//    public List<Product> getProductsByCategory(String category) {
+//        return productRepository.getProductsByCategory(category);
+//    }
+//
+//    @Override
+//    public List<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
+//        return productRepository.getProductsByFilter(filterParams);
+//    }
+//
+//    @Override
+//    public Product getProductById(String productID) {
+//        return productRepository.getProductById(productID);
+//    }
+}
