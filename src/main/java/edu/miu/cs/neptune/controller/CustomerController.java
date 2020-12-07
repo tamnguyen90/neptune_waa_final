@@ -31,9 +31,9 @@ public class CustomerController {
         model.addAttribute("categories", categoryService.getAll());
         return "customer/categoryList";
     }
-//    @GetMapping("/product")
-//    public String getProductById(@RequestParam("id") String productId, Model model){
-//        model.addAttribute("product", productService.getProductById(productId));
-//        return "customer/product";
-//    }
+    @GetMapping("customer/product")
+    public String getProductById(@RequestParam("id") String productId, Model model){
+        model.addAttribute("product", productService.getProductById(productId));
+        return "customer/product";
+    }
 }
