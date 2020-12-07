@@ -4,10 +4,15 @@ package edu.miu.cs.neptune.service;
 import edu.miu.cs.neptune.domain.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryService {
 
-    public List<Category> getAll();
+    List<Category> getAll();
 
-    public Category save(Category category);
+    Category save(Category category);
+
+    void delete(Long id);
+
+    Optional<Category> findById(Long categoryId);
 }

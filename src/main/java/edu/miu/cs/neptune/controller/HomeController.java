@@ -11,9 +11,4 @@ public class HomeController {
     public String getLogin() {
         return "login";
     }
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        System.out.println(username + "-" + password);
-        return "index";
-    }
 }
