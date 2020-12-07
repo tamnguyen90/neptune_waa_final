@@ -10,4 +10,7 @@ public interface AuctionService {
     public List<Auction> getAll();
 
     public Optional<Auction> getById(Long id);
+
+    public List<Auction> getAllByUserId(Long userId);
+
 }

@@ -18,7 +18,7 @@ public class Auction implements Serializable {
     private Double beginPrice;
     private Long winnerBidId;
     @OneToMany
-    private List<Bid> bidId;
+    private List<Bid> bids;
     private LocalDateTime shippingDate;
     private ShippingStatus shippingStatus;
 
@@ -73,12 +73,12 @@ public class Auction implements Serializable {
         this.winnerBidId = winnerBidId;
     }
 
-    public List<Bid> getBidId() {
-        return bidId;
+    public List<Bid> getBids() {
+        return bids;
     }
 
-    public void setBidId(List<Bid> bidId) {
-        this.bidId = bidId;
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
     }
 
     public LocalDateTime getShippingDate() {
