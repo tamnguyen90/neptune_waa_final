@@ -2,6 +2,7 @@ package edu.miu.cs.neptune.service.impl;
 
 import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.Product;
+import edu.miu.cs.neptune.repository.CategoryRepository;
 import edu.miu.cs.neptune.repository.ProductRepository;
 import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Override
     public List<Product> getAll() {
@@ -26,10 +29,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByProductName(name);
     }
 
-    @Override
-    public List<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategories(category);
-    }
+
+//    @Override
+//    public List<Product> getProductsByCategory(String category) {
+//        return productRepository.findByCategories(category);
+//    }
 
 
 //
@@ -39,7 +43,14 @@ public class ProductServiceImpl implements ProductService {
 //    }
 //
     @Override
-    public Product getProductById(String productID) {
+    public Product getProductById(Long productID) {
         return productRepository.getProductByProductId(productID);
     }
+
+    @Override
+    public List<Product> findByCategoryId(Long categoryId) {
+        return productRepository.getProductsByCategoryID(categoryId);
+    }
+
+
 }

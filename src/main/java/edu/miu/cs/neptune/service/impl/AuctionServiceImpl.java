@@ -28,9 +28,12 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public Optional<Auction> getById(Long id) {
-        //Todo get auction by id;
-        Optional<Auction> auction = auctionRepository.findById(id);
-        return auction;
+        return auctionRepository.findById(id);
+    }
+
+    @Override
+    public Auction save(Auction auction) {
+        return auctionRepository.save(auction);
     }
 
     @Override

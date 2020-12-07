@@ -17,11 +17,27 @@ public class Bid {
     @Column(name = "bidding_time")
     private LocalDateTime biddingTime;
 
+    @ManyToOne
+    @JoinColumn(name = "auction_id")
+    private Auction auction;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User bidder;
+
     public Bid() {}
 
     public Bid(Double biddingAmount, LocalDateTime biddingTime) {
         this.biddingAmount = biddingAmount;
         this.biddingTime = biddingTime;
+    }
+
+    public Auction getAuction() {
+        return auction;
+    }
+
+    public User getBidder() {
+        return bidder;
     }
 
     public Long getId() {

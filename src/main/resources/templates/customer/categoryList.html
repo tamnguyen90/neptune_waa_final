@@ -4,7 +4,7 @@
 <body class="sb-nav-fixed">
 <th:block th:insert="fragments/navbar :: navbar"></th:block>
 <div id="layoutSidenav">
-    <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
+    <th:block th:insert="fragments/sidenav_cus :: sidenav"></th:block>
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
@@ -33,16 +33,14 @@
                                 <tr>
                                     <th>Category ID</th>
                                     <th>Category Name</th>
-                                    <th>Product Description</th>
-                                    <th>Image</th>
+                                    <th>Category Description</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>Product ID</th>
-                                    <th>Product Name</th>
-                                    <th>Product Description</th>
-                                    <th>Image</th>
+                                    <th>Category ID</th>
+                                    <th>Category Name</th>
+                                    <th>Category Description</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -50,8 +48,9 @@
                                     <td th:text="${category.categoryId}">Tiger Nixon</td>
                                     <td th:text="${category.categoryName}">System Architect</td>
                                     <td th:text="${category.categoryDescription}">Edinburgh</td>
+                                    <td><a th:href="@{/customer/category/products(id=${category.categoryId})}" class="btn btn-default"> <span
+                                            ></span>View Products</a></td>
 
-                                    <td>
                                         <a class="edit" sec:authorize="hasAuthority('ADMIN')"
                                            th:href="@{/users/edit/{username}(username=${user.username})}">
                                             <i class="material-icons" data-toggle="tooltip"

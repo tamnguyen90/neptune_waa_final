@@ -36,7 +36,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany
@@ -45,7 +45,7 @@ public class User {
     @OneToMany
     private List<Product> products = new ArrayList<>();
 
-    public User(Long userId, String username, String email, String password, String firstName, String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, Address address) {
+    public User(Long userId, @NotBlank String username, @Email @NotBlank String email, @NotBlank String password, @NotBlank String firstName, @NotBlank String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, Boolean isResetPassword, Address address) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -54,7 +54,9 @@ public class User {
         this.lastName = lastName;
         this.licenseNumber = licenseNumber;
         this.profileVerificationType = profileVerificationType;
+        this.isResetPassword = isResetPassword;
         this.address = address;
+
     }
 
     public List<Product> getProducts() {
