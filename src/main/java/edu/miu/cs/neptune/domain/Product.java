@@ -19,7 +19,6 @@ public class Product {
     private List<Image> imageList = new ArrayList<>();
 
     private String productDescription;
-    private String sellerId;
     private ProductStatus productStatus;
 
     @OneToOne
@@ -62,14 +61,6 @@ public class Product {
 
     public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
-    }
-
-    public String getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
     }
 
     public ProductStatus getProductStatus() {
