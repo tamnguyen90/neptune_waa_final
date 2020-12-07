@@ -1,5 +1,8 @@
 package edu.miu.cs.neptune.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -7,23 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @NotBlank
-    private String username;
+    private String username = "namnguyen";
     @Email
     @NotBlank
-    private String email;
+    private String email = "namco2011@gmail.com";
     @NotBlank
-    private String password;
+    private String password = "123456";
     @NotBlank
-    private String firstName;
+    private String firstName = "Truong Thanh Nam";
     @NotBlank
-    private String lastName;
-    @NotBlank
+    private String lastName = "Nguyen";
+//    @NotBlank
     private String licenseNumber;
     private ProfileVerificationType profileVerificationType;
     private Boolean isResetPassword;
@@ -36,6 +41,18 @@ public class User {
 
     @OneToMany
     private List<Bid> bids = new ArrayList<>();
+
+    public User(Long userId, String username, String email, String password, String firstName, String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, Address address) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.licenseNumber = licenseNumber;
+        this.profileVerificationType = profileVerificationType;
+        this.address = address;
+    }
 
     public Long getUserId() {
         return userId;

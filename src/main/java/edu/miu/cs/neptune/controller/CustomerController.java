@@ -1,14 +1,39 @@
 package edu.miu.cs.neptune.controller;
 
+import edu.miu.cs.neptune.service.CategoryService;
+import edu.miu.cs.neptune.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 
 
 public class CustomerController {
-    @GetMapping("/customer")
-    public String customerPage(){
-        return "Customer";
+
+    @Autowired
+    ProductService productService;
+
+    @Autowired
+    CategoryService categoryService;
+
+    @GetMapping("/products")
+    public String listProduct(Model model){
+        model.addAttribute("products", productService.getAll());
+        return "customer/productList";
+    }
+
+    @GetMapping("/categories")
+    public String listCategory(Model model){
+        model.addAttribute("categories", categoryService.getAll());
+        return "customer/categoryList";
+    }
+    @GetMapping("/product")
+    public String getProductById(@RequestParam("id") String productId, Model model){
+        model.addAttribute("product", productService.getProductById(productId));
+        return "product";
     }
 }

@@ -25,6 +25,12 @@ public class Product {
     private User seller;
     private LocalDateTime paymentDueDate;
 
+    @ManyToMany
+    @JoinTable(name = "category_product",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categories;
+
     public Long getProductId() {
         return productId;
     }

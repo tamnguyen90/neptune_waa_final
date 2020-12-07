@@ -2,15 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add Employee Form</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="../css/main.css" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../css/main.css"/>
 </head>
 <body>
 
 <div id="global">
-    <form th:action="@{/}" th:object="${employee}"
+    <form th:action="@{/users/return}" th:object="${user}"
           method="post">
         <fieldset>
-            <legend>Add an employee</legend>
+            <legend>Create new User</legend>
+            <p>
+                <label for="firstName">User Name: </label>
+                <input type="text" id="username" name="username" th:field="*{username}" tabindex="1">
+            </p>
+            <p>
+                <label for="email">Email: </label>
+                <input type="text" id="email" name="email" th:field="*{email}" tabindex="1">
+            </p>
+            <p>
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password" th:field="*{password}" tabindex="1">
+            </p>
             <p>
                 <label for="firstName">First Name: </label>
                 <input type="text" id="firstName" name="firstName" th:field="*{firstName}" tabindex="1">
@@ -26,7 +38,7 @@
             </p>
             <p>
                 <label for="city">City: </label>
-                <input type="text" id="city"  name="address.city" th:field="*{address.city}" tabindex="5">
+                <input type="text" id="city" name="address.city" th:field="*{address.city}" tabindex="5">
             </p>
             <p>
                 <label for="state">State: </label>
@@ -37,9 +49,20 @@
                 <input type="text" id="zip" name="address.number" th:field="*{address.zip}" tabindex="7">
             </p>
 
+
+            <div class="form-group">
+                <label>Roles</label>
+                <ul>
+                    <li th:each="role : ${availableRoles}">
+                        <input name="roles" th:value="${role.code}" type="checkbox"/>
+                        <label th:text="${role.name}"></label>
+                    </li>
+                </ul>
+            </div>
+
             <p id="buttons">
                 <input id="reset" type="reset">
-                <input id="submit" type="submit" tabindex="8" value="Add Employee">
+                <input id="submit" type="submit" tabindex="8" value="Register">
             </p>
         </fieldset>
     </form>

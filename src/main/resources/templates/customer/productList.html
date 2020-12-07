@@ -11,7 +11,7 @@
                 <h1 class="mt-4">Users</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a th:href="${'/'}">Home</a></li>
-                    <li class="breadcrumb-item active">Users</li>
+                    <li class="breadcrumb-item active">Customer</li>
                 </ol>
                 <div class="table-title" sec:authorize="hasAuthority('ADMIN')">
                     <div class="row">
@@ -28,37 +28,29 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table cellspacing="0" class="table table-bordered" id="dataTable"
-                                   th:if="${not #lists.isEmpty(users)}" width="100%">
+                                   th:if="${not #lists.isEmpty(products)}" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>Full Name</th>
-                                    <th>Username</th>
-                                    <th>Gender</th>
-                                    <th>Phone Number</th>
-                                    <th>DOB</th>
-                                    <th>Address</th>
-                                    <th>Actions</th>
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                    <th>Product Description</th>
+                                    <th>Image</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>Full Name</th>
-                                    <th>Username</th>
-                                    <th>Gender</th>
-                                    <th>Phone Number</th>
-                                    <th>DOB</th>
-                                    <th>Address</th>
-                                    <th>Actions</th>
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                    <th>Product Description</th>
+                                    <th>Image</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                <tr th:each="user : ${users}">
-                                    <td th:text="${user.name}">Tiger Nixon</td>
-                                    <td th:text="${user.username}">System Architect</td>
-                                    <td th:text="${user.gender}">Edinburgh</td>
-                                    <td th:text="${user.phoneNumber}">Edinburgh</td>
-                                    <td th:text="${user.dob}">Edinburgh</td>
-                                    <td th:text="${user.address?.address}">61</td>
+                                <tr th:each="product : ${products}">
+                                    <td th:text="${product.productId}">Tiger Nixon</td>
+                                    <td th:text="${product.productName}">System Architect</td>
+                                    <td th:text="${product.productDescription}">Edinburgh</td>
+                                    <td th:text="${product.imageList}">Edinburgh</td>
                                     <td>
                                         <a class="edit" sec:authorize="hasAuthority('ADMIN')"
                                            th:href="@{/users/edit/{username}(username=${user.username})}">
