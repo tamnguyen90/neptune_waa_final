@@ -12,10 +12,6 @@ public class Role {
     private RoleCode code;
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable
-    private List<User> users = new ArrayList<>();
-
     public Role() {
     }
 
@@ -42,11 +38,4 @@ public class Role {
         return this;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void addUser(User user) {
-        users.add(user);
-    }
 }

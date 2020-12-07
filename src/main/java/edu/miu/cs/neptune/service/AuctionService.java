@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuctionService {
-    public List<Auction> getAll();
-
-    public Optional<Auction> getById(Long id);
+    List<Auction> getAll();
+    Optional<Auction> getById(Long id);
+    Auction save(Auction auction);
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BiddingServiceImpl implements BiddingService {
@@ -16,7 +17,7 @@ public class BiddingServiceImpl implements BiddingService {
     private BiddingRepository biddingRepository;
 
     @Override
-    public Bid save(Bid bid, User user) {
+    public Bid save(Bid bid) {
         return null;
     }
 
@@ -33,5 +34,10 @@ public class BiddingServiceImpl implements BiddingService {
     @Override
     public List<Bid> getUserBids(User user) {
         return null;
+    }
+
+    @Override
+    public Optional<Bid> getHighestBidByAuctionId(Long auctionId) {
+        return Optional.empty();
     }
 }

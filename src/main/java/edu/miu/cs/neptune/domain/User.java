@@ -36,7 +36,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany
@@ -153,7 +153,6 @@ public class User {
 
     public void addRole(Role role) {
         this.roles.add(role);
-        role.addUser(this);
     }
 
     public List<Bid> getBids() {

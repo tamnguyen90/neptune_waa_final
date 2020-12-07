@@ -1,7 +1,5 @@
 package edu.miu.cs.neptune.domain;
 
-import lombok.Data;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,37 +14,36 @@ public class Auction implements Serializable {
     private LocalDateTime endDate;
     private AuctionStatus auctionStatus;
     private Double beginPrice;
-    private Long winnerBidId;
-    @OneToMany
-    private List<Bid> bidId;
+    private Long winnerId;
+
+    @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL)
+    private List<Bid> bids;
     private LocalDateTime shippingDate;
     private ShippingStatus shippingStatus;
-
     @OneToOne(mappedBy = "auction", cascade = CascadeType.ALL)
     private Product product;
 
-    public Long getAuctionId() {
-        return auctionId;
+    public Auction() {}
+    public Auction(LocalDateTime beginDate, LocalDateTime endDate, Double beginPrice) {
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.beginPrice = beginPrice;
     }
 
-    public void setAuctionId(Long auctionId) {
-        this.auctionId = auctionId;
+    public Product getProduct() {
+        return product;
+    }
+
+    public Long getAuctionId() {
+        return auctionId;
     }
 
     public LocalDateTime getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(LocalDateTime beginDate) {
-        this.beginDate = beginDate;
-    }
-
     public LocalDateTime getEndDate() {
         return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
     }
 
     public AuctionStatus getAuctionStatus() {
@@ -61,24 +58,24 @@ public class Auction implements Serializable {
         return beginPrice;
     }
 
-    public void setBeginPrice(Double beginPrice) {
-        this.beginPrice = beginPrice;
+    public Long getWinnerId() {
+        return winnerId;
     }
 
-    public Long getWinnerBidId() {
-        return winnerBidId;
+    public void setWinnerId(Long winnerBidId) {
+        this.winnerId = winnerBidId;
     }
 
-    public void setWinnerBidId(Long winnerBidId) {
-        this.winnerBidId = winnerBidId;
+    public List<Bid> getBids() {
+        return bids;
     }
 
-    public List<Bid> getBidId() {
-        return bidId;
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
     }
 
-    public void setBidId(List<Bid> bidId) {
-        this.bidId = bidId;
+    public void addBid(Bid bid) {
+        this.bids.add(bid);
     }
 
     public LocalDateTime getShippingDate() {
@@ -95,13 +92,5 @@ public class Auction implements Serializable {
 
     public void setShippingStatus(ShippingStatus shippingStatus) {
         this.shippingStatus = shippingStatus;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 }
