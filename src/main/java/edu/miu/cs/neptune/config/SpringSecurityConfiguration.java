@@ -22,7 +22,11 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/h2-console/**").permitAll()
-                .and().formLogin().permitAll();
+                .and().formLogin()
+                .loginPage("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .permitAll();
 
         //Those two settings below is to enable access h2 database via browser
         http.csrf().disable();

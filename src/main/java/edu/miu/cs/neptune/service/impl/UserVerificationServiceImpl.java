@@ -9,6 +9,8 @@ import edu.miu.cs.neptune.service.UserVerificationService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserVerificationServiceImpl implements UserVerificationService {
 
@@ -21,5 +23,10 @@ public class UserVerificationServiceImpl implements UserVerificationService {
   @Override
   public UserVerification save(UserVerification userVerification) {
     return userVerificationRepository.save(userVerification);
+  }
+
+  @Override
+  public Optional<UserVerification> getByUserId(Long userId) {
+    return userVerificationRepository.findByUserId(userId);
   }
 }

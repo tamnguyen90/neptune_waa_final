@@ -14,7 +14,7 @@ public class UserVerification {
     private LocalDateTime endingTime;
     private Integer failedVerificationCount;
     private Long userId;
-    private  UserVerificationType userVerificationType;
+    private  UserVerificationType userVerificationType = UserVerificationType.NEED_TO_VERIFY;
 
     public String getVerificationCode() {
         return verificationCode;

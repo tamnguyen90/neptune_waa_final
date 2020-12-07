@@ -11,6 +11,10 @@ public interface UserService {
 
   Optional<User> getById(Long userId);
 
+  Optional<User> getByName(String userName);
+
+
+
 //  void update(User user);
 //
 //  void inactive(String username);
