@@ -12,7 +12,7 @@ public class Product {
     //GANZO
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Long id;
     private String productName;
 
     @OneToMany
@@ -31,12 +31,32 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
-    public Long getProductId() {
-        return productId;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "auction_id", referencedColumnName = "auctionId")
+    private Auction auction;
+
+    public Auction getAuction() {
+        return auction;
+    }
+
+    public void setAuction(Auction auction) {
+        this.auction = auction;
+    }
+
+    public Long getProductId() {
+        return id;
+    }
+
+    public void setProductId(Long id) {
+        this.id = id;
     }
 
     public String getProductName() {

@@ -21,4 +21,7 @@ public class Auction implements Serializable {
     private List<Bid> bidId;
     private LocalDateTime shippingDate;
     private ShippingStatus shippingStatus;
+
+    @OneToOne(mappedBy = "auction", cascade = CascadeType.ALL)
+    private Product product;
 }

@@ -42,6 +42,9 @@ public class User {
     @OneToMany
     private List<Bid> bids = new ArrayList<>();
 
+    @OneToMany
+    private List<Product> products = new ArrayList<>();
+
     public User(Long userId, String username, String email, String password, String firstName, String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, Address address) {
         this.userId = userId;
         this.username = username;
@@ -52,6 +55,14 @@ public class User {
         this.licenseNumber = licenseNumber;
         this.profileVerificationType = profileVerificationType;
         this.address = address;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public Long getUserId() {

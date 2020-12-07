@@ -20,7 +20,7 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("")
+    @GetMapping("/")
     public String getCategories(Model model) {
         List<Category> categories = categoryService.getAll();
         model.addAttribute("categories", categories);
