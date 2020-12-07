@@ -1,0 +1,2 @@
+<!--user/1234-->
+insert into users (user_id, address_address_id, email, first_name, is_reset_password, last_name, license_number, password, profile_verification_type, username) values (null, null, null, null, null, null, null, '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', null, 'user')
