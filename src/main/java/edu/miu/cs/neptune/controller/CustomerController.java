@@ -23,6 +23,7 @@ public class CustomerController {
     @GetMapping("customer/products")
     public String listProduct(Model model){
         model.addAttribute("products", productService.getAll());
+        System.out.println(productService.getAll());
         return "customer/productList";
     }
 
