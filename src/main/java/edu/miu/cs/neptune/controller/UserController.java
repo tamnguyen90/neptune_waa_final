@@ -19,11 +19,10 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
-    private final MailService mailService;
 
-    public UserController(UserService userService, MailService mailService) {
+
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.mailService = mailService;
     }
 //
 //    @RequestMapping(value = "", method = RequestMethod.GET)
@@ -63,12 +62,8 @@ public class UserController {
     @RequestMapping(value = "/return", method = RequestMethod.POST)
 //    @PreAuthorize("hasRole('ADMIN')")
     public String save(User user) {
-        String mailTo = user.getEmail();
-        String mailFrom = "asdproject287@gmail.com";
-        String mailSubject = "New Account notification";
-        String mailContent = "Please use this verification code";
+
         userService.saveUser(user);
-        mailService.sendEmail(mailFrom,mailTo,mailSubject,mailContent);
         return "index";
     }
 //
