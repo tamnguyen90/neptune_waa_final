@@ -1,6 +1,5 @@
 package edu.miu.cs.neptune.controller;
 
-import edu.miu.cs.neptune.domain.Mail;
 import edu.miu.cs.neptune.domain.Role;
 import edu.miu.cs.neptune.domain.RoleCode;
 import edu.miu.cs.neptune.domain.User;
@@ -65,9 +64,11 @@ public class UserController {
 //    @PreAuthorize("hasRole('ADMIN')")
     public String save(User user) {
         String mailTo = user.getEmail();
+        String mailFrom = "asdproject287@gmail.com";
+        String mailSubject = "New Account notification";
+        String mailContent = "Please use this verification code";
         userService.saveUser(user);
-        Mail mail = mailService.createEmail("asdproject287@gmail.com",mailTo,"New Account notification","Please use this verification code");
-        mailService.sendEmail(mail);
+        mailService.sendEmail(mailFrom,mailTo,mailSubject,mailContent);
         return "index";
     }
 //
