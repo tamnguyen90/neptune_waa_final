@@ -20,20 +20,20 @@ public class CustomerController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/products")
+    @GetMapping("customer/products")
     public String listProduct(Model model){
         model.addAttribute("products", productService.getAll());
         return "customer/productList";
     }
 
-    @GetMapping("/categories")
+    @GetMapping("customer/categories")
     public String listCategory(Model model){
         model.addAttribute("categories", categoryService.getAll());
         return "customer/categoryList";
     }
-    @GetMapping("/product")
-    public String getProductById(@RequestParam("id") String productId, Model model){
-        model.addAttribute("product", productService.getProductById(productId));
-        return "product";
-    }
+//    @GetMapping("/product")
+//    public String getProductById(@RequestParam("id") String productId, Model model){
+//        model.addAttribute("product", productService.getProductById(productId));
+//        return "customer/product";
+//    }
 }
