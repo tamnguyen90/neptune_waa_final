@@ -33,11 +33,11 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         Address add3 = new Address(333L, "12 N Court", "FairField", "IA", "52556");
         Address add4 = new Address(444L, "15 N Court", "FairField", "IA", "52556");
 
-        User user1 = new User(111L, "hale", "dthle@miu.edu", "123", "Ha", "Le", "123-456-789",ProfileVerificationType.VERIFIED , add1);
-        User user2 = new User(222L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "444-111-889",ProfileVerificationType.VERIFIED , add2);
-        User user3 = new User(333L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "333-222-111",ProfileVerificationType.NEED_TO_VERIFY , add3);
-        User user4 = new User(444L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "555-121-212",ProfileVerificationType.VERIFIED , add4);
-        List<User> user = Arrays.asList(user1, user2, user3, user4);
+//        User user1 = new User(111L, "hale", "dthle@miu.edu", "123", "Ha", "Le", "123-456-789",ProfileVerificationType.VERIFIED , add1);
+//        User user2 = new User(222L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "444-111-889",ProfileVerificationType.VERIFIED , add2);
+//        User user3 = new User(333L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "333-222-111",ProfileVerificationType.NEED_TO_VERIFY , add3);
+//        User user4 = new User(444L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "555-121-212",ProfileVerificationType.VERIFIED , add4);
+//        List<User> user = Arrays.asList(user1, user2, user3, user4);
 
     }
 
