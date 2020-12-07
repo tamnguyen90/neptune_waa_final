@@ -1,9 +1,15 @@
 package edu.miu.cs.neptune.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-
+@Entity
 public class UserVerification {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long verificationId;
     private String verificationCode;
     private LocalDateTime endingTime;
     private Integer failedVerificationCount;
@@ -52,6 +58,15 @@ public class UserVerification {
 
     public UserVerification setUserVerificationType(UserVerificationType userVerificationType) {
         this.userVerificationType = userVerificationType;
+        return this;
+    }
+
+    public Long getVerificationId() {
+        return verificationId;
+    }
+
+    public UserVerification setVerificationId(Long verificationId) {
+        this.verificationId = verificationId;
         return this;
     }
 }

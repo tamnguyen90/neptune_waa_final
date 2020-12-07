@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     String mailSubject = "New Account notification";
 
     String verificationCode = generateService.generateCode();
-    String mailContent = "Please use this verification code: " + verificationCode;
+    String mailContent = "Please use this verification code: "+verificationCode+" to verify your account.";
     mailService.sendEmail(mailFrom,mailTo,mailSubject,mailContent);
 
     User userNew = userRepository.save(user);
