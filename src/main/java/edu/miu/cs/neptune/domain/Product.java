@@ -12,7 +12,7 @@ public class Product {
     //GANZO
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long productId;
     private String productName;
 
     @OneToMany
@@ -52,11 +52,11 @@ public class Product {
     }
 
     public Long getProductId() {
-        return id;
+        return productId;
     }
 
-    public void setProductId(Long id) {
-        this.id = id;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {

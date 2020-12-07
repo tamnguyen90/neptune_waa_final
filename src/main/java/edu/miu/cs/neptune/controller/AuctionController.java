@@ -17,12 +17,19 @@ public class AuctionController {
     AuctionService auctionService;
 
     // Ganzo, bid history with pagination
-    @GetMapping(value = "/auction/{id}/bidHistory")
+    @GetMapping(value = "/auction/{id}")
     public String bidHistory(@PathVariable("id") Long auctionId, Model model) {
+        System.out.println("auctionId:"+auctionId);
         if (auctionService.getById(auctionId).isPresent()) {
             Auction currAuction = auctionService.getById(auctionId).get();
             model.addAttribute("auction", auctionService.getById(auctionId).get());
+            Auction auction = auctionService.getById(auctionId).get();
+            System.out.println("auction id is:"+auction.getAuctionId()+' '+auction.getBeginPrice());
+            System.out.println("product: "+auction.getProduct().getProductName());
+        } else {
+            System.out.println("can't find the auction");
         }
-        return "bidHistory";
+
+        return "index";
     }
 }

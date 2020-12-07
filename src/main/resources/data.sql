@@ -7,19 +7,19 @@ insert into users values (3,'user@miu', 'test2', false, 'nguyen', '12345', '$2a$
 INSERT into AUCTION (auction_id, begin_date, end_date, auction_status, begin_price, winner_bid_id, shipping_date, shipping_status)
                 values (247, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
 
-INSERT INTO PRODUCT (ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
+INSERT INTO PRODUCT (PRODUCT_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
             VALUES(1, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone6s', 1, 247, 1);
 
 INSERT into AUCTION (auction_id, begin_date, end_date, auction_status, begin_price, winner_bid_id, shipping_date, shipping_status)
                 values (248, '2020-12-06 15:00:00', '2020-12-31 15:00:00', 1, 150 , null, null, null);
 
-INSERT INTO PRODUCT (ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
+INSERT INTO PRODUCT (PRODUCT_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
             VALUES(2, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron', 1, 248, 2);
 
 INSERT into AUCTION (auction_id, begin_date, end_date, auction_status, begin_price, winner_bid_id, shipping_date, shipping_status)
                 values (249, '2020-12-06 15:00:00', '2020-12-28 17:00:00', 1, 50 , null, null, null);
 
-INSERT INTO PRODUCT (ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
+INSERT INTO PRODUCT (PRODUCT_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
             VALUES(3, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7', 1, 249, 3);
 
 INSERT INTO CATEGORY VALUES (1, 'Phone', 'Phone');
