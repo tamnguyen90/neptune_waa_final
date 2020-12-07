@@ -22,13 +22,13 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    @RequestMapping(value = "", method = RequestMethod.GET)
-//    @PreAuthorize("hasRole('ADMIN')")
-    public String list(Model model) {
-        model.addAttribute("users", userService.getAll());
-        return "user/list";
-    }
+//
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+////    @PreAuthorize("hasRole('ADMIN')")
+//    public String list(Model model) {
+//        model.addAttribute("users", userService.getAll());
+//        return "user/list";
+//    }
 
     @RequestMapping("/create")
 //    @PreAuthorize("hasRole('ADMIN')")
@@ -57,12 +57,11 @@ public class UserController {
 //        return "user/edit";
 //    }
 //
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/return", method = RequestMethod.POST)
 //    @PreAuthorize("hasRole('ADMIN')")
     public String save(User user) {
         userService.saveUser(user);
-
-        return "redirect: user/create";
+        return "index";
     }
 //
 //    @RequestMapping("/delete/{username}")
