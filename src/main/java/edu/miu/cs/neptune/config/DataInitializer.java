@@ -36,9 +36,9 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 //        User user3 = new User(333L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "333-222-111",ProfileVerificationType.NEED_TO_VERIFY , add3);
 //        User user4 = new User(444L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "555-121-212",ProfileVerificationType.VERIFIED , add4);
 //        List<User> user = Arrays.asList(user1, user2, user3, user4);
-//        Role role1 = new Role(RoleCode.ADMIN,"Admin");
-//        Role role2 = new Role(RoleCode.BUYER,"Buyer");
-//        Role role3 = new Role(RoleCode.SELLER,"Seller");
+        Role role1 = new Role(RoleCode.ADMIN,"Admin");
+        Role role2 = new Role(RoleCode.BUYER,"Buyer");
+        Role role3 = new Role(RoleCode.SELLER,"Seller");
 //
 //
 //        User user1 = new User(111L, "hale", "dthle@miu.edu", "123", "Ha", "Le", "123-456-789",ProfileVerificationType.VERIFIED , Boolean.FALSE,add1);
