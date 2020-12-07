@@ -1,8 +1,6 @@
 package edu.miu.cs.neptune.config;
 
-import edu.miu.cs.neptune.domain.Address;
-import edu.miu.cs.neptune.domain.ProfileVerificationType;
-import edu.miu.cs.neptune.domain.User;
+import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.service.CategoryService;
 import edu.miu.cs.neptune.service.ProductService;
 import edu.miu.cs.neptune.service.UserService;
@@ -33,10 +31,20 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         Address add3 = new Address(333L, "12 N Court", "FairField", "IA", "52556");
         Address add4 = new Address(444L, "15 N Court", "FairField", "IA", "52556");
 
-        User user1 = new User(111L, "hale", "dthle@miu.edu", "123", "Ha", "Le", "123-456-789",ProfileVerificationType.VERIFIED , add1);
-        User user2 = new User(222L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "444-111-889",ProfileVerificationType.VERIFIED , add2);
-        User user3 = new User(333L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "333-222-111",ProfileVerificationType.NEED_TO_VERIFY , add3);
-        User user4 = new User(444L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "555-121-212",ProfileVerificationType.VERIFIED , add4);
+        Role role1 = new Role(RoleCode.ADMIN,"Admin");
+        Role role2 = new Role(RoleCode.BUYER,"Buyer");
+        Role role3 = new Role(RoleCode.SELLER,"Seller");
+
+
+        User user1 = new User(111L, "hale", "dthle@miu.edu", "123", "Ha", "Le", "123-456-789",ProfileVerificationType.VERIFIED , Boolean.FALSE,add1);
+        User user2 = new User(222L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "444-111-889",ProfileVerificationType.VERIFIED , Boolean.FALSE,add2);
+        User user3 = new User(333L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "333-222-111",ProfileVerificationType.NEED_TO_VERIFY , Boolean.FALSE,add3);
+        User user4 = new User(444L, "test1", "test1@gmail.com", "123", "Test1", "Test1", "555-121-212",ProfileVerificationType.VERIFIED , Boolean.FALSE,add4);
+        user1.addRole(role1);
+        user2.addRole(role2);
+        user3.addRole(role3);
+        user4.addRole(role2);
+
         List<User> user = Arrays.asList(user1, user2, user3, user4);
 
     }
