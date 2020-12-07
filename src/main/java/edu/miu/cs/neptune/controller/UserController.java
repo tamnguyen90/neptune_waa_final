@@ -64,7 +64,7 @@ public class UserController {
     public String save(User user) {
 
         userService.saveUser(user);
-        return "index";
+        return "login";
     }
 //
 //    @RequestMapping("/delete/{username}")
