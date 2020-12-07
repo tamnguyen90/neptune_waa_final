@@ -11,10 +11,10 @@ import java.util.Map;
 public interface ProductRepository extends JpaRepository<Product, Long>{
     List<Product> findAll();
     List<Product> findProductsByProductName(String name);
-//    List<Product> getProductsByCategories(String category);
+    List<Product> findByCategories(String categoryName);
 //
 //    List<Product> getProductsByFilter(Map<String, List<String>> filterParams);
 //
-//    Product getProductById(String productID);
+    Product getProductById(String productID);
 
 }

@@ -5,10 +5,12 @@ import edu.miu.cs.neptune.domain.Product;
 import edu.miu.cs.neptune.repository.ProductRepository;
 import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -24,18 +26,20 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByProductName(name);
     }
 
-//    @Override
-//    public List<Product> getProductsByCategory(String category) {
-//        return productRepository.getProductsByCategory(category);
-//    }
+    @Override
+    public List<Product> getProductsByCategory(String category) {
+        return productRepository.findByCategories(category);
+    }
+
+
 //
 //    @Override
 //    public List<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
 //        return productRepository.getProductsByFilter(filterParams);
 //    }
 //
-//    @Override
-//    public Product getProductById(String productID) {
-//        return productRepository.getProductById(productID);
-//    }
+    @Override
+    public Product getProductById(String productID) {
+        return productRepository.getProductById(productID);
+    }
 }
