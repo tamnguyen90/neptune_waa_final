@@ -10,6 +10,7 @@ import edu.miu.cs.neptune.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,17 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public List<Auction> getAllByUserId(Long userId) {
-        return null;
+        List<Auction> auctionList = getAll();
+        List<Auction> userAuctionList = new ArrayList<>();
+        for (Auction theAuction : auctionList) {
+            for (Bid theBid : theAuction.getBids()) {
+                if (theBid.getBidder().getUserId() == userId) {
+                    userAuctionList.add(theAuction);
+                    break;
+                }
+            }
+        }
+        return userAuctionList;
     }
 
 //    @Override
