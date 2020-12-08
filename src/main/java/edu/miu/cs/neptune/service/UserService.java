@@ -13,8 +13,6 @@ public interface UserService {
 
   Optional<User> getByName(String username);
 
-  Boolean userAuthentication(String username, String password);
-
 
 
 //  void update(User user);

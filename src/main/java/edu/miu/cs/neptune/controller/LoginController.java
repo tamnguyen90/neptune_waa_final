@@ -7,6 +7,7 @@ import edu.miu.cs.neptune.service.UserService;
 import edu.miu.cs.neptune.service.UserVerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,11 +39,10 @@ public class LoginController {
         @GetMapping(value = {"/postlogin"})
     public String postLogin(Authentication authentication, Model model) {
         User user = userService.getByName(authentication.getName()).orElse(null);
+            System.out.println(user.getEmail());
         if (user != null) {
             UserVerification userVerification = userVerificationService.getByUserId(user.getUserId()).orElse(null);
             if (userVerification != null && UserVerificationType.NEED_TO_VERIFY.equals(userVerification.getUserVerificationType())) {
-                model.addAttribute("verificationCode", userVerification.getVerificationCode());
-                model.addAttribute("email", user.getEmail());
                 return "verification";
             } else return "redirect:/verification";
         } else {
