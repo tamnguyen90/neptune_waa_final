@@ -69,6 +69,9 @@ public class UserServiceImpl implements UserService {
     return userRepository.findById(userId);
   }
 
+  public List<User> findAllPendingProfile() {
+    return userRepository.findAllPendingProfile();
+  }
 //  @Override
 //  public void update(User user) {
 //  }

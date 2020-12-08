@@ -11,6 +11,8 @@ public interface UserService {
 
   Optional<User> getById(Long userId);
 
+  List<User> findAllPendingProfile();
+
 //  void update(User user);
 //
 //  void inactive(String username);
