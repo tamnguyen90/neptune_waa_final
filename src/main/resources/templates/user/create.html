@@ -52,12 +52,11 @@
 
             <div class="form-group">
                 <label>Roles</label>
-                <ul>
-                    <li th:each="role : ${availableRoles}">
-                        <input name="roles" th:value="${role.code}" type="checkbox"/>
-                        <label th:text="${role.name}"></label>
-                    </li>
-                </ul>
+                <select class="form-control" id="role" name="role">
+                    <option th:each="role : ${availableRoles}"
+                            th:text="${role}" th:value="${role}">
+                    </option>
+                </select>
             </div>
 
             <p id="buttons">

@@ -1,9 +1,6 @@
 package edu.miu.cs.neptune.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 @Entity
 public class UserVerification {
@@ -14,6 +11,7 @@ public class UserVerification {
     private LocalDateTime endingTime;
     private Integer failedVerificationCount;
     private Long userId;
+    @Enumerated(EnumType.STRING)
     private  UserVerificationType userVerificationType = UserVerificationType.NEED_TO_VERIFY;
 
     public String getVerificationCode() {

@@ -1,6 +1,7 @@
 package edu.miu.cs.neptune.controller;
 
 import edu.miu.cs.neptune.domain.User;
+import edu.miu.cs.neptune.domain.UserVerification;
 import edu.miu.cs.neptune.domain.UserVerificationType;
 import edu.miu.cs.neptune.service.UserService;
 import edu.miu.cs.neptune.service.UserVerificationService;
@@ -16,28 +17,28 @@ public class HomeController {
     @Autowired
     UserVerificationService userVerificationService;
 
-    @GetMapping(value = {"/","/login"})
+    @GetMapping(value = {"/login1"})
     public String getLogin() {
         return "login";
     }
 
-    @PostMapping(value ={"/login"})
-    public String loginVerification(@RequestParam("username") String userName, Model model){
+    @PostMapping(value = {"/login"})
+    public String loginVerification(@RequestParam("username") String userName, Model model) {
+        User user = userService.getByName(userName).orElse(null);
+        if (user != null) {
+            UserVerification userVerification = userVerificationService.getByUserId(user.getUserId()).orElse(null);
+            if (userVerification != null && UserVerificationType.NEED_TO_VERIFY.equals(userVerification.getUserVerificationType())) {
+                model.addAttribute("verificationCode", userVerification.getVerificationCode());
+                model.addAttribute("email", user.getEmail());
+                return "verification";
 
-        if(userService.getByName(userName)!=null){
-            Long userId = userService.getByName(userName).get().getUserId();
-            if(userVerificationService.getByUserId(userId).get().equals(UserVerificationType.NEED_TO_VERIFY)){
-                String useEmail = userService.getByName(userName).get().getEmail();
-                model.addAttribute("email",useEmail);
-            return "verification";}
-            else return "home";
-        }
-        else {
-            return "login";
+            } else return "redirect:/verification";
+        } else {
+            return "redirect:/login";
         }
     }
 
-    @RequestMapping("/verification")
+    @PostMapping("/verification")
     public String returnVerificationPage() {
         return "verification";
     }
