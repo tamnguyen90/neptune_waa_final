@@ -2,7 +2,10 @@ package edu.miu.cs.neptune.service.impl;
 
 import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.Auction;
+import edu.miu.cs.neptune.domain.Bid;
+import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.repository.AuctionRepository;
+import edu.miu.cs.neptune.repository.UserRepository;
 import edu.miu.cs.neptune.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,9 @@ import java.util.Optional;
 public class AuctionServiceImpl implements AuctionService {
     @Autowired
     AuctionRepository auctionRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<Auction> getAll() {
@@ -29,4 +35,19 @@ public class AuctionServiceImpl implements AuctionService {
     public Auction save(Auction auction) {
         return auctionRepository.save(auction);
     }
+
+    @Override
+    public List<Auction> getAllByUserId(Long userId) {
+        return null;
+    }
+
+//    @Override
+//    public List<Auction> getAllByUserId(Long userId) {
+////        Optional<User> theUser = userRepository.findById(userId);
+////
+////        if (theUser.isPresent()) {
+////            List<Bid> userBidList = theUser.get().getBids();
+////        }
+//        return null;
+//    }
 }

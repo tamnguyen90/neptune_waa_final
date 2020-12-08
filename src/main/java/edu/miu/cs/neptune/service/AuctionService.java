@@ -10,4 +10,6 @@ public interface AuctionService {
     List<Auction> getAll();
     Optional<Auction> getById(Long id);
     Auction save(Auction auction);
+    //    @Override
+    List<Auction> getAllByUserId(Long userId);
 }

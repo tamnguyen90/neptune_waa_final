@@ -1,6 +1,7 @@
 package edu.miu.cs.neptune.controller;
 
 import edu.miu.cs.neptune.domain.Auction;
+import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,14 +23,19 @@ public class AuctionController {
         System.out.println("auctionId:"+auctionId);
         if (auctionService.getById(auctionId).isPresent()) {
             Auction currAuction = auctionService.getById(auctionId).get();
-            model.addAttribute("auction", auctionService.getById(auctionId).get());
-            Auction auction = auctionService.getById(auctionId).get();
-            System.out.println("auction id is:"+auction.getAuctionId()+' '+auction.getBeginPrice());
-            System.out.println("product: "+auction.getProduct().getProductName());
+            // bidirectional
+            currAuction.getProduct().setAuction(currAuction);
+            model.addAttribute("auction", currAuction);
+            System.out.println("product: "+currAuction.getProduct().getProductName());
+            System.out.println("auction id is:"+currAuction.getAuctionId()+' '+currAuction.getBeginPrice());
+            for (Bid theBid : currAuction.getBids()) {
+                System.out.println(theBid);
+            }
+
         } else {
             System.out.println("can't find the auction");
         }
 
-        return "index";
+        return "bidHistory";
     }
 }

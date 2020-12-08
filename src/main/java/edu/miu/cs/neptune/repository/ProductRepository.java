@@ -2,6 +2,9 @@ package edu.miu.cs.neptune.repository;
 
 import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +16,7 @@ import java.util.Map;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
     List<Product> findAll();
+//    Page<Product> listAll(int pageNum, String sortField, String sortDir);
     List<Product> findProductsByProductName(String name);
 
     Product getProductByProductId(Long id);
@@ -21,6 +25,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     @Query("select p from Product p where p.productId = :id")
 //    SELECT * FROM PRODUCT WHERE PRODUCTS_CATEGORY_ID =1;
     List<Product> getProductsByCategoryID(@Param("id") long id);
+
 
 
 }
