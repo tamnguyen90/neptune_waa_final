@@ -14,6 +14,8 @@ public interface ProductService {
 //    List<Product> getProductsByFilter(Map<String, List<String>> filterParams);
 //
     Product getProductById(Long productID);
-    List<Product> findByCategoryId(Long categoryId);
+    List<Product> getProductsByCategoryId(Long categoryId);
     Page<Product> listAll(int pageNum, String sortField, String sortDir);
+
+    Product save(Product product);
 }
