@@ -3,20 +3,22 @@ insert into users values (1,'user@miu', 'tam', false, 'nguyen', '12345', '$2a$10
 insert into users values (2,'user@miu', 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 1, 'user', null);
 insert into users values (3,'user@miu', 'test2', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 1, 'user', null);
 
+
+
 -- insert 3 products, each product should have 1 auction
-INSERT into AUCTION (auction_id, begin_date, end_date, auction_status, begin_price, winner_bid_id, shipping_date, shipping_status)
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
                 values (247, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
 
 INSERT INTO PRODUCT (PRODUCT_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
             VALUES(1, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone6s', 1, 247, 1);
 
-INSERT into AUCTION (auction_id, begin_date, end_date, auction_status, begin_price, winner_bid_id, shipping_date, shipping_status)
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
                 values (248, '2020-12-06 15:00:00', '2020-12-31 15:00:00', 1, 150 , null, null, null);
 
 INSERT INTO PRODUCT (PRODUCT_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
             VALUES(2, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron', 1, 248, 2);
 
-INSERT into AUCTION (auction_id, begin_date, end_date, auction_status, begin_price, winner_bid_id, shipping_date, shipping_status)
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
                 values (249, '2020-12-06 15:00:00', '2020-12-28 17:00:00', 1, 50 , null, null, null);
 
 INSERT INTO PRODUCT (PRODUCT_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
@@ -54,20 +56,16 @@ insert into users (USER_ID, EMAIL, FIRST_NAME, IS_RESET_PASSWORD, LAST_NAME, LIC
                 values (6,'sam@miu.com', 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 1, 'samc', null);
 
 -- create bid for each user on product id: 247
-INSERT into BID (ID, AMOUNT, BIDDING_TIME) values (101, 120, '2020-12-06 17:00:00');
-INSERT into BID (ID, AMOUNT, BIDDING_TIME) values (102, 130, '2020-12-06 17:30:00');
-INSERT into BID (ID, AMOUNT, BIDDING_TIME) values (103, 140, '2020-12-06 18:00:00');
-INSERT into BID (ID, AMOUNT, BIDDING_TIME) values (104, 150, '2020-12-06 19:00:00');
-
+INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (101, 120, '2020-12-06 17:00:00', 247, 4);
+INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (102, 130, '2020-12-06 17:30:00', 247, 5);
+INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (103, 140, '2020-12-06 18:00:00', 247, 4);
+INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (104, 150, '2020-12-06 19:00:00', 247, 6);
+--
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 101);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (5, 102);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 103);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (6, 104);
 
-INSERT into AUCTION_BIDS (AUCTION_AUCTION_ID, BIDS_ID) values (247, 101);
-INSERT into AUCTION_BIDS (AUCTION_AUCTION_ID, BIDS_ID) values (247, 102);
-INSERT into AUCTION_BIDS (AUCTION_AUCTION_ID, BIDS_ID) values (247, 103);
-INSERT into AUCTION_BIDS (AUCTION_AUCTION_ID, BIDS_ID) values (247, 104);
 
 
 

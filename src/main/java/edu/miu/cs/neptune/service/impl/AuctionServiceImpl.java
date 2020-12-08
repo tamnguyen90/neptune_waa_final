@@ -38,11 +38,16 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public List<Auction> getAllByUserId(Long userId) {
-//        Optional<User> theUser = userRepository.findById(userId);
-//
-//        if (theUser.isPresent()) {
-//            List<Bid> userBidList = theUser.get().getBids();
-//        }
         return null;
     }
+
+//    @Override
+//    public List<Auction> getAllByUserId(Long userId) {
+////        Optional<User> theUser = userRepository.findById(userId);
+////
+////        if (theUser.isPresent()) {
+////            List<Bid> userBidList = theUser.get().getBids();
+////        }
+//        return null;
+//    }
 }
