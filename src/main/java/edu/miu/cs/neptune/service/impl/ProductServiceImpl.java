@@ -6,6 +6,10 @@ import edu.miu.cs.neptune.repository.CategoryRepository;
 import edu.miu.cs.neptune.repository.ProductRepository;
 import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,6 +54,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findByCategoryId(Long categoryId) {
         return productRepository.getProductsByCategoryID(categoryId);
+    }
+
+    @Override
+    public Page<Product> listAll(int pageNum, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5,
+                sortDir.equals("asc")? Sort.by(sortField).ascending():Sort.by(sortField).descending());
+        return productRepository.findAll(pageable);
+
     }
 
 

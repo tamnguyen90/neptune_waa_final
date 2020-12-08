@@ -5,40 +5,44 @@ insert into users values (3,'user@miu', 'test2', false, 'nguyen', '12345', '$2a$
 
 
 
+--cat data
+INSERT INTO CATEGORY VALUES (1, 'Phone', 'Phone');
+INSERT INTO CATEGORY VALUES (2, 'Laptop', 'Laptop');
+INSERT INTO CATEGORY VALUES (3, 'Table', 'Table');
+
+--product data
+INSERT INTO PRODUCT VALUES(4, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone6s', 100, 1,'2020-10-26',null , 1,1 );
+
+INSERT INTO PRODUCT VALUES(5, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron',200, 1,'2020-10-27',null ,2,2 );
+
+INSERT INTO PRODUCT VALUES(6, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7',300, 2,'2020-10-28',null ,3,3);
+
+INSERT INTO PRODUCT VALUES(7, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 1,'2020-11-02',null , 1,1 );
+
+INSERT INTO PRODUCT VALUES(8, null , 'Dell 2020 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell 2020',1000, 1,'2020-11-10', null ,2,2 );
+
+INSERT INTO PRODUCT VALUES(9, null , 'Google Nexus 2020 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 2020',500, 2, '2020-11-25',null ,3,3);
+
 -- insert 3 products, each product should have 1 auction
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
                 values (247, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
 
 INSERT INTO PRODUCT (PRODUCT_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
-            VALUES(1, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone6s', 1, 247, 1);
+            VALUES(1, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone7s',250, 1,'2020-11-16', 247, 1);
 
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
                 values (248, '2020-12-06 15:00:00', '2020-12-31 15:00:00', 1, 150 , null, null, null);
 
 INSERT INTO PRODUCT (PRODUCT_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
-            VALUES(2, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron', 1, 248, 2);
+            VALUES(2, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron',110, 1,'2020-12-28', 248, 2);
 
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
                 values (249, '2020-12-06 15:00:00', '2020-12-28 17:00:00', 1, 50 , null, null, null);
 
 INSERT INTO PRODUCT (PRODUCT_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_STATUS, AUCTION_ID, SELLER_USER_ID)
-            VALUES(3, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7', 1, 249, 3);
+            VALUES(3, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7',90, 1,'2020-09-26', 249, 3);
 
-INSERT INTO CATEGORY VALUES (1, 'Phone', 'Phone');
-INSERT INTO CATEGORY VALUES (2, 'Laptop', 'Laptop');
-INSERT INTO CATEGORY VALUES (3, 'Table', 'Table');
 
-INSERT INTO PRODUCT VALUES(4, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone6s', 1, null , 1,1 );
-
-INSERT INTO PRODUCT VALUES(5, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron', 1,null ,2,2 );
-
-INSERT INTO PRODUCT VALUES(6, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7', 2,null ,3,3);
-
-INSERT INTO PRODUCT VALUES(7, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12', 1,null , 1,1 );
-
-INSERT INTO PRODUCT VALUES(8, null , 'Dell 2020 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell 2020', 1,null ,2,2 );
-
-INSERT INTO PRODUCT VALUES(9, null , 'Google Nexus 2020 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 2020', 2, null ,3,3);
 
 
 
