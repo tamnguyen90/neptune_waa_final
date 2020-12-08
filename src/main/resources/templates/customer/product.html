@@ -8,71 +8,31 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Users</h1>
+                <h1 class="mt-4">Customer</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a th:href="${'/'}">Home</a></li>
-                    <li class="breadcrumb-item active">Users</li>
+                    <li class="breadcrumb-item active">Customer</li>
                 </ol>
-                <div class="table-title" sec:authorize="hasAuthority('ADMIN')">
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <h2></h2>
-                        </div>
-                        <div class="col-sm-3">
-                            <a class="btn btn-success" th:href="@{/users/create}"><i class="material-icons">&#xE147;</i>
-                                <span>Add User</span></a>
-                        </div>
-                    </div>
+                <div class="">
+                    <h3>Product Information</h3>
+                    Product Id: <span th:text="${product.productId}"></span>
+                    <br/>
+                    Product Name: <span th:text="${product.productName}"></span>
+                    <br/>
+                    Product Description: <span th:text="${product.productDescription}"></span>
+                    <br/>
+                    <!--                                    <td th:text="${product.imageList}">Edinburgh</td>-->
+                    Product Price: <span th:text="${product.productPrice}"></span>
+                    <br/>
+                    Product Upload Day: <span th:text="${product.uploadDate}"></span>
                 </div>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table cellspacing="0" class="table table-bordered" id="dataTable"
-                                   th:if="${not #lists.isEmpty(users)}" width="100%">
-                                <thead>
-                                <tr>
-                                    <th>Full Name</th>
-                                    <th>Username</th>
-                                    <th>Gender</th>
-                                    <th>Phone Number</th>
-                                    <th>DOB</th>
-                                    <th>Address</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Full Name</th>
-                                    <th>Username</th>
-                                    <th>Gender</th>
-                                    <th>Phone Number</th>
-                                    <th>DOB</th>
-                                    <th>Address</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
-                                <tr th:each="user : ${users}">
-                                    <td th:text="${user.name}">Tiger Nixon</td>
-                                    <td th:text="${user.username}">System Architect</td>
-                                    <td th:text="${user.gender}">Edinburgh</td>
-                                    <td th:text="${user.phoneNumber}">Edinburgh</td>
-                                    <td th:text="${user.dob}">Edinburgh</td>
-                                    <td th:text="${user.address?.address}">61</td>
-                                    <td>
-                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"
-                                           th:href="@{/users/edit/{username}(username=${user.username})}">
-                                            <i class="material-icons" data-toggle="tooltip"
-                                               title="Edit">&#xE254;</i></a>
-                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"
-                                           th:href="@{/users/delete/{username}(username=${user.username})}">
-                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div th:each="image : ${images}">
+
+
+<!--                    <img  th:src="@{'/images/'+${image}}" />-->
+
+                    <img th:src="@{${'/images/' + image.name}}" width="200px" height="200px"/>
+
                 </div>
             </div>
         </main>

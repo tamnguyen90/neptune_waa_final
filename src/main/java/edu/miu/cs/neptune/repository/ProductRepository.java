@@ -22,9 +22,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     Product getProductByProductId(Long id);
 
 
-    @Query("select p from Product p where p.productId = :id")
-//    SELECT * FROM PRODUCT WHERE PRODUCTS_CATEGORY_ID =1;
-    List<Product> getProductsByCategoryID(@Param("id") long id);
+//    @Query("select p from Product p where p.productId = :id")
+////    SELECT * FROM PRODUCT WHERE PRODUCTS_CATEGORY_ID =1;
+//    List<Product> getProductsByCategoryID(@Param("id") long id);
+    List<Product> getProductsByCategoryId(Long id);
 
 
 

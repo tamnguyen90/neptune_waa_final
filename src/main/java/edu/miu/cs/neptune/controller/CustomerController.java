@@ -3,6 +3,7 @@ package edu.miu.cs.neptune.controller;
 import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
 import edu.miu.cs.neptune.service.CategoryService;
+import edu.miu.cs.neptune.service.ImageService;
 import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,9 @@ public class CustomerController {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    ImageService imageService;
 
 
     @GetMapping("products")
@@ -54,7 +58,7 @@ public class CustomerController {
 
     public String listProductByCategory(@RequestParam("id") Long id, Model model){
         System.out.println("category ID"+id);
-        List<Product> list = productService.findByCategoryId(id);
+        List<Product> list = productService.getProductsByCategoryId(id);
         System.out.println("----------category list"+list.toString());
         model.addAttribute("products", list);
 //        return list;
@@ -69,7 +73,10 @@ public class CustomerController {
     }
     @GetMapping("product")
     public String getProductById(@RequestParam("id") Long productId, Model model){
+        System.out.println("product ID: " + productId);
         model.addAttribute("product", productService.getProductById(productId));
+        model.addAttribute("images", imageService.getImagesByProductId(productId));
+        System.out.println(imageService.getImagesByProductId(productId));
         return "customer/product";
 //        return "fragments/sidenav_cus";
     }

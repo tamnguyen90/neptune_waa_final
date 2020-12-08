@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head_crud"></th:block>
+<body class="sb-nav-fixed">
+<th:block th:insert="fragments/navbar :: navbar"></th:block>
+<div id="layoutSidenav">
+    <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
+    <div id="layoutSidenav_content">
+        <main>
+            <h3>List of Auctions participated</h3>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Duration</label>
+                <select class="form-control input-sm" id="exampleFormControlSelect1">
+                    <option value="30">last 1 month</option>
+                    <option value="60">last 2 months</option>
+                    <option value="90">last 3 months</option>
+                </select>
+            </div>
+
+            <table class="table">
+                <tr>
+                    <th style="width:10%" scope="col">#</th>
+                    <th style="width:50%" scope="col">Product</th>
+                    <th style="width:40%" scope="col">Auction Deadline</th>
+                </tr>
+                <tr th:each="auction: ${auctions}">
+                    <th scope="row" th:text="${auctionStat.index+1}"/>
+                    <td><a th:href="@{'/auction/' + ${auction.auctionId}}"> <span th:text="${auction.product.productName}">error</span></a> </td>
+                    <td th:text="${#temporals.format(auction.endDate, 'yyyy-MM-dd HH:mm:ss')}" />
+                    <td></td>
+                </tr>
+            </table>
+            <a href="#" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Back</a>
+
+        </main>
+        <th:block th:insert="fragments/footer :: footer"></th:block>
+    </div>
+</div>
+<th:block th:insert="fragments/scripts"></th:block>
+</body>
+</html>

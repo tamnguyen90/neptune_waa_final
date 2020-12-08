@@ -17,9 +17,24 @@ public class Category implements Serializable {
     private String categoryName;
     private String categoryDescription;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @Fetch(FetchMode.JOIN)
-    @JoinColumn
-    private List<Product> products;
 
+    public Category() {
+    }
+
+    public Category(String categoryName, String categoryDescription) {
+        this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public String getCategoryDescription() {
+        return categoryDescription;
+    }
 }

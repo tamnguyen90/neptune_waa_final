@@ -2,6 +2,7 @@ package edu.miu.cs.neptune.domain;
 
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,40 +17,40 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
+    private Long categoryId;
     private String productName;
     private Double productPrice;
 
     @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate uploadDate;
-
-    @OneToMany
-    private List<Image> imageList = new ArrayList<>();
-
     private String productDescription;
     private ProductStatus productStatus;
+    private LocalDateTime paymentDueDate;
 
     @OneToOne
     private User seller;
-    private LocalDateTime paymentDueDate;
 
-//Changed by Ha Le - One category has many products
-//    @ManyToMany
-//    @JoinTable(name = "category_product",
-//            joinColumns = @JoinColumn(name = "product_id"),
-//            inverseJoinColumns = @JoinColumn(name = "category_id"))
-//    private List<Category> categories;
+    @Transient
+    private List<MultipartFile> imageList = new ArrayList<>();
 
-//    public List<Category> getCategories() {
-//        return categories;
-//    }
-//
-//    public void setCategories(List<Category> categories) {
-//        this.categories = categories;
-//    }
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<Category> categories = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "auction_id", referencedColumnName = "auctionId")
     private Auction auction;
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
 
     public Auction getAuction() {
         return auction;
@@ -75,12 +76,16 @@ public class Product {
         this.productName = productName;
     }
 
-    public List<Image> getImageList() {
+    public List<MultipartFile> getImageList() {
         return imageList;
     }
 
-    public void setImageList(List<Image> imageList) {
+    public void setImageList(List<MultipartFile> imageList) {
         this.imageList = imageList;
+    }
+
+    public void addImage(MultipartFile image) {
+        this.imageList.add(image);
     }
 
     public String getProductDescription() {
@@ -131,17 +136,12 @@ public class Product {
         this.uploadDate = uploadDate;
     }
 
-    //    @Override
-//    public String toString() {
-//        return "Product{" +
-//                "productId=" + productId +
-//                ", productName='" + productName + '\'' +
-//                ", imageList=" + imageList +
-//                ", productDescription='" + productDescription + '\'' +
-//                ", productStatus=" + productStatus +
-//                ", seller=" + seller +
-//                ", paymentDueDate=" + paymentDueDate +
-//                ", categories=" + categories +
-//                '}';
-//    }
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
 }

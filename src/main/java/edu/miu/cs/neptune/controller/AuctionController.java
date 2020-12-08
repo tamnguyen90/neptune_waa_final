@@ -20,22 +20,30 @@ public class AuctionController {
     // Ganzo, bid history with pagination
     @GetMapping(value = "/auction/{id}")
     public String bidHistory(@PathVariable("id") Long auctionId, Model model) {
-        System.out.println("auctionId:"+auctionId);
+//        System.out.println("auctionId:"+auctionId);
         if (auctionService.getById(auctionId).isPresent()) {
             Auction currAuction = auctionService.getById(auctionId).get();
             // bidirectional
             currAuction.getProduct().setAuction(currAuction);
             model.addAttribute("auction", currAuction);
-            System.out.println("product: "+currAuction.getProduct().getProductName());
-            System.out.println("auction id is:"+currAuction.getAuctionId()+' '+currAuction.getBeginPrice());
-            for (Bid theBid : currAuction.getBids()) {
-                System.out.println(theBid);
-            }
+//            System.out.println("product: "+currAuction.getProduct().getProductName());
+//            System.out.println("auction id is:"+currAuction.getAuctionId()+' '+currAuction.getBeginPrice());
+//            for (Bid theBid : currAuction.getBids()) {
+//                System.out.println(theBid);
+//            }
 
-        } else {
-            System.out.println("can't find the auction");
         }
+//        else {
+//            System.out.println("can't find the auction");
+//        }
 
         return "bidHistory";
     }
+
+    @GetMapping(value = "/auction")
+    public String showAllAuctions(Model model) {
+        model.addAttribute("auctions", auctionService.getAllByUserId(4L));
+        return "auctionHistory";
+    }
+
 }
