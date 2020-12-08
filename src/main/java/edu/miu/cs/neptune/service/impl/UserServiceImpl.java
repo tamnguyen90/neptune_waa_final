@@ -1,6 +1,7 @@
 package edu.miu.cs.neptune.service.impl;
 
 import edu.miu.cs.neptune.constant.Constant;
+import edu.miu.cs.neptune.domain.ProfileVerificationType;
 import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.domain.UserVerification;
 import edu.miu.cs.neptune.repository.UserRepository;
@@ -69,9 +70,11 @@ public class UserServiceImpl implements UserService {
     return userRepository.findById(userId);
   }
 
+  //handle verify user's profile
   public List<User> findAllPendingProfile() {
     return userRepository.findAllPendingProfile();
   }
+
 //  @Override
 //  public void update(User user) {
 //  }

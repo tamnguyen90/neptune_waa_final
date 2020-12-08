@@ -28,11 +28,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(Category category) {
-        Optional<Category> foundCategory = categoryRepository.findById(category.getCategoryId());
-
-        if(foundCategory.isPresent()) {
-            throw new CategoryException("Duplicate category ID");
-        }
+//        Optional<Category> foundCategory = categoryRepository.findById(category.getCategoryId());
+//
+//        if(foundCategory.isPresent()) {
+//            throw new CategoryException("Duplicate category ID");
+//        }
 
         return categoryRepository.save(category);
     }
