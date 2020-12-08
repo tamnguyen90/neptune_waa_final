@@ -21,7 +21,7 @@
 
                                 <form method="post" th:action="@{/resendVerificationCode}">
                                     <p>Enter your email below to resend verification code:</p>
-                                    <input type="text" id="email" name="email" th:field="*{email}" tabindex="1">
+                                    <input type="hidden" id="email" name="email" th:value="*{email}" tabindex="1">
                                     <input id="resendvc" type="submit" value="Resend verification code."/>
                                 </form>
 

@@ -31,6 +31,7 @@ public class User {
     private String licenseNumber;
     private ProfileVerificationType profileVerificationType = ProfileVerificationType.VERIFIED;
     private Boolean isResetPassword;
+    private Boolean enable = true;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
@@ -44,7 +45,7 @@ public class User {
     @OneToMany
     private List<Product> products = new ArrayList<>();
 
-    public User(Long userId, @NotBlank String username, @Email @NotBlank String email, @NotBlank String password, @NotBlank String firstName, @NotBlank String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, Boolean isResetPassword, Address address) {
+    public User(Long userId, @NotBlank String username, @Email @NotBlank String email, @NotBlank String password, @NotBlank String firstName, @NotBlank String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, Boolean isResetPassword,Boolean enable, Address address) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -54,6 +55,7 @@ public class User {
         this.licenseNumber = licenseNumber;
         this.profileVerificationType = profileVerificationType;
         this.isResetPassword = isResetPassword;
+        this.enable = enable;
         this.address = address;
 
     }
@@ -160,6 +162,15 @@ public class User {
 
     public User setRole(Role role) {
         this.role = role;
+        return this;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public User setEnable(Boolean enable) {
+        this.enable = enable;
         return this;
     }
 }

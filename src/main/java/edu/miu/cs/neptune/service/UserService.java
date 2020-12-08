@@ -11,7 +11,9 @@ public interface UserService {
 
   Optional<User> getById(Long userId);
 
-  Optional<User> getByName(String userName);
+  Optional<User> getByName(String username);
+
+  Boolean userAuthentication(String username, String password);
 
 
 
