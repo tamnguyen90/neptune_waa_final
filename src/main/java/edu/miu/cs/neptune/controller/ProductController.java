@@ -38,7 +38,7 @@ public class ProductController {
 
     @GetMapping("/products/{category}")
     public String getProductsByCategory(@PathVariable("category") Long categoryId, Model model) {
-        List<Product> productList = productService.findByCategoryId(categoryId);
+        List<Product> productList = productService.getProductsByCategoryId(categoryId);
 
         if (productList == null || productList.isEmpty()) {
             throw new NoProductsFoundUnderCategoryException();

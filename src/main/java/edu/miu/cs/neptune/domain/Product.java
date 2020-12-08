@@ -13,9 +13,11 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 public class Product {
+    //GANZO
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
+    private Long categoryId;
     private String productName;
     private Double productPrice;
 
@@ -132,6 +134,14 @@ public class Product {
 
     public void setUploadDate(LocalDate uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
 }

@@ -17,6 +17,7 @@ public class Category implements Serializable {
     private String categoryName;
     private String categoryDescription;
 
+
     public Category() {
     }
 
