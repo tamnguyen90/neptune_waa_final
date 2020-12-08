@@ -16,4 +16,6 @@ public interface ProductService {
     Product getProductById(Long productID);
     List<Product> findByCategoryId(Long categoryId);
     Page<Product> listAll(int pageNum, String sortField, String sortDir);
+
+    Product save(Product product);
 }
