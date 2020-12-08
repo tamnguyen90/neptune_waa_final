@@ -29,7 +29,7 @@ public class User {
     private String lastName = "Nguyen";
 //    @NotBlank
     private String licenseNumber;
-    private ProfileVerificationType profileVerificationType;
+    private ProfileVerificationType profileVerificationType = ProfileVerificationType.VERIFIED;
     private Boolean isResetPassword;
 
     @OneToOne(cascade = CascadeType.ALL)
