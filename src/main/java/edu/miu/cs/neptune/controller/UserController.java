@@ -1,9 +1,7 @@
 package edu.miu.cs.neptune.controller;
 
 import edu.miu.cs.neptune.domain.Role;
-import edu.miu.cs.neptune.domain.RoleCode;
 import edu.miu.cs.neptune.domain.User;
-import edu.miu.cs.neptune.service.MailService;
 import edu.miu.cs.neptune.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,12 +33,7 @@ public class UserController {
     @RequestMapping("/create")
 //    @PreAuthorize("hasRole('ADMIN')")
     public String create(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("availableRoles", Arrays.stream(RoleCode.values()).map(rc -> {
-            Role role = new Role();
-                    role.setCode(rc);
-                    role.setName(rc.getName());
-                    return role;
-        }).collect(Collectors.toList()));
+        model.addAttribute("availableRoles", Arrays.asList(Role.values()));
         return "user/create";
     }
 //
@@ -64,7 +57,7 @@ public class UserController {
     public String save(User user) {
 
         userService.saveUser(user);
-        return "login";
+        return "redirect:/login";
     }
 //
 //    @RequestMapping("/delete/{username}")

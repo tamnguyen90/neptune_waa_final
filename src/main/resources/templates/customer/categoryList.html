@@ -34,6 +34,7 @@
                                     <th>Category ID</th>
                                     <th>Category Name</th>
                                     <th>Category Description</th>
+                                    <th>Products</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -41,6 +42,7 @@
                                     <th>Category ID</th>
                                     <th>Category Name</th>
                                     <th>Category Description</th>
+                                    <th>Products</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -48,17 +50,16 @@
                                     <td th:text="${category.categoryId}">Tiger Nixon</td>
                                     <td th:text="${category.categoryName}">System Architect</td>
                                     <td th:text="${category.categoryDescription}">Edinburgh</td>
-                                    <td><a th:href="@{/customer/category/products(id=${category.categoryId})}" class="btn btn-default"> <span
-                                            ></span>View Products</a></td>
-
-                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"
-                                           th:href="@{/users/edit/{username}(username=${user.username})}">
-                                            <i class="material-icons" data-toggle="tooltip"
-                                               title="Edit">&#xE254;</i></a>
-                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"
-                                           th:href="@{/users/delete/{username}(username=${user.username})}">
-                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
+                                    <td><a th:href="@{/customer/category/products(id=${category.categoryId})}" class="btn ui-state-default">View Products</a></td>
+<!--                                    <td>-->
+<!--                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"-->
+<!--                                           th:href="@{/users/edit/{username}(username=${user.username})}">-->
+<!--                                            <i class="material-icons" data-toggle="tooltip"-->
+<!--                                               title="Edit">&#xE254;</i></a>-->
+<!--                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"-->
+<!--                                           th:href="@{/users/delete/{username}(username=${user.username})}">-->
+<!--                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
+<!--                                    </td>-->
                                 </tr>
                                 </tbody>
                             </table>

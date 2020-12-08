@@ -28,29 +28,52 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table cellspacing="0" class="table table-bordered" id="dataTable"
-                                   th:if="${not #lists.isEmpty(products)}" width="100%">
+                                   th:if="${not #lists.isEmpty(products)}" width="100%" border="1" cellpadding="10">
                                 <thead>
                                 <tr>
-                                    <th>Product ID</th>
-                                    <th>Product Name</th>
-                                    <th>Product Description</th>
-                                    <th>Image</th>
+                                    <th>
+                                        <a th:href="@{'customer/products/' + ${currentPage} + '?sortField=productId&sortDir=' + ${reverseSortDir}}">Product ID</a>
+                                    </th>
+                                    <th>
+                                        <a th:href="@{'customer/products/' + ${currentPage} + '?sortField=productName&sortDir=' + ${reverseSortDir}}">Product Name</a>
+                                    </th>
+                                    <th>
+                                        <a th:href="@{'customer/products/' + ${currentPage} + '?sortField=productDescription&sortDir=' + ${reverseSortDir}}">Product Description</a>
+                                    </th>
+                                    <th>Product Image</th>
+
+                                    <th>
+                                        <a th:href="@{'customer/products/' + ${currentPage} + '?sortField=producePrice&sortDir=' + ${reverseSortDir}}">Price</a>
+                                    </th>
+                                    <th>
+                                        <a th:href="@{'customer/products/' + ${currentPage} + '?sortField=uploadDate&sortDir=' + ${reverseSortDir}}">Uploaded Date</a>
+                                    </th>
+
+                                    <th>Actions</th>
                                 </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Product ID</th>
-                                    <th>Product Name</th>
-                                    <th>Product Description</th>
-                                    <th>Image</th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
+<!--                                <tr>-->
+<!--                                    <th>Product ID</th>-->
+<!--                                    <th>Product Name</th>-->
+<!--                                    <th>Product Description</th>-->
+<!--                                    <th>Image</th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                                <tfoot>-->
+<!--                                <tr>-->
+<!--                                    <th>Product ID</th>-->
+<!--                                    <th>Product Name</th>-->
+<!--                                    <th>Product Description</th>-->
+<!--                                    <th>Image</th>-->
+<!--                                </tr>-->
+<!--                                </tfoot>-->
+<!--                                <tbody>-->
                                 <tr th:each="product : ${products}">
                                     <td th:text="${product.productId}">Tiger Nixon</td>
                                     <td th:text="${product.productName}">System Architect</td>
                                     <td th:text="${product.productDescription}">Edinburgh</td>
                                     <td th:text="${product.imageList}">Edinburgh</td>
+                                    <td th:text="${product.productPrice}">Edinburgh</td>
+                                    <td th:text="${product.uploadDate}">Edinburgh</td>
 <!--                                    <td>-->
 <!--                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"-->
 <!--                                           th:href="@{/users/edit/{username}(username=${user.username})}">-->
@@ -63,6 +86,35 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <div>&nbsp;</div>
+                            <div><i>Sorted by [[${sortField}]] in [[${sortDir}]] order</i></div>
+                            <div>&nbsp;</div>
+                            <div th:if="${totalPages > 1}">
+                                Total Items: [[${totalItems}]]
+                                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+                                <a th:if="${currentPage > 1}" th:href="@{'customer/products/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+                                <span th:unless="${currentPage > 1}">First</span>
+                                &nbsp;&nbsp;
+
+                                <a th:if="${currentPage > 1}" th:href="@{'customer/products/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+                                <span th:unless="${currentPage > 1}">Previous</span>
+
+                                &nbsp;&nbsp;
+
+                                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			<a th:if="${currentPage != i}" th:href="@{'customer/products/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+			<span th:unless="${currentPage != i}">[[${i}]]</span>
+			&nbsp;
+		</span>
+
+                                <a th:if="${currentPage < totalPages}" th:href="@{'customer/products/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                                <span th:unless="${currentPage < totalPages}">Next</span>
+                                &nbsp;&nbsp;
+
+                                <a th:if="${currentPage < totalPages}" th:href="@{'customer/products/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                                <span th:unless="${currentPage < totalPages}">Last</span>
+                            </div>
                         </div>
                     </div>
                 </div>

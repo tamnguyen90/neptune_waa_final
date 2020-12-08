@@ -1,6 +1,5 @@
 package edu.miu.cs.neptune.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -36,8 +35,8 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @ManyToMany
-    private List<Role> roles = new ArrayList<>();
+    @Enumerated (EnumType.STRING)
+    private Role role;
 
     @OneToMany
     private List<Bid> bids = new ArrayList<>();
@@ -143,18 +142,6 @@ public class User {
         this.address = address;
     }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
     public List<Bid> getBids() {
         return bids;
     }
@@ -165,5 +152,14 @@ public class User {
 
     public void addBid(Bid bid) {
         this.bids.add(bid);
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public User setRole(Role role) {
+        this.role = role;
+        return this;
     }
 }

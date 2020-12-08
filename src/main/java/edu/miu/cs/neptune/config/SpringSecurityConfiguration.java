@@ -23,7 +23,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/h2-console/**").permitAll()
                 .and().formLogin()
-                .loginPage("/login")
+                .loginPage("/login1")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll();

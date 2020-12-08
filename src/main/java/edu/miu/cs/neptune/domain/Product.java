@@ -1,7 +1,10 @@
 package edu.miu.cs.neptune.domain;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
     private String productName;
+    private Double productPrice;
+
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
+    private LocalDate uploadDate;
 
     @OneToMany
     private List<Image> imageList = new ArrayList<>();
@@ -106,6 +113,22 @@ public class Product {
 
     public void setPaymentDueDate(LocalDateTime paymentDueDate) {
         this.paymentDueDate = paymentDueDate;
+    }
+
+    public Double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(Double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public LocalDate getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(LocalDate uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     //    @Override
