@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@SessionAttributes({"username"})
 @Controller
 public class HomeController {
     @Autowired
@@ -17,9 +18,11 @@ public class HomeController {
     @Autowired
     UserVerificationService userVerificationService;
 
-    @GetMapping(value = {"/login1"})
-    public String getLogin() {
-        return "login";
+    @GetMapping(value = {"/login"})
+    public String getLogin(Model model) {
+        if (model.asMap().get("username") != null) {
+            return "forward:/";
+        } else return "login";
     }
 
     @PostMapping(value = {"/login"})
