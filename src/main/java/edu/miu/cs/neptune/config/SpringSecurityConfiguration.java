@@ -44,11 +44,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/users/create","/login", "/h2-console").permitAll()
-//                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/bidding/**","/bid/**").hasAuthority("BUYER")
                 .antMatchers("/seller/**").hasAuthority("SELLER")
                 .antMatchers("/customer/**").hasAuthority("BUYER")
-                //.anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
