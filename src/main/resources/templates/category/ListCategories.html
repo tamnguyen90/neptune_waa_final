@@ -20,6 +20,7 @@
                     <div class="table-responsive">
 <!--                        <table cellspacing="0" class="table table-bordered" id="dataTable"-->
 <!--                               th:if="${not #lists.isEmpty(categories)}" width="100%">-->
+                        <span th:text="${error}">ID</span>
                         <table>
                             <thead>
                             <tr>
@@ -30,15 +31,6 @@
 
                             </tr>
                             </thead>
-<!--                            <tfoot>-->
-<!--                            <tr>-->
-<!--                                <th> Category ID </th>-->
-<!--                                <th> Category Name </th>-->
-<!--                                <th> Category Description </th>-->
-<!--                                <th> Actions</th>-->
-
-<!--                            </tr>-->
-<!--                            </tfoot>-->
                             <tbody>
                             <tr th:each="category : ${categories}">
                                 <td><span th:text="${category.categoryId}"> Category ID </span></td>
@@ -56,27 +48,6 @@
                             </tr>
                             </tbody>
                         </table>
-<!--            <table>-->
-<!--                -->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                    <th> Category ID </th>-->
-<!--                    <th> Category Name </th>-->
-<!--                    <th> Category Description </th>-->
-
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr th:if="${categories.empty}">-->
-<!--                    <td colspan="2"> No Category Available </td>-->
-<!--                </tr>-->
-<!--                <tr th:each="category : ${categories}">-->
-<!--                    <td><span th:text="${category.categoryId}"> Category ID </span></td>-->
-<!--                    <td><span th:text="${category.categoryName}"> Category Name </span></td>-->
-<!--                    <td><span th:text="${category.categoryDescription}"> Category Description </span></td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
         </main>
         <th:block th:insert="fragments/footer :: footer"></th:block>
     </div>

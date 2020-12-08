@@ -20,6 +20,7 @@
             <fieldset>
                 <legend>Add an category</legend>
                 <p>
+                <span th:text="${error}">ID</span>
                 <ul th:if="${#fields.hasErrors('*')}">
                     <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input
                         is incorrect</li>
