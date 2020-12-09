@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
     <title>Pending Profile List</title>
@@ -15,13 +15,29 @@
     <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
     <div id="layoutSidenav_content">
         <main>
-            <div class="card mb-4">
+            <div class="container-fluid">
+                <h1 class="mt-4">Profiles</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="${'/admin'}">Admin</a></li>
+                    <li class="breadcrumb-item active">Profile Review</li>
+                </ol>
+                <div class="table-title" sec:authorize="hasAuthority('ADMIN')">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <h2></h2>
+                        </div>
+<!--                        <div class="col-sm-3">-->
+<!--                            <a class="btn btn-success" th:href="@{/users/create}"><i class="material-icons">&#xE147;</i>-->
+<!--                                <span>Add User</span></a>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+                <div class="card mb-4">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <!--                        <table cellspacing="0" class="table table-bordered" id="dataTable"-->
-                        <!--                               th:if="${not #lists.isEmpty(categories)}" width="100%">-->
                         <span th:text="${error}">ID</span>
-                        <table>
+                        <table cellspacing="0" class="table table-bordered" id="dataTable"
+                               th:if="${not #lists.isEmpty(users)}" width="100%">
                             <thead>
                             <tr>
                                 <th> Profile ID </th>
@@ -42,17 +58,24 @@
                                 <td><span th:text="${user.licenseNumber}"> License Number </span></td>
                                 <td><span th:text="${user.profileVerificationType}"> Status </span></td>
                                 <td>
-                                    <a class="edit" sec:authorize="hasAuthority('ADMIN')"
-                                       th:href="@{/categories/edit/{username}(username=${user.username})}">
+                                    <div th:switch="${user.profileVerificationType}">
+                                    <a th:case="${T(edu.miu.cs.neptune.domain.ProfileVerificationType).NEED_TO_VERIFY}"
+                                            class="edit" th:href="@{/admin/profile/verify/{userId}(userId=${user.userId})}">
                                         <i class="material-icons" data-toggle="tooltip"
-                                           title="Edit">&#xE254;</i></a>
-                                    <a class="delete" sec:authorize="hasAuthority('ADMIN')"
-                                       th:href="@{/categories/delete/{username}(username=${user.username})}">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                           title="Verify">visibility</i></a>
+                                    <a th:case="${T(edu.miu.cs.neptune.domain.ProfileVerificationType).FAILED}"
+                                            class="edit" th:href="@{/admin/profile/verify/{userId}(userId=${user.userId})}">
+                                        <i class="material-icons" data-toggle="tooltip"
+                                           title="Re-Verify">&#xE254;</i></a>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+            </div>
         </main>
         <th:block th:insert="fragments/footer :: footer"></th:block>
     </div>

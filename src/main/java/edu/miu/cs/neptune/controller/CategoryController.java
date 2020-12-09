@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/categories")
+@RequestMapping("/admin/categories")
 public class CategoryController {
 
     @Autowired
@@ -32,19 +31,19 @@ public class CategoryController {
         model.addAttribute("categories", categories);
 
 
-        return "category/ListCategories";
+        return "admin/ListCategories";
     }
 
     @GetMapping(value = "/create")
     public String inputCategory(@ModelAttribute("category") Category category) {
-        return "category/CategoryForm";
+        return "admin/CategoryForm";
     }
 
     @RequestMapping(value = "/save")
     public String saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult, Model model) {
         //handle validation errors
         if (bindingResult.hasErrors()) {
-            return "category/CategoryForm";
+            return "admin/CategoryForm";
         }
 
         String[] suppressedFields = bindingResult.getSuppressedFields();
@@ -58,10 +57,42 @@ public class CategoryController {
             categoryService.save(category);
         } catch (CategoryException e) {
             model.addAttribute("error",e.getMessage());
-            return "category/CategoryForm";
+            return "admin/CategoryForm";
         }
 
-        return "redirect:/categories";
+        return "redirect:/admin/categories";
+    }
+
+    @RequestMapping(value = "/update")
+    public String updateCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult, Model model) {
+        //handle validation errors
+        if (bindingResult.hasErrors()) {
+            return "admin/CategoryEditForm";
+        }
+
+        String[] suppressedFields = bindingResult.getSuppressedFields();
+        if (suppressedFields.length > 0) {
+            throw new RuntimeException("Attempt to bind fields that haven't been allowed in initBinder(): "
+                    + StringUtils.addStringToArray(suppressedFields, ", "));
+        }
+
+        //Call service to save category.
+        try {
+            categoryService.save(category);
+        } catch (CategoryException e) {
+            model.addAttribute("error",e.getMessage());
+            return "admin/CategoryEditForm";
+        }
+
+        return "redirect:/admin/categories";
+    }
+
+    @RequestMapping(value = "/edit/{categoryId}")
+    public String updateCategory(@PathVariable Long categoryId, Model model) {
+        Optional<Category> category = categoryService.findById(categoryId);
+
+        model.addAttribute("category", category.orElse(null));
+        return "/admin/CategoryEditForm";
     }
 
     @RequestMapping(value = "/delete/{categoryId}")
@@ -73,14 +104,6 @@ public class CategoryController {
             redirectAttributes.addFlashAttribute("error",e.getMessage());
         }
 
-        return "redirect:/categories";
-    }
-
-    @RequestMapping(value = "/edit/{categoryId}")
-    public String updateCategory(@PathVariable Long categoryId, Model model) {
-        Optional<Category> category = categoryService.findById(categoryId);
-
-        model.addAttribute("category", category.orElse(null));
-        return "/category/CategoryEditForm";
+        return "redirect:/admin/categories";
     }
 }

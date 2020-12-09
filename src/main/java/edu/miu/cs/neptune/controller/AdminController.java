@@ -30,12 +30,12 @@ public class AdminController {
     }
 
     //List not verified profile
-    @RequestMapping(value = "/profile_review_list")
+    @RequestMapping(value = "/profile/review_list")
     public String listPendingProfile(Model model) {
         List<User> users = userService.findAllPendingProfile();
         model.addAttribute("users", users);
 
-        return "admin/PendingProfileList";
+        return "admin/ListReviewProfiles";
     }
 
     //Handle request verify
@@ -53,7 +53,7 @@ public class AdminController {
             userService.saveUser(user);
         }
 
-        return "redirect:/admin/PendingProfileList";
+        return "redirect:/admin/profile/review_list";
     }
 
 
