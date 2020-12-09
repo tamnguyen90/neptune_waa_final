@@ -43,11 +43,8 @@ public class UserServiceImpl implements UserService {
     String verificationCode = generateService.generateCode();
     user.setVerificationCode(verificationCode);
     user.setVerificationCreationTime(LocalDateTime.now().plusMinutes(Constant.EXPIRE_MINUTE));
-    String mailTo = user.getEmail();
-    String mailFrom = "asdproject287@gmail.com";
     String mailSubject = "New Account notification";
-    String mailContent = "Please use this verification code: "+verificationCode+" to verify your account.";
-    mailService.sendEmail(mailFrom,mailTo,mailSubject,mailContent);
+    sendVerificationCode(mailSubject,user);
     User userNew = userRepository.save(user);
     userRepository.flush();
 
@@ -57,6 +54,19 @@ public class UserServiceImpl implements UserService {
 //    userVerification.setEndingTime(LocalDateTime.now().plusMinutes(Constant.EXPIRE_MINUTE));
 //    userVerificationService.save(userVerification);
     return userNew;
+  }
+
+  @Override
+  public User updateUser(User user) {
+    User userNew = userRepository.save(user);
+    userRepository.flush();
+    return userNew;
+  }
+
+  public void sendVerificationCode(String mailSubject, User user){
+    String mailFrom = "asdproject287@gmail.com";
+    String mailContent = "Please use this verification code: "+user.getVerificationCode()+" to verify your account.";
+    mailService.sendEmail(mailFrom,user.getEmail(),mailSubject,mailContent);
   }
 
   @Override

@@ -24,13 +24,13 @@ public class UserController {
     }
 
     @RequestMapping("/create")
-    public String getCreateUser(@ModelAttribute("user") User user, Model model) {
+    public String createUserGet(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("availableRoles", Arrays.asList(Role.values()));
         return "user/create";
     }
 
     @PostMapping(value = "/create")
-    public String postCreateUser(User user) {
+    public String createUserPost(User user) {
         userService.saveUser(user);
         return "redirect:/login";
     }

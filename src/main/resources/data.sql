@@ -1,7 +1,12 @@
 -- create sellers
-insert into users values (1,'user@miu',true,false,'tam', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 1,'BUYER',1, 'user', null,null,null);
-insert into users values (2,'user@miu',true,false, 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 1, 'BUYER',1, 'user1', null,null,null);
-insert into users values (3,'user@miu', true,false,'test2', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 1, 'SELLER',1, 'user2', null,null,null);
+insert into users values (1,'namco2011@gmail.com',true,false,'tam', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED','BUYER','VERIFIED', 'user', 'baon01',null,null);
+insert into users values (2,'namco2011@gmail.com',true,false, 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'user1', 'namn01',null,null);
+insert into users values (3,'namco2011@gmail.com', true,false,'test2', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'SELLER','NEED_TO_VERIFY', 'user2', 'tamn01',null,null);
+-- create buyers
+insert into users values (4,'bobby@miu.com',true,false, 'Bobby', false, 'Johnson', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'bobbyj','ganz01',null,null);
+insert into users values (5,'john@miu.com',true,false, 'John', false, 'Doe', '45678', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'johnd', 'hale01',null,null);
+insert into users values (6,'sam@miu.com',true,false, 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'samc', 'hale02',null,null);
+
 
 --cat data
 INSERT INTO CATEGORY VALUES (1, 'Phone', 'Phone');
@@ -55,13 +60,6 @@ INSERT INTO IMAGE VALUES (11, NULL , 'del2.jpg',2);
 INSERT INTO IMAGE VALUES (12, NULL , 'nexus2.jpg',3);
 INSERT INTO IMAGE VALUES (13, NULL , 'iphone7s_3.jpg',1);
 
--- create buyers
-insert into users (USER_ID, EMAIL, FIRST_NAME, IS_RESET_PASSWORD, LAST_NAME, LICENSE_NUMBER, PASSWORD, PROFILE_VERIFICATION_TYPE, ROLE, USERNAME, ADDRESS_ADDRESS_ID)
-                values (4,'bobby@miu.com', 'Bobby', false, 'Johnson', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 1, 'BUYER', 'bobbyj', null);
-insert into users (USER_ID, EMAIL, FIRST_NAME, IS_RESET_PASSWORD, LAST_NAME, LICENSE_NUMBER, PASSWORD, PROFILE_VERIFICATION_TYPE, ROLE, USERNAME, ADDRESS_ADDRESS_ID)
-                values (5,'john@miu.com', 'John', false, 'Doe', '45678', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 1, 'BUYER', 'johnd', null);
-insert into users (USER_ID, EMAIL, FIRST_NAME, IS_RESET_PASSWORD, LAST_NAME, LICENSE_NUMBER, PASSWORD, PROFILE_VERIFICATION_TYPE, ROLE, USERNAME, ADDRESS_ADDRESS_ID)
-                values (6,'sam@miu.com', 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 1, 'BUYER', 'samc', null);
 
 -- create bid for each user on product id: 247
 INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (101, 120, '2020-12-06 17:00:00', 247, 4);

@@ -63,8 +63,6 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-
-
     @OneToMany
     private List<Bid> bids = new ArrayList<>();
 
@@ -217,8 +215,10 @@ public class User {
         return failedVerificationCount;
     }
 
-    public User setFailedVerificationCount(Integer failedVerificationCount) {
-        this.failedVerificationCount = failedVerificationCount;
-        return this;
+    public void increaseFailedVerificationCount() {
+        this.failedVerificationCount +=1;
+    }
+    public void resetFailedVerificationCount() {
+        this.failedVerificationCount =0;
     }
 }

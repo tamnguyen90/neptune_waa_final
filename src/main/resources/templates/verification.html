@@ -1,5 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Neptune Auction System</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <body class="bg-primary">
 <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
@@ -9,20 +18,18 @@
                     <div class="col-lg-5">
                         <div class="card shadow-lg border-0 rounded-lg mt-5">
                             <div class="card-body">
-
                                 <form method="post" th:action="@{/verification}">
                                     <h3>Enter your verification code</h3>
                                     <div class="form-group">
                                         <input class="form-control py-4" name="verificationCode" placeholder="Enter verification code"
                                                type="text"/>
-                                        <input id="verify" type="submit" value="Verify"/>
+                                        <input id="verify" class="btn btn-primary" type="submit" value="Verify"/>
                                     </div>
                                 </form>
 
                                 <form method="post" th:action="@{/resendVerificationCode}">
-                                    <p>Enter your email below to resend verification code:</p>
-                                    <input type="hidden" id="email" name="email" th:value="*{email}" tabindex="1">
-                                    <input id="resendvc" type="submit" value="Resend verification code."/>
+<!--                                    <input type="hidden" id="email" name="email" th:value="*{userId}" tabindex="1">-->
+                                    <input id="resendvc" class="btn btn-primary" type="submit" value="Resend verification code."/>
                                 </form>
 
                             </div>

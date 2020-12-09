@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,15 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginController {
     @Autowired
     UserService userService;
-    @Autowired
-    UserVerificationService userVerificationService;
 
-   @GetMapping(value = "/login")
+    @GetMapping(value = "/login")
     public String loginGet(@RequestParam(value = "error", required = false) String error,
-                            @RequestParam(value = "logout", required = false) String logout,
-                            Model model) {
+                           @RequestParam(value = "logout", required = false) String logout,
+                           Model model) {
         String errorMessge = null;
-       System.out.println(error);
         if (error != null) {
             errorMessge = "Username or Password is incorrect !!";
         }
@@ -36,32 +34,58 @@ public class LoginController {
         model.addAttribute("errorMessge", errorMessge);
         return "login";
     }
-        @GetMapping(value = {"/postlogin"})
+
+    @GetMapping(value = {"/postlogin"})
     public String postLogin(Authentication authentication, Model model) {
         User user = userService.getByName(authentication.getName()).orElse(null);
-            System.out.println(user.getEmail());
-        if (user != null) {
-            UserVerification userVerification = userVerificationService.getByUserId(user.getUserId()).orElse(null);
-            if (userVerification != null && UserVerificationType.NEED_TO_VERIFY.equals(userVerification.getUserVerificationType())) {
-                return "verification";
-            } else return "redirect:/verification";
+//            System.out.println(user.getEmail());
+        if (user != null && UserVerificationType.NEED_TO_VERIFY.equals(user.getUserVerificationType())) {
+            model.addAttribute("userId", user.getUserId());
+            return "verification";
         } else {
-            return "redirect:/login";
+            return "redirect:/";
         }
     }
 
+    @PostMapping("/resendVerificationCode")
+    public String resendVerificationCodePost(Authentication authentication, Model model) {
+        User user = userService.getByName(authentication.getName()).orElse(null);
+//        System.out.println(user.getEmail());
+        String mailSubject = "Resend verification code";
+        userService.sendVerificationCode(mailSubject, user);
+        user.resetFailedVerificationCount();
+        userService.updateUser(user);
+        return "redirect:/login";
+    }
+
     @GetMapping("/verification")
-    public String getVerification() {
+    public String getVerification(Model model) {
         return "verification";
     }
 
     @PostMapping("/verification")
-    public String postVerification() {
-        return "verification";
+    public String postVerification(@RequestParam(value = "verificationCode", required = false) String verificationCode,
+                                   Authentication authentication,
+                                   Model model) {
+        User user = userService.getByName(authentication.getName()).orElse(null);
+        if (verificationCode != null && verificationCode.equals(user.getVerificationCode())) {
+            user.setUserVerificationType(UserVerificationType.VERIFIED);
+            userService.updateUser(user);
+            return "redirect:/";
+        } else if (user.getFailedVerificationCount() < 3) {
+            user.increaseFailedVerificationCount();
+            userService.updateUser(user);
+            return "redirect:/verification";
+        } else {
+            user.resetFailedVerificationCount();
+            userService.updateUser(user);
+            return "redirect:/login";
+        }
     }
 
+
     @GetMapping("/denied")
-    public String accessDenied(){
+    public String accessDenied() {
         return "accessDenied";
     }
 }
