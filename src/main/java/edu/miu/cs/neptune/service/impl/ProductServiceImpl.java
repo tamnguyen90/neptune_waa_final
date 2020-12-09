@@ -6,10 +6,7 @@ import edu.miu.cs.neptune.repository.CategoryRepository;
 import edu.miu.cs.neptune.repository.ProductRepository;
 import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,24 +25,7 @@ public class ProductServiceImpl implements ProductService {
         return Util.iterableToCollection(productRepository.findAll());
     }
 
-    @Override
-    public List<Product> findByName(String name) {
-        return productRepository.findProductsByProductName(name);
-    }
 
-
-//    @Override
-//    public List<Product> getProductsByCategory(String category) {
-//        return productRepository.findByCategories(category);
-//    }
-
-
-//
-//    @Override
-//    public List<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
-//        return productRepository.getProductsByFilter(filterParams);
-//    }
-//
     @Override
     public Product getProductById(Long productID) {
         return productRepository.getProductByProductId(productID);
@@ -63,6 +43,28 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(pageable);
 
     }
+
+    @Override
+    public Slice<Product> getProductsByCategoryId(Long id, int start, int end, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(start - 1, 5,
+                sortDir.equals("asc")? Sort.by(sortField).ascending():Sort.by(sortField).descending());
+
+        return productRepository.getProductsByCategoryId(id, pageable);
+    }
+
+    @Override
+    public List<Product> findProductsByProductNameContaining(String keyword) {
+        return productRepository.findProductsByProductNameContaining(keyword);
+    }
+
+
+    @Override
+    public Page<Product> findProductsByProductNameContains(String keyword, int pageNum, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum-1, 5,
+                sortDir.equals("asc")?Sort.by(sortField).ascending():Sort.by(sortField).descending());
+        return productRepository.findProductsByProductNameContains(keyword,pageable);
+    }
+
 
     @Override
     public Product save(Product product) {

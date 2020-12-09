@@ -7,11 +7,16 @@ import edu.miu.cs.neptune.service.ImageService;
 import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,6 +33,20 @@ public class CustomerController {
     @Autowired
     ImageService imageService;
 
+    public void general(Model model, Page<Product> page, int pageNum, String sortField, String sortDir){
+
+        List<Product> list = page.getContent();
+        System.out.println(list);
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        model.addAttribute("products", list);
+    }
 
     @GetMapping("products")
     public String viewHomePage(Model model) {
@@ -40,24 +59,43 @@ public class CustomerController {
                               @Param("sortField") String sortField,
                               @Param("sortDir") String sortDir){
         Page<Product> page = productService.listAll(pageNum, sortField, sortDir);
-        List<Product> list = page.getContent();
-        System.out.println(list);
-        model.addAttribute("currentPage", pageNum);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
+        general(model, page, pageNum, sortField, sortDir);
 
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-
-        model.addAttribute("products", list);
+//        Page<Product> page = productService.listAll(pageNum, sortField, sortDir);
+//        List<Product> list = page.getContent();
+//        System.out.println(list);
+//        model.addAttribute("currentPage", pageNum);
+//        model.addAttribute("totalPages", page.getTotalPages());
+//        model.addAttribute("totalItems", page.getTotalElements());
+//
+//        model.addAttribute("sortField", sortField);
+//        model.addAttribute("sortDir", sortDir);
+//        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+//
+//        model.addAttribute("products", list);
         //System.out.println(productService.getAll());
         return "customer/productList";
     }
     @GetMapping("category/products")
-
     public String listProductByCategory(@RequestParam("id") Long id, Model model){
-        System.out.println("category ID"+id);
+
+//    public String listProductByCategory(@RequestParam("id") Long id, Model model, @PathVariable(name = "startNum") int startNum,
+//                                        @Param("sortField") String sortField,
+//                                        @Param("sortDir") String sortDir){
+//        System.out.println("category ID"+id);
+//        Slice<Product> page = productService.getProductsByCategoryId(id,1,5, "productName", "asc");
+//        List<Product> list = page.getContent();
+//        model.addAttribute("startNum", startNum);
+//        model.addAttribute("next", page.hasNext());
+//        model.addAttribute("totalItems", page.getSize());
+//
+//        model.addAttribute("sortField", sortField);
+//        model.addAttribute("sortDir", sortDir);
+//        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+//
+//        model.addAttribute("products", list);
+//        Page<Product> page = productService.listAll(1, "firstName", "asc");
+//        general(model, page, 1, "firstName", "asc");
         List<Product> list = productService.getProductsByCategoryId(id);
         System.out.println("----------category list"+list.toString());
         model.addAttribute("products", list);
@@ -79,5 +117,17 @@ public class CustomerController {
         System.out.println(imageService.getImagesByProductId(productId));
         return "customer/product";
 //        return "fragments/sidenav_cus";
+    }
+    @RequestMapping("product_search")
+    public String  searchProducts( @Param ("keyword") String keyword, Model model){
+
+        Page<Product> page = productService.findProductsByProductNameContains(keyword, 1, "productName", "asc");
+
+        List<Product> list = page.getContent();
+        System.out.println(list);
+        general(model, page, 1, "productName", "asc");
+        model.addAttribute("products", list);
+        model.addAttribute("keyword", keyword);
+        return "customer/productList";
     }
 }

@@ -13,7 +13,7 @@
                     <li class="breadcrumb-item"><a th:href="${'/'}">Home</a></li>
                     <li class="breadcrumb-item active">Customer</li>
                 </ol>
-                <div class="">
+                <div class="align-content-center">
                     <h3>Product Information</h3>
                     Product Id: <span th:text="${product.productId}"></span>
                     <br/>
@@ -40,5 +40,13 @@
     </div>
 </div>
 <th:block th:insert="fragments/scripts"></th:block>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/products_search}]]";
+    }
+    function clearCache() {
+        window.location = "[[@{/products}]]";
+    }
+</script>
 </body>
 </html>
