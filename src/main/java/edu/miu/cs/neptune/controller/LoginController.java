@@ -41,7 +41,7 @@ public class LoginController {
 //            System.out.println(user.getEmail());
         if (user != null && UserVerificationType.NEED_TO_VERIFY.equals(user.getUserVerificationType())) {
             model.addAttribute("userId", user.getUserId());
-            return "verification";
+            return "redirect:/verification";
         } else {
             return "redirect:/";
         }
