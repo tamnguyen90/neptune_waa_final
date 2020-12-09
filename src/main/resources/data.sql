@@ -72,7 +72,7 @@ INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (5, 102);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 103);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (6, 104);
 
-
+INSERT INTO DMV VALUES (1, 'user@miu', 'test1', 'nguyen', '12345');
 
 
 
