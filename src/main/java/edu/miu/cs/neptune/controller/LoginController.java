@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+
 @Controller
 public class LoginController {
     @Autowired
@@ -39,7 +41,7 @@ public class LoginController {
     @GetMapping(value = {"/postlogin"})
     public String postLogin(Authentication authentication, Model model) {
         User user = userService.getByName(authentication.getName()).orElse(null);
-            System.out.println(user.getEmail());
+        System.out.println(user.getEmail());
         if (user != null && UserVerificationType.NEED_TO_VERIFY.equals(user.getUserVerificationType())) {
             model.addAttribute("userId", user.getUserId());
             return "redirect:/verification";
@@ -49,17 +51,16 @@ public class LoginController {
     }
 
     @GetMapping("/index")
-    public String getIndex(Model model){
+    public String getIndex(Model model) {
         return "index";
     }
 
     @PostMapping("/resendVerificationCode")
     public String resendVerificationCodePost(Authentication authentication, Model model) {
         User user = userService.getByName(authentication.getName()).orElse(null);
-//        System.out.println(user.getEmail());
         String mailSubject = "Resend verification code";
+        userService.generateVerificationCode(user);
         userService.sendVerificationCode(mailSubject, user);
-        user.resetFailedVerificationCount();
         userService.updateUser(user);
         return "redirect:/login";
     }
@@ -74,7 +75,9 @@ public class LoginController {
                                    Authentication authentication,
                                    Model model) {
         User user = userService.getByName(authentication.getName()).orElse(null);
-        if (verificationCode != null && verificationCode.equals(user.getVerificationCode())) {
+        if (verificationCode != null && user.getVerificationCreationTime().isBefore(LocalDateTime.now())) {
+            return "redirect:/login";
+        } else if (verificationCode != null && verificationCode.equals(user.getVerificationCode())) {
             user.setUserVerificationType(UserVerificationType.VERIFIED);
             userService.updateUser(user);
             return "redirect:/index";
@@ -88,7 +91,6 @@ public class LoginController {
             return "redirect:/login";
         }
     }
-
 
     @GetMapping("/denied")
     public String accessDenied() {

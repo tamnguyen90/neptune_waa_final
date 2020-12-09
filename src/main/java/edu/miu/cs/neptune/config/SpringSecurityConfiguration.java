@@ -54,10 +54,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/users/create","/login", "/h2-console").permitAll()
-//                .antMatchers("/bidding/**","/bid/**").hasAuthority("BUYER")
-//                .antMatchers("/seller/**").hasAuthority("SELLER")
-//                .antMatchers("/customer/**").hasAuthority("BUYER")
+                .antMatchers("/users/create","/users/resetPassword","/login", "/h2-console").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -69,10 +66,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 redirectStrategy.sendRedirect(request, response, "/postlogin");
             }
         })
-//                .defaultSuccessUrl("/postlogin")
                 .failureUrl("/login?error=true")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
                 .and()
                 .exceptionHandling().accessDeniedPage("/denied");;
         //Those two settings below is to enable access h2 database via browser
