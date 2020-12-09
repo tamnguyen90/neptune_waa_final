@@ -12,4 +12,5 @@ public interface AuctionFacade {
     Auction closeAuction(Long auctionId);
     boolean returnDeposit(Long auctionId);
     User winner(Long auctionId);
+    Bid getTheHighestBid(Auction auction);
 }
