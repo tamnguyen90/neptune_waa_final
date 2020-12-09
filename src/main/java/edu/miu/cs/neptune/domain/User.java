@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,22 +30,19 @@ public class User {
     private String lastName = "Nguyen";
 //    @NotBlank
     private String licenseNumber;
+    @Enumerated (EnumType.STRING)
     private ProfileVerificationType profileVerificationType = ProfileVerificationType.VERIFIED;
-    private Boolean isResetPassword;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
-
+    private String verificationCode = null;
+    @Enumerated (EnumType.STRING)
+    private UserVerificationType userVerificationType = UserVerificationType.NEED_TO_VERIFY;
+    private LocalDateTime verificationCreationTime = LocalDateTime.now();
+    private Integer failedVerificationCount = 0;
+    private Boolean isResetPassword = false;
+    private Boolean enable = true;
     @Enumerated (EnumType.STRING)
     private Role role;
 
-    @OneToMany
-    private List<Bid> bids = new ArrayList<>();
-
-    @OneToMany
-    private List<Product> products = new ArrayList<>();
-
-    public User(Long userId, @NotBlank String username, @Email @NotBlank String email, @NotBlank String password, @NotBlank String firstName, @NotBlank String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, Boolean isResetPassword, Address address) {
+    public User(Long userId, @NotBlank String username, @Email @NotBlank String email, @NotBlank String password, @NotBlank String firstName, @NotBlank String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, String verificationCode, UserVerificationType userVerificationType, LocalDateTime verificationCreationTime, Integer failedVerificationCount, Boolean isResetPassword, Boolean enable, Role role) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -53,10 +51,24 @@ public class User {
         this.lastName = lastName;
         this.licenseNumber = licenseNumber;
         this.profileVerificationType = profileVerificationType;
+        this.verificationCode = verificationCode;
+        this.userVerificationType = userVerificationType;
+        this.verificationCreationTime = verificationCreationTime;
+        this.failedVerificationCount = failedVerificationCount;
         this.isResetPassword = isResetPassword;
-        this.address = address;
-
+        this.enable = enable;
+        this.role = role;
     }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+
+    @OneToMany
+    private List<Bid> bids = new ArrayList<>();
+
+    @OneToMany
+    private List<Product> products = new ArrayList<>();
+
 
     public List<Product> getProducts() {
         return products;
@@ -161,5 +173,52 @@ public class User {
     public User setRole(Role role) {
         this.role = role;
         return this;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public User setEnable(Boolean enable) {
+        this.enable = enable;
+        return this;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public User setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+        return this;
+    }
+
+    public UserVerificationType getUserVerificationType() {
+        return userVerificationType;
+    }
+
+    public User setUserVerificationType(UserVerificationType userVerificationType) {
+        this.userVerificationType = userVerificationType;
+        return this;
+    }
+
+    public LocalDateTime getVerificationCreationTime() {
+        return verificationCreationTime;
+    }
+
+    public User setVerificationCreationTime(LocalDateTime verificationCreationTime) {
+        this.verificationCreationTime = verificationCreationTime;
+        return this;
+    }
+
+    public Integer getFailedVerificationCount() {
+        return failedVerificationCount;
+    }
+
+    public void increaseFailedVerificationCount() {
+        this.failedVerificationCount +=1;
+    }
+    public void resetFailedVerificationCount() {
+        this.failedVerificationCount =0;
     }
 }
