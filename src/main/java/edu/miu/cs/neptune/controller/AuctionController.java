@@ -27,8 +27,8 @@ public class AuctionController {
     @Autowired
     PaypalService paypalService;
 
-    public static final String SUCCESS_URL = "auction/pay/success";
-    public static final String CANCEL_URL = "auction/pay/cancel";
+    public static final String SUCCESS_URL = "/pay/success";
+    public static final String CANCEL_URL = "/pay/cancel";
 
 
     @Autowired
@@ -60,14 +60,14 @@ public class AuctionController {
         return "bidHistory";
     }
 
-    @GetMapping(value = "/auction")
+    @GetMapping(value = "/")
     public String showAllAuctions(Model model) {
         model.addAttribute("auctions", auctionService.getAllByUserId(4L));
         return "auctionHistory";
     }
 
     // review before payment, should provide shipping address
-    @GetMapping(value = "/auction/pay")
+    @GetMapping(value = "/pay")
     public String beforePayment(@RequestParam String auctionId, Model model) {
         AuctionOrder auctionOrder =  paypalService.getAuctionOrder(Long.parseLong(auctionId));
         if (auctionOrder==null) {
@@ -79,13 +79,13 @@ public class AuctionController {
         return "reviewPayment";
     }
 
-    @PostMapping(value = "/auction/pay")
+    @PostMapping(value = "/pay")
     public String doPayment(@ModelAttribute("order") AuctionOrder auctionOrder) {
 
         System.out.println(auctionOrder);
         try {
             Payment payment = paypalService.createPayment(auctionOrder.getPrice(), auctionOrder.getCurrency(), auctionOrder.getMethod(), auctionOrder.getIntent(),
-                    auctionOrder.getDescription(), "http://localhost:9999/"+CANCEL_URL, "http://localhost:9999/"+SUCCESS_URL);
+                    auctionOrder.getDescription(), "http://localhost:9999/auction"+CANCEL_URL, "http://localhost:9999/auction"+SUCCESS_URL);
             for(Links link : payment.getLinks()) {
                 if (link.getRel().equals("approval_url")) {
                     return "redirect:"+link.getHref();
