@@ -40,7 +40,7 @@ public class Product {
     private List<Category> categories = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "auction_id", referencedColumnName = "auctionId")
+    @JoinColumn(name = "auction_id")
     private Auction auction;
 
     public List<Image> getDbImages() {

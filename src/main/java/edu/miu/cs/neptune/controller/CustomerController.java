@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 
@@ -74,6 +75,8 @@ public class CustomerController {
     }
     @GetMapping("category/products")
     public String listProductByCategory(@RequestParam("id") Long id, Model model){
+//        Page<Product> page = productService.listAll(pageNum, sortField, sortDir);
+//        general(model, page, pageNum, sortField, sortDir);
 
 //    public String listProductByCategory(@RequestParam("id") Long id, Model model, @PathVariable(name = "startNum") int startNum,
 //                                        @Param("sortField") String sortField,
@@ -96,13 +99,14 @@ public class CustomerController {
         System.out.println("----------category list"+list.toString());
         model.addAttribute("products", list);
 //        return list;
-        return "customer/productList";
+        return "customer/productsByCategory";
     }
 
     @GetMapping("categories")
     public String listCategory(Model model){
         model.addAttribute("categories", categoryService.getAll());
 //        return "customer/categoryList";
+        model.addAttribute("searchURL", "/customer/products");
         return "customer/categoryList";
     }
     @GetMapping("product")
@@ -120,18 +124,22 @@ public class CustomerController {
         model.addAttribute("product", product);
         model.addAttribute("categories", categoryName);
         model.addAttribute("images", product.getDbImages());
+        model.addAttribute("searchURL", "/customer/products");
+        System.out.println(product.getDbImages());
         return "customer/product";
 //        return "fragments/sidenav_cus";
     }
 
     @RequestMapping("product_search")
-    public String  searchProducts( @Param ("keyword") String keyword, Model model){
-
-        Page<Product> page = productService.findProductsByProductNameContains(keyword, 1, "productName", "asc");
+    public String  searchProducts( @RequestParam("keyword") String keyword, @RequestParam("param") Integer pageNum, Model model){
+        System.out.println(pageNum);
+        String key=keyword.toLowerCase();
+        System.out.println(key);
+        Page<Product> page = productService.findProductsByProductNameContains(keyword, pageNum, "productName", "asc");
 
         List<Product> list = page.getContent();
         System.out.println(list);
-        general(model, page, 1, "productName", "asc");
+        general(model, page, pageNum, "productName", "asc");
         model.addAttribute("products", list);
         model.addAttribute("keyword", keyword);
         return "customer/productList";

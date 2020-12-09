@@ -74,14 +74,12 @@ public class AuctionFacadeImpl implements AuctionFacade {
         if (currentAuction.getEndDate().isBefore(LocalDateTime.now())) {
             currentAuction.setAuctionStatus(AuctionStatus.ENDED);
             if (currentAuction.getBids().size() > 0) {
-                Bid highest = currentAuction.getBids()
-                        .stream()
-                        .max((bid1, bid2) -> bid1.getBiddingAmount().compareTo(bid2.getBiddingAmount()))
-                        .get();
+                Bid highest = getTheHighestBid(currentAuction);
                 currentAuction.setWinnerId(highest.getBidder().getUserId());
                 //TODO Send a notification email to seller and winner
             }
         }
+        auctionService.save(currentAuction);
         return currentAuction;
     }
 
@@ -112,5 +110,22 @@ public class AuctionFacadeImpl implements AuctionFacade {
         }
         Long winnerId = optAuction.get().getWinnerId();
         return userService.getById(winnerId).orElse(null);
+    }
+
+    @Override
+    public Bid getTheHighestBid(Auction auction) {
+        if (auction == null) {
+            throw new ObjectNotFoundException("The auction is not found.");
+        }
+
+        Bid highest = null;
+        if (auction.getBids().size() > 0) {
+            highest = auction.getBids()
+                    .stream()
+                    .max((bid1, bid2) -> bid1.getBiddingAmount().compareTo(bid2.getBiddingAmount()))
+                    .get();
+
+        }
+        return highest;
     }
 }

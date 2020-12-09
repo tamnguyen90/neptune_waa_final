@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <th:block th:insert="fragments/head_crud"></th:block>
+
+<!--<script type="text/javascript" th:src="@{/js/cart.js}"></script>-->
 <body class="sb-nav-fixed">
 <th:block th:insert="fragments/navbar :: navbar"></th:block>
 <div id="layoutSidenav">
@@ -18,6 +20,10 @@
                         <div class="col-sm-9">
                             <h2></h2>
                         </div>
+                        <!--                        <div class="col-sm-3">-->
+                        <!--                            <a class="btn btn-success" th:href="@{/users/create}"><i class="material-icons">&#xE147;</i>-->
+                        <!--                                <span>Add User</span></a>-->
+                        <!--                        </div>-->
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -36,6 +42,7 @@
                                     <th>
                                         <a th:href="@{${currentPage} + '?sortField=productDescription&sortDir=' + ${reverseSortDir}}" >Product Description</a>
                                     </th>
+                                    <!--                                    <th>Product Image</th>-->
 
                                     <th>
                                         <a th:href="@{${currentPage} + '?sortField=productPrice&sortDir=' + ${reverseSortDir}}" >Price</a>
@@ -52,18 +59,19 @@
                                     <td th:text="${product.productId}">Tiger Nixon</td>
                                     <td th:text="${product.productName}">System Architect</td>
                                     <td th:text="${product.productDescription}">Edinburgh</td>
+                                    <!--                                    <td th:text="${product.imageList}">Edinburgh</td>-->
                                     <td th:text="${product.productPrice}">Edinburgh</td>
                                     <td th:text="${product.uploadDate}">Edinburgh</td>
                                     <td><a th:href="@{/customer/product(id=${product.productId})}" class="btn ui-state-default">View Product Details</a></td>
-<!--                                    <td>-->
-<!--                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"-->
-<!--                                           th:href="@{/users/edit/{username}(username=${user.username})}">-->
-<!--                                            <i class="material-icons" data-toggle="tooltip"-->
-<!--                                               title="Edit">&#xE254;</i></a>-->
-<!--                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"-->
-<!--                                           th:href="@{/users/delete/{username}(username=${user.username})}">-->
-<!--                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
-<!--                                    </td>-->
+                                    <!--                                    <td>-->
+                                    <!--                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"-->
+                                    <!--                                           th:href="@{/users/edit/{username}(username=${user.username})}">-->
+                                    <!--                                            <i class="material-icons" data-toggle="tooltip"-->
+                                    <!--                                               title="Edit">&#xE254;</i></a>-->
+                                    <!--                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"-->
+                                    <!--                                           th:href="@{/users/delete/{username}(username=${user.username})}">-->
+                                    <!--                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
+                                    <!--                                    </td>-->
                                 </tr>
                                 </tbody>
                             </table>
@@ -87,7 +95,7 @@
 			                    <a th:if="${currentPage != i}" th:href="@{ ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
 			                    <span th:unless="${currentPage != i}">[[${i}]]</span>
 			&nbsp;
-                                </span>
+		                        </span>
 
                                 <a th:if="${currentPage < totalPages}" th:href="@{${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
                                 <span th:unless="${currentPage < totalPages}">Next</span>
