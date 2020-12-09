@@ -40,11 +40,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void delete(Long id) {
-        if(categoryRepository.countProductsByCategoryId(id)>0) {
+    public void delete(Long categoryId) {
+        if(categoryRepository.countProductsByCategoryId(categoryId)>0) {
             throw new CategoryException("There are products belong to the category");
         }
-        categoryRepository.deleteById(id);
+        categoryRepository.deleteById(categoryId);
     }
 
     @Override

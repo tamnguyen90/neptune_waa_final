@@ -46,19 +46,22 @@ INSERT INTO PRODUCT (PRODUCT_ID,CATEGORY_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTI
             VALUES(3,3, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7',90, 1,'2020-09-26', 249, 3);
 
 --image data
-INSERT INTO IMAGE VALUES (1, NULL , 'iphone6s.jpg',4);
-INSERT INTO IMAGE VALUES (2, NULL , 'dell_1.jpg',8);
-INSERT INTO IMAGE VALUES (3, NULL , 'nexus.jpg',3);
-INSERT INTO IMAGE VALUES (4, NULL , 'iphone7s_2.jpg',1);
-INSERT INTO IMAGE VALUES (5, NULL , 'del2.jpg',2);
-INSERT INTO IMAGE VALUES (6, NULL , 'nexus2.jpg',9);
-INSERT INTO IMAGE VALUES (7, NULL , 'iphone12.jpeg',7);
-INSERT INTO IMAGE VALUES (8, NULL , 'dell2020.jpg',5);
-INSERT INTO IMAGE VALUES (9, NULL , 'nexus.jpg',6);
-INSERT INTO IMAGE VALUES (10, NULL , 'iphone12_2.png',4);
-INSERT INTO IMAGE VALUES (11, NULL , 'del2.jpg',2);
-INSERT INTO IMAGE VALUES (12, NULL , 'nexus2.jpg',3);
-INSERT INTO IMAGE VALUES (13, NULL , 'iphone7s_3.jpg',1);
+INSERT INTO IMAGE VALUES (1, 'iphone6s.jpg');
+INSERT INTO IMAGE VALUES (2, 'dell_1.jpg');
+INSERT INTO IMAGE VALUES (3, 'nexus.jpg');
+INSERT INTO IMAGE VALUES (4,  'iphone7s_2.jpg');
+INSERT INTO IMAGE VALUES (5,  'del2.jpg');
+INSERT INTO IMAGE VALUES (6,  'nexus2.jpg');
+INSERT INTO IMAGE VALUES (7,  'iphone12.jpeg');
+INSERT INTO IMAGE VALUES (8,  'dell2020.jpg');
+INSERT INTO IMAGE VALUES (9,  'nexus.jpg');
+INSERT INTO IMAGE VALUES (10,  'iphone12_2.png');
+INSERT INTO IMAGE VALUES (11,  'del2.jpg');
+INSERT INTO IMAGE VALUES (12,  'nexus2.jpg');
+INSERT INTO IMAGE VALUES (13,  'iphone7s_3.jpg');
+
+INSERT INTO PRODUCT_DB_IMAGES VALUES(8, 2);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(8, 5);
 
 
 -- create bid for each user on product id: 247

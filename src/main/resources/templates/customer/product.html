@@ -13,25 +13,31 @@
                     <li class="breadcrumb-item"><a th:href="${'/customer/products'}">Home</a></li>
                     <li class="breadcrumb-item active">Customer</li>
                 </ol>
-                <div class="align-content-center">
-                    <h3>Product Information</h3>
-                    Product Id: <span th:text="${product.productId}"></span>
-                    <br/>
-                    Product Name: <span th:text="${product.productName}"></span>
-                    <br/>
-                    Product Description: <span th:text="${product.productDescription}"></span>
-                    <br/>
-                    <!--                                    <td th:text="${product.imageList}">Edinburgh</td>-->
-                    Product Price: <span th:text="${product.productPrice}"></span>
-                    <br/>
-                    Product Category:<span th:text="${categories}">
-                    <br/>
-                    Product Upload Day: <span th:text="${product.uploadDate}"></span>
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <h2></h2>
+                        </div>
+                    </div>
                 </div>
-                <div th:each="image : ${images}">
-
-
-<!--                    <img  th:src="@{'/images/'+${image}}" />-->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="align-content-center">
+                            <h3>Product Information</h3>
+                            Product Id: <span th:text="${product.productId}"></span>
+                            <br/>
+                            Product Name: <span th:text="${product.productName}"></span>
+                            <br/>
+                            Product Description: <span th:text="${product.productDescription}"></span>
+                            <br/>
+                            <!--                                    <td th:text="${product.imageList}">Edinburgh</td>-->
+                            Product Price: <span th:text="${product.productPrice}"></span>
+                            <br/>
+                            Product Category:<span th:text="${categories}"></span>
+                            <br/>
+                            Product Upload Day: <span th:text="${product.uploadDate}"></span>
+                        </div>
+                        <div th:each="image : ${images}">
 
                     <img th:src="@{${'/ProductImages/' + image.name}}" width="200px" height="200px"/>
 

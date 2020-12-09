@@ -70,12 +70,12 @@ public class ProductController {
 
     @PostMapping("/saveProduct")
     //@PreAuthorize("hasRole('Seller')")
-    public String saveProduct(@ModelAttribute("product") Product newProduct, BindingResult result) {
+    public String saveProduct(Product product, BindingResult result) {
         if (result.hasErrors()) {
             return "product/ProductForm";
         }
 
-        List<MultipartFile> images = newProduct.getImages();
+        List<MultipartFile> images = product.getImages();
         Long now = System.currentTimeMillis();
         if (images != null && !images.isEmpty()) {
             try {
@@ -85,14 +85,14 @@ public class ProductController {
                     String uploadDir = "ProductImages/";
                     String fileName = now + "_" + ++count + ".png";
                     Util.saveFile(uploadDir, fileName, image);
-                    newProduct.addDbImage(new Image(fileName));
+                    product.addDbImage(new Image(fileName));
                 }
             } catch (Exception ex) {
                 throw new RuntimeException("Product image was saving failed", ex);
             }
         }
 
-        productService.save(newProduct);
+        productService.save(product);
 
         return "user/SellerDetails";
     }

@@ -1,5 +1,7 @@
 package edu.miu.cs.neptune.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -11,8 +13,13 @@ public class Auction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long auctionId;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime beginDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endDate;
+
     private AuctionStatus auctionStatus;
     private Double beginPrice;
     private Long winnerId;
@@ -97,5 +104,17 @@ public class Auction implements Serializable {
 
     public void setShippingStatus(ShippingStatus shippingStatus) {
         this.shippingStatus = shippingStatus;
+    }
+
+    public void setBeginDate(LocalDateTime beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setBeginPrice(Double beginPrice) {
+        this.beginPrice = beginPrice;
     }
 }
