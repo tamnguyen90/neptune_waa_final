@@ -18,6 +18,9 @@ import java.util.Map;
 public interface ProductRepository extends JpaRepository<Product, Long>{
     List<Product> findAll();
 //    Page<Product> listAll(int pageNum, String sortField, String sortDir);
+
+//    @Query(value = "SELECT p FROM Product p WHERE UPPER(p.productName) = UPPER(?1)")
+    @Query(value = "SELECT p FROM Product p WHERE p.productName like ?1")
     Page<Product> findProductsByProductNameContains(String name, Pageable pageable);
     Slice<Product> getProductsByCategoryId(Long id, Pageable pageable);
     Product getProductByProductId(Long id);
