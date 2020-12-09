@@ -1,5 +1,6 @@
 package edu.miu.cs.neptune.service;
 
+import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,6 @@ public interface ProductService {
 
     List<Product> findProductsByProductNameContaining(String keyword);
     Page<Product> findProductsByProductNameContains(String keyword, int pageNum, String sortField, String sortDir);
-
+    List<Category> findByCategoryId(Long id);
     Product save(Product product);
 }

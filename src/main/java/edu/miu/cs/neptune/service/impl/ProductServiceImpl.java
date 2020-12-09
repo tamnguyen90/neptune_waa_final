@@ -1,6 +1,7 @@
 package edu.miu.cs.neptune.service.impl;
 
 import edu.miu.cs.neptune.Util.Util;
+import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
 import edu.miu.cs.neptune.repository.CategoryRepository;
 import edu.miu.cs.neptune.repository.ProductRepository;
@@ -63,6 +64,11 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNum-1, 5,
                 sortDir.equals("asc")?Sort.by(sortField).ascending():Sort.by(sortField).descending());
         return productRepository.findProductsByProductNameContains(keyword,pageable);
+    }
+
+    @Override
+    public List<Category> findByCategoryId(Long id) {
+        return productRepository.findByCategoryId(id);
     }
 
 

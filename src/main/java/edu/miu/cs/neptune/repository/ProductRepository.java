@@ -20,7 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 //    Page<Product> listAll(int pageNum, String sortField, String sortDir);
     Page<Product> findProductsByProductNameContains(String name, Pageable pageable);
     Slice<Product> getProductsByCategoryId(Long id, Pageable pageable);
-
     Product getProductByProductId(Long id);
 
 
@@ -29,8 +28,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 //    List<Product> getProductsByCategoryID(@Param("id") long id);
 
     List<Product> getProductsByCategoryId(Long id);
-    @Query(value = "SELECT p FROM Product p WHERE p.productName like %:keyword%")
+//    @Query(value = "SELECT p FROM Product p WHERE p.productName like %:keyword%")
     List<Product> findProductsByProductNameContaining(String keyword);
+    List<Category> findByCategoryId(Long id);
 
 
 

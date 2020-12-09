@@ -112,7 +112,16 @@ public class CustomerController {
     @GetMapping("product")
     public String getProductById(@RequestParam("id") Long productId, Model model){
         System.out.println("product ID: " + productId);
+        List<Category> categories = categoryService.getAll();
+        System.out.println(categories + "cate list");
+        StringBuilder categoryName = new StringBuilder();
+        for (Category cat:categories){
+            if(cat.getCategoryId()==productService.getProductById(productId).getCategoryId()){
+                categoryName.append(cat.getCategoryName()+ " ");
+            }
+        }
         model.addAttribute("product", productService.getProductById(productId));
+        model.addAttribute("categories", categoryName);
         model.addAttribute("images", imageService.getImagesByProductId(productId));
         System.out.println(imageService.getImagesByProductId(productId));
         return "customer/product";
