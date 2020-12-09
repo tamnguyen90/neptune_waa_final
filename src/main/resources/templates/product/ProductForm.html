@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Add a Product</title>
+    <title>Category</title>
 </head>
 <body>
-
+<section>
+    <a href="/">Back to Home</a>
+</section>
+<th:block th:insert="fragments/head_crud"></th:block>
+<body class="sb-nav-fixed">
+<th:block th:insert="fragments/navbar :: navbar"></th:block>
+<div id="layoutSidenav">
+    <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
+    <div id="layoutSidenav_content">
+        <main>
+            <div id="global">
+                <form action="#" th:action="@{/product/saveProduct}" th:object="${product}" method="post" enctype="multipart/form-data">
+                    <fieldset>
+                        <legend>Add a Product</legend>
+                        <p>
+                        <ul th:if="${#fields.hasErrors('*')}">
+                            <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input
+                                is incorrect</li>
+                        </ul>
+                        </p>
+                        <p>
+                            <label for="id">Name: </span></label>
+                            <input type="text" id="id" th:field="*{productName}" />
+                        <p th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" th:errorclass="fieldError">Incorrect name</p>
+                        </p>
+                        <p>
+                            <label for="name">Price</label>
+                            <input type="text" id="name" th:field="*{productPrice}" />
+                        <p th:if="${#fields.hasErrors('productPrice')}" th:errors="*{productPrice}" th:errorclass="fieldError">Incorrect price</p>
+                        </p>
+                        <p>
+                            <label for="description">Description</label>
+                            <input type="text" id="description" th:field="*{productDescription}" />
+                        <p th:if="${#fields.hasErrors('productDescription')}" th:errors="*{productDescription}" th:errorclass="fieldError">Incorrect description</p>
+                        </p>
+                        <p>
+                            <label for="categories">Categories </label>
+                            <select id="categories" th:field="*{categories}" multiple="multiple">
+                                <option th:each="category: ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}">
+                                </option>
+                            </select>
+                        </p>
+                        <p>
+                            <label>Images</label>
+                            <input type="file" multiple="multiple" th:field="*{images}" accept="image/png, image/jpeg">
+                        </p>
+                        <p id="buttons">
+                            <input id="reset" type="reset" tabindex="4">
+                            <input id="submit" type="submit" tabindex="5" value="Add Product">
+                        </p>
+                    </fieldset>
+                </form>
+            </div>
+        </main>
+        <th:block th:insert="fragments/footer :: footer"></th:block>
+    </div>
+</div>
+<th:block th:insert="fragments/scripts"></th:block>
 </body>
 </html>

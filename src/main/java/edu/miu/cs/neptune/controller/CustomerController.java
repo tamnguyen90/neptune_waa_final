@@ -3,7 +3,6 @@ package edu.miu.cs.neptune.controller;
 import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
 import edu.miu.cs.neptune.service.CategoryService;
-import edu.miu.cs.neptune.service.ImageService;
 import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,9 +28,6 @@ public class CustomerController {
 
     @Autowired
     CategoryService categoryService;
-
-    @Autowired
-    ImageService imageService;
 
     public void general(Model model, Page<Product> page, int pageNum, String sortField, String sortDir){
 
@@ -113,20 +109,21 @@ public class CustomerController {
     public String getProductById(@RequestParam("id") Long productId, Model model){
         System.out.println("product ID: " + productId);
         List<Category> categories = categoryService.getAll();
+        Product product = productService.getProductById(productId);
         System.out.println(categories + "cate list");
         StringBuilder categoryName = new StringBuilder();
         for (Category cat:categories){
-            if(cat.getCategoryId()==productService.getProductById(productId).getCategoryId()){
+            if(cat.getCategoryId()==product.getCategoryId()){
                 categoryName.append(cat.getCategoryName()+ " ");
             }
         }
-        model.addAttribute("product", productService.getProductById(productId));
+        model.addAttribute("product", product);
         model.addAttribute("categories", categoryName);
-        model.addAttribute("images", imageService.getImagesByProductId(productId));
-        System.out.println(imageService.getImagesByProductId(productId));
+        model.addAttribute("images", product.getDbImages());
         return "customer/product";
 //        return "fragments/sidenav_cus";
     }
+
     @RequestMapping("product_search")
     public String  searchProducts( @Param ("keyword") String keyword, Model model){
 

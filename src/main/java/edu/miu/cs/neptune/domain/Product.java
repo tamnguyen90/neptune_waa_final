@@ -27,11 +27,14 @@ public class Product {
     private ProductStatus productStatus;
     private LocalDateTime paymentDueDate;
 
-    @OneToOne
+    @ManyToOne
     private User seller;
 
     @Transient
-    private List<MultipartFile> imageList = new ArrayList<>();
+    private List<MultipartFile> images = new ArrayList<>();
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Image> dbImages =  new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<Category> categories = new ArrayList<>();
@@ -39,6 +42,18 @@ public class Product {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "auction_id", referencedColumnName = "auctionId")
     private Auction auction;
+
+    public List<Image> getDbImages() {
+        return dbImages;
+    }
+
+    public void setDbImages(List<Image> dbImages) {
+        this.dbImages = dbImages;
+    }
+
+    public void addDbImage(Image dbImage) {
+        this.dbImages.add(dbImage);
+    }
 
     public List<Category> getCategories() {
         return categories;
@@ -76,16 +91,16 @@ public class Product {
         this.productName = productName;
     }
 
-    public List<MultipartFile> getImageList() {
-        return imageList;
+    public List<MultipartFile> getImages() {
+        return images;
     }
 
-    public void setImageList(List<MultipartFile> imageList) {
-        this.imageList = imageList;
+    public void setImages(List<MultipartFile> images) {
+        this.images = images;
     }
 
     public void addImage(MultipartFile image) {
-        this.imageList.add(image);
+        this.images.add(image);
     }
 
     public String getProductDescription() {
