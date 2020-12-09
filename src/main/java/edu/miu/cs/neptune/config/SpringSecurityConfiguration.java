@@ -9,10 +9,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.IOException;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
@@ -29,6 +37,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("select username, role from users  where username=?")
     private String rolesQuery;
 
+
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
@@ -42,21 +53,28 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/users/create","/login", "/h2-console").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/users/create","/login", "/h2-console").permitAll()
 //                .antMatchers("/bidding/**","/bid/**").hasAuthority("BUYER")
 //                .antMatchers("/seller/**").hasAuthority("SELLER")
 //                .antMatchers("/customer/**").hasAuthority("BUYER")
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+        .successHandler(new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                                Authentication authentication) throws IOException, ServletException {
+                redirectStrategy.sendRedirect(request, response, "/postlogin");
+            }
+        })
 //                .defaultSuccessUrl("/postlogin")
-//                .failureUrl("/login?error=true")
+                .failureUrl("/login?error=true")
 //                .usernameParameter("username")
 //                .passwordParameter("password")
-//                .and()
-//                .exceptionHandling().accessDeniedPage("/denied");;
+                .and()
+                .exceptionHandling().accessDeniedPage("/denied");;
         //Those two settings below is to enable access h2 database via browser
         http.csrf().disable();
         http.headers().frameOptions().disable();

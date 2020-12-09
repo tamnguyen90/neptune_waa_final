@@ -3,6 +3,7 @@ package edu.miu.cs.neptune.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,7 @@ public class Auction implements Serializable {
     private Long winnerId;
 
     @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL)
-    private List<Bid> bids;
+    private List<Bid> bids = new ArrayList<>();
     private LocalDateTime shippingDate;
     private ShippingStatus shippingStatus;
     @OneToOne(mappedBy = "auction", cascade = CascadeType.ALL)
@@ -32,6 +33,10 @@ public class Auction implements Serializable {
 
     public Product getProduct() {
         return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Long getAuctionId() {

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <th:block th:insert="fragments/head_crud"></th:block>
+
+<!--<script type="text/javascript" th:src="@{/js/cart.js}"></script>-->
 <body class="sb-nav-fixed">
 <th:block th:insert="fragments/navbar :: navbar"></th:block>
 <div id="layoutSidenav">
@@ -10,7 +12,7 @@
             <div class="container-fluid">
                 <h1 class="mt-4">Customer</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a th:href="${'/'}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="${'/customer/products'}">Home</a></li>
                     <li class="breadcrumb-item active">Customer</li>
                 </ol>
                 <div class="table-title">
@@ -32,40 +34,26 @@
                                 <thead>
                                 <tr>
                                     <th>
-                                        <a th:href="@{${currentPage} + '?sortField=productId&sortDir=' + ${reverseSortDir}}">Product ID</a>
+                                        <a th:href="@{'products/' +${currentPage} + '?sortField=productId&sortDir=' + ${reverseSortDir}}" >Product ID</a>
                                     </th>
                                     <th>
-                                        <a th:href="@{${currentPage} + '?sortField=productName&sortDir=' + ${reverseSortDir}}">Product Name</a>
+                                        <a th:href="@{${currentPage} + '?sortField=productName&sortDir=' + ${reverseSortDir}}" >Product Name</a>
                                     </th>
                                     <th>
-                                        <a th:href="@{${currentPage} + '?sortField=productDescription&sortDir=' + ${reverseSortDir}}">Product Description</a>
+                                        <a th:href="@{${currentPage} + '?sortField=productDescription&sortDir=' + ${reverseSortDir}}" >Product Description</a>
                                     </th>
 <!--                                    <th>Product Image</th>-->
 
                                     <th>
-                                        <a th:href="@{${currentPage} + '?sortField=productPrice&sortDir=' + ${reverseSortDir}}">Price</a>
+                                        <a th:href="@{${currentPage} + '?sortField=productPrice&sortDir=' + ${reverseSortDir}}" >Price</a>
                                     </th>
                                     <th>
-                                        <a th:href="@{${currentPage} + '?sortField=uploadDate&sortDir=' + ${reverseSortDir}}">Uploaded Date</a>
+                                        <a th:href="@{${currentPage} + '?sortField=uploadDate&sortDir=' + ${reverseSortDir}}" >Uploaded Date</a>
                                     </th>
 
                                     <th>Actions</th>
                                 </tr>
-<!--                                <tr>-->
-<!--                                    <th>Product ID</th>-->
-<!--                                    <th>Product Name</th>-->
-<!--                                    <th>Product Description</th>-->
-<!--                                    <th>Image</th>-->
-<!--                                </tr>-->
-<!--                                </thead>-->
-<!--                                <tfoot>-->
-<!--                                <tr>-->
-<!--                                    <th>Product ID</th>-->
-<!--                                    <th>Product Name</th>-->
-<!--                                    <th>Product Description</th>-->
-<!--                                    <th>Image</th>-->
-<!--                                </tr>-->
-<!--                                </tfoot>-->
+
                                 <tbody>
                                 <tr th:each="product : ${products}">
                                     <td th:text="${product.productId}">Tiger Nixon</td>
@@ -95,7 +83,7 @@
                                 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
                                 <a th:if="${currentPage > 1}" th:href="@{'/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
-                                <span th:unless="${currentPage > 1}">First</span>
+                                <span th:unless="${currentPage > 1}" onclick="clearCache();">First</span>
                                 &nbsp;&nbsp;
 
                                 <a th:if="${currentPage > 1}" th:href="@{${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
@@ -125,5 +113,11 @@
     </div>
 </div>
 <th:block th:insert="fragments/scripts"></th:block>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/customer/products}]]";
+    }
+</script>
+
 </body>
 </html>

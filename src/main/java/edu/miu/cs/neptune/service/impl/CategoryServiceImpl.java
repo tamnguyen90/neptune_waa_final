@@ -2,7 +2,9 @@ package edu.miu.cs.neptune.service.impl;
 
 import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.Category;
+import edu.miu.cs.neptune.exception.CategoryException;
 import edu.miu.cs.neptune.repository.CategoryRepository;
+import edu.miu.cs.neptune.repository.ProductRepository;
 import edu.miu.cs.neptune.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +28,23 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(Category category) {
+        Optional<Category> foundOptional= categoryRepository.findByName(category.getCategoryName());
+
+        if(foundOptional.isPresent()) {
+            Category foundCategory = foundOptional.orElse(null);
+            if(foundCategory.getCategoryId() != category.getCategoryId()) {
+                throw new CategoryException("Duplicate category name");
+            }
+        }
         return categoryRepository.save(category);
     }
 
     @Override
-    public void delete(Long id) {
-        categoryRepository.deleteById(id);
+    public void delete(Long categoryId) {
+        if(categoryRepository.countProductsByCategoryId(categoryId)>0) {
+            throw new CategoryException("There are products belong to the category");
+        }
+        categoryRepository.deleteById(categoryId);
     }
 
     @Override
