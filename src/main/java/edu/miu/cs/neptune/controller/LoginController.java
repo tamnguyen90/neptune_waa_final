@@ -35,7 +35,7 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping(value = {"/postlogin"})
+    @PostMapping(value = {"/login"})
     public String postLogin(Authentication authentication, Model model) {
         User user = userService.getByName(authentication.getName()).orElse(null);
 //            System.out.println(user.getEmail());
@@ -43,8 +43,13 @@ public class LoginController {
             model.addAttribute("userId", user.getUserId());
             return "redirect:/verification";
         } else {
-            return "redirect:/";
+            return "redirect:/index";
         }
+    }
+
+    @GetMapping("/index")
+    public String getIndex(Model model){
+        return "index";
     }
 
     @PostMapping("/resendVerificationCode")
@@ -71,7 +76,7 @@ public class LoginController {
         if (verificationCode != null && verificationCode.equals(user.getVerificationCode())) {
             user.setUserVerificationType(UserVerificationType.VERIFIED);
             userService.updateUser(user);
-            return "redirect:/";
+            return "redirect:/index";
         } else if (user.getFailedVerificationCount() < 3) {
             user.increaseFailedVerificationCount();
             userService.updateUser(user);
