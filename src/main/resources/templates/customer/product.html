@@ -10,10 +10,10 @@
             <div class="container-fluid">
                 <h1 class="mt-4">Customer</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a th:href="${'/'}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="${'/customer/products'}">Home</a></li>
                     <li class="breadcrumb-item active">Customer</li>
                 </ol>
-                <div class="">
+                <div class="align-content-center">
                     <h3>Product Information</h3>
                     Product Id: <span th:text="${product.productId}"></span>
                     <br/>
@@ -24,6 +24,8 @@
                     <!--                                    <td th:text="${product.imageList}">Edinburgh</td>-->
                     Product Price: <span th:text="${product.productPrice}"></span>
                     <br/>
+                    Product Category:<span th:text="${categories}">
+                    <br/>
                     Product Upload Day: <span th:text="${product.uploadDate}"></span>
                 </div>
                 <div th:each="image : ${images}">
@@ -31,7 +33,7 @@
 
 <!--                    <img  th:src="@{'/images/'+${image}}" />-->
 
-                    <img th:src="@{${'/images/' + image.name}}" width="200px" height="200px"/>
+                    <img th:src="@{${'/ProductImages/' + image.name}}" width="200px" height="200px"/>
 
                 </div>
             </div>
@@ -40,5 +42,13 @@
     </div>
 </div>
 <th:block th:insert="fragments/scripts"></th:block>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/products_search}]]";
+    }
+    function clearCache() {
+        window.location = "[[@{/products}]]";
+    }
+</script>
 </body>
 </html>

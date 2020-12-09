@@ -13,8 +13,20 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long productId;
     private String name;
-    private Byte[] imagesByte;
 
+    public Image() {
+    }
+
+    public Image(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

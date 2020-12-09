@@ -20,13 +20,15 @@ public class AuctionFacadeImpl implements AuctionFacade {
     private final AuctionService auctionService;
     private final ShippingService shippingService;
     private final SystemPaymentService systemPaymentService;
+    private final MailService mailService;
 
-    public AuctionFacadeImpl(UserService userService, BiddingService biddingService, AuctionService auctionService, ShippingService shippingService, SystemPaymentService systemPaymentService) {
+    public AuctionFacadeImpl(UserService userService, BiddingService biddingService, AuctionService auctionService, ShippingService shippingService, SystemPaymentService systemPaymentService, MailService mailService) {
         this.userService = userService;
         this.biddingService = biddingService;
         this.auctionService = auctionService;
         this.shippingService = shippingService;
         this.systemPaymentService = systemPaymentService;
+        this.mailService = mailService;
     }
 
     @Override
