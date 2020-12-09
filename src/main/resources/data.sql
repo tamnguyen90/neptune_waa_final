@@ -1,11 +1,11 @@
 -- create sellers
-insert into users values (1,'namco2011@gmail.com',true,false,'tam', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED','BUYER','VERIFIED', 'user', 'baon01',null,null);
-insert into users values (2,'namco2011@gmail.com',true,false, 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'user1', 'namn01',null,null);
-insert into users values (3,'namco2011@gmail.com', true,false,'test2', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'SELLER','NEED_TO_VERIFY', 'user2', 'tamn01',null,null);
+insert into users values (1,'namco2011@gmail.com',true,false,'tam', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED','BUYER','VERIFIED', 'user', 'baon01','2020-12-08 21:50:41.644283',null);
+insert into users values (2,'namco2011@gmail.com',true,false, 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'user1', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (3,'namco2011@gmail.com', true,false,'test2', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'SELLER','NEED_TO_VERIFY', 'user2', 'tamn01','2020-12-08 21:50:41.644283',null);
 -- create buyers
-insert into users values (4,'bobby@miu.com',true,false, 'Bobby', false, 'Johnson', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'bobbyj','ganz01',null,null);
-insert into users values (5,'john@miu.com',true,false, 'John', false, 'Doe', '45678', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'johnd', 'hale01',null,null);
-insert into users values (6,'sam@miu.com',true,false, 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'samc', 'hale02',null,null);
+insert into users values (4,'bobby@miu.com',true,false, 'Bobby', false, 'Johnson', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'bobbyj','ganz01','2020-12-08 21:50:41.644283',null);
+insert into users values (5,'john@miu.com',true,false, 'John', false, 'Doe', '45678', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'johnd', 'hale01','2020-12-08 21:50:41.644283',null);
+insert into users values (6,'sam@miu.com',true,false, 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'samc', 'hale02','2020-12-08 21:50:41.644283',null);
 
 
 --cat data
