@@ -12,7 +12,7 @@ public interface CategoryService {
 
     Category save(Category category);
 
-    void delete(Long id);
+    void delete(Long categoryId);
 
     Optional<Category> findById(Long categoryId);
 }
