@@ -1,18 +1,29 @@
 package edu.miu.cs.neptune.controller;
 
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
 import edu.miu.cs.neptune.domain.Auction;
+import edu.miu.cs.neptune.domain.AuctionOrder;
 import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.service.AuctionService;
+import edu.miu.cs.neptune.service.impl.PaypalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @Controller
 public class AuctionController {
+
+    @Autowired
+    PaypalService paypalService;
+
+    public static final String SUCCESS_URL = "auction/pay/success";
+    public static final String CANCEL_URL = "auction/pay/cancel";
+
 
     @Autowired
     AuctionService auctionService;
@@ -44,6 +55,56 @@ public class AuctionController {
     public String showAllAuctions(Model model) {
         model.addAttribute("auctions", auctionService.getAllByUserId(4L));
         return "auctionHistory";
+    }
+
+    // review before payment, should provide shipping address
+    @GetMapping(value = "/auction/pay")
+    public String beforePayment(@RequestParam String auctionId, Model model) {
+        AuctionOrder auctionOrder =  paypalService.getAuctionOrder(Long.parseLong(auctionId));
+        if (auctionOrder==null) {
+            return "error";
+        }
+        auctionOrder.setPrice(2.0);
+        //System.out.println(auctionOrder);
+        model.addAttribute("auctionOrder", auctionOrder);
+        return "reviewPayment";
+    }
+
+    @PostMapping(value = "/auction/pay")
+    public String doPayment(@ModelAttribute("order") AuctionOrder auctionOrder) {
+
+        System.out.println(auctionOrder);
+        try {
+            Payment payment = paypalService.createPayment(auctionOrder.getPrice(), auctionOrder.getCurrency(), auctionOrder.getMethod(), auctionOrder.getIntent(),
+                    auctionOrder.getDescription(), "http://localhost:9999/"+CANCEL_URL, "http://localhost:9999/"+SUCCESS_URL);
+            for(Links link : payment.getLinks()) {
+                if (link.getRel().equals("approval_url")) {
+                    return "redirect:"+link.getHref();
+                }
+            }
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping(value = CANCEL_URL)
+    public String cancelPay() {
+        return "cancel";
+    }
+
+    @GetMapping(value = SUCCESS_URL)
+    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
+        try {
+            Payment payment = paypalService.executePayment(paymentId, payerId);
+            System.out.println(payment.toJSON());
+            if (payment.getState().equals("approved")) {
+                return "success";
+            }
+        } catch (PayPalRESTException e) {
+            System.out.println(e.getMessage());
+        }
+        return "redirect:/";
     }
 
 }

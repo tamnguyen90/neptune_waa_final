@@ -42,21 +42,21 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/users/create","/login", "/h2-console").permitAll()
-                .antMatchers("/bidding/**","/bid/**").hasAuthority("BUYER")
-                .antMatchers("/seller/**").hasAuthority("SELLER")
-                .antMatchers("/customer/**").hasAuthority("BUYER")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/postlogin")
-                .failureUrl("/login?error=true")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .and()
-                .exceptionHandling().accessDeniedPage("/denied");;
+//        http.authorizeRequests()
+//                .antMatchers("/users/create","/login", "/h2-console").permitAll()
+//                .antMatchers("/bidding/**","/bid/**").hasAuthority("BUYER")
+//                .antMatchers("/seller/**").hasAuthority("SELLER")
+//                .antMatchers("/customer/**").hasAuthority("BUYER")
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/postlogin")
+//                .failureUrl("/login?error=true")
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+//                .and()
+//                .exceptionHandling().accessDeniedPage("/denied");;
         //Those two settings below is to enable access h2 database via browser
         http.csrf().disable();
         http.headers().frameOptions().disable();
