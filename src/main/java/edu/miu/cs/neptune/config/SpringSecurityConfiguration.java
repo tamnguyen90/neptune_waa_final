@@ -47,7 +47,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/bidding/**","/bid/**").hasAuthority("BUYER")
                 .antMatchers("/seller/**").hasAuthority("SELLER")
                 .antMatchers("/customer/**").hasAuthority("BUYER")
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
