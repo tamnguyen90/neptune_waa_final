@@ -35,10 +35,11 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping(value = {"/login"})
+
+    @GetMapping(value = {"/postlogin"})
     public String postLogin(Authentication authentication, Model model) {
         User user = userService.getByName(authentication.getName()).orElse(null);
-//            System.out.println(user.getEmail());
+            System.out.println(user.getEmail());
         if (user != null && UserVerificationType.NEED_TO_VERIFY.equals(user.getUserVerificationType())) {
             model.addAttribute("userId", user.getUserId());
             return "redirect:/verification";
