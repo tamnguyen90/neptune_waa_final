@@ -93,10 +93,13 @@ public class ProductController {
     //@PreAuthorize("hasRole('SELLER')")
     public String saveProduct(Product product,@RequestParam(value="action", required=true) String action,
                               BindingResult result) {
+        Auction auction = product.getAuction();
         if(action.equals("Save And Release")) {
             product.setProductState(ProductState.SAVE_AND_RELEASE);
+            auction.setAuctionStatus(AuctionStatus.ACTIVE);
         } else {
             product.setProductState(ProductState.SAVE_WITHOUT_RELEASE);
+            auction.setAuctionStatus(AuctionStatus.INACTIVE);
         }
 
         if (result.hasErrors()) {
