@@ -63,7 +63,7 @@ public class LoginController {
 
     @GetMapping("/verification")
     public String getVerification(Model model) {
-        return "verification1";
+        return "verification";
     }
 
     @PostMapping("/verification")

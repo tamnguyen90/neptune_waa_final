@@ -57,13 +57,24 @@ public class UserServiceImpl implements UserService {
   @Override
   public User updatePassword(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    generateVerificationCode(user);
+//    generateVerificationCode(user);
     User userNew = userRepository.save(user);
     String mailSubject = "Password reseted notification.";
+//    sendVerificationCode(mailSubject,user);
+    userRepository.flush();
+    return userNew;
+  }
+
+  @Override
+  public User forgotPasswordSendVC(User user) {
+    generateVerificationCode(user);
+    User userNew = userRepository.save(user);
+    String mailSubject = "Forgot Password verification code";
     sendVerificationCode(mailSubject,user);
     userRepository.flush();
     return userNew;
   }
+
   public void generateVerificationCode(User user){
     String verificationCode = generateService.generateCode();
     user.setUserVerificationType(UserVerificationType.NEED_TO_VERIFY);
@@ -73,7 +84,7 @@ public class UserServiceImpl implements UserService {
   }
   public void sendVerificationCode(String mailSubject, User user){
     String mailFrom = "asdproject287@gmail.com";
-    String mailContent = "Please use this verification code: "+user.getVerificationCode()+" to verify your account.";
+    String mailContent = "Please use this verification code: "+user.getVerificationCode()+" to verify.";
     mailService.sendEmail(mailFrom,user.getEmail(),mailSubject,mailContent);
   }
 

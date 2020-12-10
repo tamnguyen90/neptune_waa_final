@@ -1,49 +1,47 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-
+<html>
 <head>
+    <meta charset="utf-8">
     <title>Neptune Auction System</title>
     <link rel = "icon" th:href="@{/images/neptune.ico}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Font-->
+    <!--	<link rel="stylesheet" type="text/css" href="css/montserrat-font.css">-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/montserrat-font.css}"/>
+    <!--	<link rel="stylesheet" type="text/css" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">-->
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css}"/>
+    <!-- Main Style Css -->
+    <!--    <link rel="stylesheet" href="css/style.css"/>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
-<body class="bg-primary">
-<div id="layoutAuthentication">
-    <div id="layoutAuthentication_content">
-        <main>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-5">
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">
-                            <div class="card-body">
-                                <form method="post" th:action="@{/verification}">
-                                    <h3>Enter your verification code</h3>
-                                    <div class="form-group">
-                                        <input class="form-control py-4" name="verificationCode" placeholder="Enter verification code"
-                                               type="text"/>
-                                        <input id="verify" class="btn btn-primary" type="submit" value="Verify"/>
-                                    </div>
-                                </form>
+<body class="form-v10">
 
-                                <form method="post" th:action="@{/resendVerificationCode}">
-<!--                                    <input type="hidden" id="email" name="email" th:value="*{userId}" tabindex="1">-->
-                                    <input id="resendvc" class="btn btn-primary" type="submit" value="Resend verification code."/> |
-                                    <a class="btn btn-primary" th:href="@{/login}">Back To Login Page</a>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
+<div class="page-content">
+    <div class="form-v10-content">
+        <form class="form-detail" form method="post" th:action="@{/verification}" id="myform">
+            <div class="form-right">
+                <h2>Enter your verification code</h2>
+                <div class="form-row">
+                    <input type="text" class="verificationCode" id="verificationCode" name="verificationCode"
+                           placeholder="Enter Verification Code" required>
+                </div>
+                <div class="form-row-last">
+                    <input type="submit" class="register" value="Verify"/>
                 </div>
             </div>
-        </main>
+        </form>
+        <form class="form-detail" method="post" th:action="@{/resendVerificationCode}" id="myform1">
+            <div class="form-right">
+
+                    <input style="color: white;text-underline: #03A9F4" type="submit" value="Resend verification code."/>
+            </div>
+
+        </form>
     </div>
 </div>
-<script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script crossorigin="anonymous"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-</body>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

@@ -10,6 +10,7 @@ public interface UserService {
 
   User updateUser(User user);
   User updatePassword(User user);
+  User forgotPasswordSendVC(User user);
 
   List<User> getAll();
 
