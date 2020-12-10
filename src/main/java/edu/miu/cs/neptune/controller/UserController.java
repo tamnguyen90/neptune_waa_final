@@ -4,7 +4,6 @@ import edu.miu.cs.neptune.domain.Role;
 import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.domain.UserVerificationType;
 import edu.miu.cs.neptune.service.UserService;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -39,7 +38,7 @@ public class UserController {
 
     @RequestMapping("/forgotPassword")
     public String forgotPasswordGet(Model model) {
-        return "forgotPassword";
+        return "user/forgotPassword";
     }
 
     @PostMapping("/forgotPassword")
@@ -53,11 +52,11 @@ public class UserController {
         if (user == null) {
             String userError = "Input user is not exist";
             model.addAttribute("errorMessage", userError);
-            return "forgotPassword";
+            return "user/forgotPassword";
         } else if (!email.equals(user.getEmail())) {
             String emailError = "Email input is not correct";
             model.addAttribute("errorMessage", emailError);
-            return "forgotPassword";
+            return "user/forgotPassword";
 //        } else if(!newPassword.equals(verifyNewPassword)){
 //            String passwordError = "Input Passwords are not matched";
 //            model.addAttribute("errorMessage",passwordError);
@@ -78,7 +77,7 @@ public class UserController {
         if (!StringUtils.hasText(username)) {
             return "redirect:/users/accessDenied";
         }else
-        return "resetPasswordVerification";
+        return "user/resetPasswordVerification";
     }
 
     @PostMapping("/resetPasswordVerification")
@@ -110,12 +109,12 @@ public class UserController {
         if (!StringUtils.hasText(username)) {
             return "redirect:/users/accessDenied";
         } else
-            return "resetPassword";
+            return "user/resetPassword";
     }
 
     @GetMapping("/accessDenied")
     public String accessDeniedGet() {
-        return "accessDenied";
+        return "user/accessDenied";
     }
 
 
@@ -131,7 +130,7 @@ public class UserController {
             String passwordError = "Input Passwords are not matched";
             model.addAttribute("errorMessage", passwordError);
             model.addAttribute("username", username);
-            return "resetPassword";
+            return "user/resetPassword";
         } else {
             user.setPassword(newPassword);
             userService.updatePassword(user);

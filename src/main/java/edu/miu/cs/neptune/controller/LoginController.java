@@ -30,7 +30,7 @@ public class LoginController {
             errorMessge = "You have been successfully logged out !!";
         }
         model.addAttribute("errorMessge", errorMessge);
-        return "login";
+        return "user/login";
     }
 
 
@@ -63,7 +63,7 @@ public class LoginController {
 
     @GetMapping("/verification")
     public String getVerification(Model model) {
-        return "verification";
+        return "user/verification";
     }
 
     @PostMapping("/verification")
@@ -90,6 +90,6 @@ public class LoginController {
 
     @GetMapping("/denied")
     public String accessDenied() {
-        return "accessDenied";
+        return "user/accessDenied";
     }
 }
