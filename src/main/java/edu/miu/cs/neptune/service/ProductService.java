@@ -21,5 +21,8 @@ public interface ProductService {
     List<Product> findProductsByProductNameContaining(String keyword);
     Page<Product> findProductsByProductNameContains(String keyword, int pageNum, String sortField, String sortDir);
     List<Category> findByCategoryId(Long id);
+
+    //For Sell module
     Product save(Product product);
+    void delete(Long productId);
 }
