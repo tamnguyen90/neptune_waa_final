@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
+@SessionAttributes({"sessionAuctionOrder"})
 @RequestMapping("/auction")
 public class AuctionController {
 
@@ -75,13 +77,15 @@ public class AuctionController {
         }
         auctionOrder.setPrice(2.0);
         //System.out.println(auctionOrder);
+
         model.addAttribute("auctionOrder", auctionOrder);
         return "reviewPayment";
     }
 
     @PostMapping(value = "/pay")
-    public String doPayment(@ModelAttribute("order") AuctionOrder auctionOrder) {
+    public String doPayment(@ModelAttribute("order") AuctionOrder auctionOrder, HttpSession session, Model model) {
 
+        session.setAttribute("sessionAuctionOrder", auctionOrder);
         System.out.println(auctionOrder);
         try {
             Payment payment = paypalService.createPayment(auctionOrder.getPrice(), auctionOrder.getCurrency(), auctionOrder.getMethod(), auctionOrder.getIntent(),
@@ -95,6 +99,8 @@ public class AuctionController {
             e.printStackTrace();
         }
         return "redirect:/";
+//        model.addAttribute("auctionOrder",auctionOrder);
+//        return "invoice";
     }
 
     @GetMapping(value = CANCEL_URL)
@@ -103,18 +109,22 @@ public class AuctionController {
     }
 
     @GetMapping(value = SUCCESS_URL)
-    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
+    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Model model, HttpSession session) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
-                return "success";
+                model.addAttribute("auctionOrder", session.getAttribute("sessionAuctionOrder"));
+                System.out.println(session.getAttribute("sessionAuctionOrder"));
+                session.removeAttribute("sessionAuctionOrder");
+                return "invoice";
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());
         }
         return "redirect:/";
     }
+
 
     @GetMapping("/inputAuction")
     public String inputAuction(@ModelAttribute("auction") Auction auction, @RequestParam("productId") Long productId, Model model) {

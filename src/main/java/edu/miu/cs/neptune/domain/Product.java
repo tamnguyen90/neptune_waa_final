@@ -43,6 +43,9 @@ public class Product {
     @JoinColumn(name = "auction_id")
     private Auction auction;
 
+    @Enumerated (EnumType.STRING)
+    private ProductState productState = ProductState.SAVE_WITHOUT_RELEASE;
+
     public List<Image> getDbImages() {
         return dbImages;
     }
@@ -159,4 +162,11 @@ public class Product {
         this.categoryId = categoryId;
     }
 
+    public ProductState getProductState() {
+        return productState;
+    }
+
+    public void setProductState(ProductState productState) {
+        this.productState = productState;
+    }
 }

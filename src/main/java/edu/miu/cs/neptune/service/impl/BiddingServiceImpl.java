@@ -40,4 +40,9 @@ public class BiddingServiceImpl implements BiddingService {
     public Optional<Bid> getHighestBidByAuctionId(Long auctionId) {
         return Optional.empty();
     }
+
+    @Override
+    public Integer getNumberOfBidByProductId(Long productId) {
+        return biddingRepository.getNumberOfBidByProductId(productId);
+    }
 }

@@ -41,7 +41,7 @@
                         </div>
                         <div th:each="image : ${images}">
 
-                    <img th:src="@{${'/ProductImages/' + image.name}}" width="200px" height="200px"/>
+                    <img th:src="@{'/ProductImages/' + ${image.name}}" width="200px" height="200px"/>
 
                 </div>
             </div>

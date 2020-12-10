@@ -1,8 +1,11 @@
 package edu.miu.cs.neptune.service.impl;
 
 import edu.miu.cs.neptune.Util.Util;
+import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
+import edu.miu.cs.neptune.exception.ProductDeleteException;
+import edu.miu.cs.neptune.repository.BiddingRepository;
 import edu.miu.cs.neptune.repository.CategoryRepository;
 import edu.miu.cs.neptune.repository.ProductRepository;
 import edu.miu.cs.neptune.service.ProductService;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +24,9 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    BiddingRepository biddingRepository;
 
     @Override
     public List<Product> getAll() {
@@ -77,5 +84,13 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
+    @Override
+    public void delete(Long productId) {
+        List<Bid> bids= biddingRepository.findBidsByProductId(productId);
 
+        if(bids.size()>0) {
+            throw new ProductDeleteException("Product has already been started bidding");
+        }
+        productRepository.deleteById(productId);
+    }
 }
