@@ -4,6 +4,7 @@
 
 <head>
     <title>Neptune Auction System</title>
+    <link rel = "icon" th:href="@{/images/neptune.ico}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -29,7 +30,8 @@
 
                                 <form method="post" th:action="@{/resendVerificationCode}">
 <!--                                    <input type="hidden" id="email" name="email" th:value="*{userId}" tabindex="1">-->
-                                    <input id="resendvc" class="btn btn-primary" type="submit" value="Resend verification code."/>
+                                    <input id="resendvc" class="btn btn-primary" type="submit" value="Resend verification code."/> |
+                                    <a class="btn btn-primary" th:href="@{/login}">Back To Login Page</a>
                                 </form>
 
                             </div>

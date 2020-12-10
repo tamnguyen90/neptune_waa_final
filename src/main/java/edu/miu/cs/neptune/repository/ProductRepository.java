@@ -35,6 +35,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     List<Product> findProductsByProductNameContaining(String keyword);
     List<Category> findByCategoryId(Long id);
 
+    //For seller module
+    @Query(value = "SELECT p FROM Product p WHERE p.seller.userId = :sellerId")
+    List<Product> findProductsBySeller(Long sellerId);
+
 
 
 

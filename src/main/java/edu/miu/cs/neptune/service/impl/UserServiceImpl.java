@@ -4,6 +4,7 @@ import edu.miu.cs.neptune.constant.Constant;
 import edu.miu.cs.neptune.domain.ProfileVerificationType;
 import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.domain.UserVerification;
+import edu.miu.cs.neptune.domain.UserVerificationType;
 import edu.miu.cs.neptune.repository.UserRepository;
 import edu.miu.cs.neptune.service.GenerateService;
 import edu.miu.cs.neptune.service.MailService;
@@ -23,17 +24,14 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final MailService mailService;
   private final GenerateService generateService;
-//  private final UserVerificationService userVerificationService;
 
   public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository,
                          MailService mailService, GenerateService generateService
-//                         ,UserVerificationService userVerificationService
   ) {
     this.passwordEncoder = passwordEncoder;
     this.userRepository = userRepository;
     this.mailService = mailService;
     this.generateService = generateService;
-//    this.userVerificationService = userVerificationService;
   }
 
   @Override
@@ -41,19 +39,11 @@ public class UserServiceImpl implements UserService {
     if (user.getPassword() != null) {
       user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
-    String verificationCode = generateService.generateCode();
-    user.setVerificationCode(verificationCode);
-    user.setVerificationCreationTime(LocalDateTime.now().plusMinutes(Constant.EXPIRE_MINUTE));
+    generateVerificationCode(user);
     String mailSubject = "New Account notification";
     sendVerificationCode(mailSubject,user);
     User userNew = userRepository.save(user);
     userRepository.flush();
-
-//    UserVerification userVerification = new UserVerification();
-//    userVerification.setUserId(userNew.getUserId());
-//    userVerification.setVerificationCode(verificationCode);
-//    userVerification.setEndingTime(LocalDateTime.now().plusMinutes(Constant.EXPIRE_MINUTE));
-//    userVerificationService.save(userVerification);
     return userNew;
   }
 
@@ -64,6 +54,23 @@ public class UserServiceImpl implements UserService {
     return userNew;
   }
 
+  @Override
+  public User updatePassword(User user) {
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    generateVerificationCode(user);
+    User userNew = userRepository.save(user);
+    String mailSubject = "Password reseted notification.";
+    sendVerificationCode(mailSubject,user);
+    userRepository.flush();
+    return userNew;
+  }
+  public void generateVerificationCode(User user){
+    String verificationCode = generateService.generateCode();
+    user.setUserVerificationType(UserVerificationType.NEED_TO_VERIFY);
+    user.resetFailedVerificationCount();
+    user.setVerificationCode(verificationCode);
+    user.setVerificationCreationTime(LocalDateTime.now().plusMinutes(Constant.EXPIRE_MINUTE));
+  }
   public void sendVerificationCode(String mailSubject, User user){
     String mailFrom = "asdproject287@gmail.com";
     String mailContent = "Please use this verification code: "+user.getVerificationCode()+" to verify your account.";

@@ -13,4 +13,7 @@ public interface BiddingService {
     List<Bid> getUserBids(User user);
     Optional<Bid> getHighestBidByAuctionId(Long auctionId);
 
+    //For seller
+    Integer getNumberOfBidByProductId(Long productId);
+
 }
