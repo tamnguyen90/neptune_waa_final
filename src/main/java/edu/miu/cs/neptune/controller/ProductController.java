@@ -32,28 +32,28 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final ServletContext servletContext;
-    private final AuctionService auctionService;
+    private final BiddingService biddingService;
 
-    public ProductController(ProductService productService, CategoryService categoryService, ServletContext servletContext, AuctionService auctionService) {
+    public ProductController(ProductService productService, CategoryService categoryService, ServletContext servletContext,
+                             BiddingService biddingService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.servletContext = servletContext;
-        this.auctionService = auctionService;
+        this.biddingService = biddingService;
     }
 
     @GetMapping("/all")
 //    @PreAuthorize("hasRole('SELLER')")
     private String getAllProducts(Model model) {
         List<Product> products = productService.getAll();
-        Auction auction;
         Integer numberOfBid = 0;
 
         Map<Long,Integer> productMaps = new HashMap<>();
         for (Product p: products
              ) {
-//            numberOfBid = biddingService.getNumberOfBidByProductId(p.getProductId());
+            numberOfBid = biddingService.getNumberOfBidByProductId(p.getProductId());
+
             productMaps.put(p.getProductId(), numberOfBid);
-            numberOfBid ++;
         }
         model.addAttribute("products", productService.getAll());
         model.addAttribute("productMaps", productMaps);
@@ -132,17 +132,17 @@ public class ProductController {
     public String updateCategory(@PathVariable Long productId, Model model) {
         Product product = productService.getProductById(productId);
 
-       //Integer numberOfBid = biddingService.getNumberOfBidByProductId(product.getProductId());
-        Integer numberOfBid = 1;
-        boolean disabled = false;
+        Integer numberOfBid = biddingService.getNumberOfBidByProductId(product.getProductId());
+        Boolean disabled = false;
 
-        if(numberOfBid>0 || product.getProductState() == ProductState.SAVE_AND_RELEASE) {
+        if(numberOfBid>0) {
             disabled = true;
         }
 
         model.addAttribute("product", product);
         model.addAttribute("categories", categoryService.getAll());
         model.addAttribute("disabled", disabled);
+        model.addAttribute("numberOfBid", numberOfBid);
 
         return "seller/ProductEditForm";
     }

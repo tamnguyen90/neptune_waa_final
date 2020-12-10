@@ -43,6 +43,6 @@ public class BiddingServiceImpl implements BiddingService {
 
     @Override
     public Integer getNumberOfBidByProductId(Long productId) {
-        return biddingRepository.countBidsByProductId(productId);
+        return biddingRepository.getNumberOfBidByProductId(productId);
     }
 }
