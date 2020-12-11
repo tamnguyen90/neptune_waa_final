@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -22,7 +23,7 @@ public class PaypalService {
     @Autowired
     private APIContext apiContext;
 
-    public AuctionOrder getAuctionOrder(Long auctionId) {
+    public AuctionOrder getAuctionOrder(Long auctionId, String userName) {
         Optional<Auction> auction = auctionService.getById(auctionId);
 
         if (auction.isPresent()) {
@@ -33,6 +34,15 @@ public class PaypalService {
             Bid highestBid = Collections.max(theAuction.getBids(), Comparator.comparing(b -> b.getBiddingAmount()));
             User theUser = highestBid.getBidder();
 
+            if (!theUser.getUsername().equals(userName)) {
+                return null;
+            }
+
+            if (theAuction.getProduct().getPaymentDueDate().compareTo(LocalDateTime.now())<0) {
+                // payduedate is already passed
+                return null;
+            }
+
             // create paypal order object
             AuctionOrder auctionOrder = new AuctionOrder();
             auctionOrder.setDescription(theProduct.getProductName());
@@ -41,6 +51,8 @@ public class PaypalService {
             auctionOrder.setCurrency("USD");
             auctionOrder.setMethod("paypal");
             auctionOrder.setIntent("SALE");
+
+            auctionOrder.setAuctionId(theAuction.getAuctionId());
             return auctionOrder;
         }
         return null;

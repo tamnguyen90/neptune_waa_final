@@ -1,5 +1,6 @@
 package edu.miu.cs.neptune.service.impl;
 
+import edu.miu.cs.neptune.domain.Auction;
 import edu.miu.cs.neptune.domain.SystemPayment;
 import edu.miu.cs.neptune.repository.SystemPaymentRepository;
 import edu.miu.cs.neptune.service.SystemPaymentService;
@@ -28,4 +29,10 @@ public class SystemPaymentServiceImpl implements SystemPaymentService {
     public List<SystemPayment> getPaymentsByAuction(Long auctionId) {
         return null;
     }
+
+    @Override
+    public SystemPayment save(SystemPayment systemPayment) {
+        return systemPaymentRepository.save(systemPayment);
+    }
+
 }

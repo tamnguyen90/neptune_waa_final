@@ -1,5 +1,8 @@
 package edu.miu.cs.neptune.Util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,6 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Util {
+
+    public static String parseJSONSaleId(String jsonInput) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            JsonNode rootNode = objectMapper.readTree(jsonInput);
+            String saleId = rootNode.at("/transactions/0/related_resources/0/sale/id").toString();
+            System.out.println(saleId);
+            return saleId;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public static <T> List<T> iterableToCollection(Iterable<T> iterable) {
         List<T> collection = new ArrayList<>();
         iterable.forEach(collection::add);

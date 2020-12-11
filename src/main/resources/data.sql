@@ -7,7 +7,6 @@ insert into users values (4,'bobby@miu.com',true,false, 'Bobby', false, 'Johnson
 insert into users values (5,'john@miu.com',true,false, 'John', false, 'Doe', '45678', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'johnd', 'hale01','2020-12-08 21:50:41.644283',null);
 insert into users values (6,'sam@miu.com',true,false, 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'samc', 'hale02','2020-12-08 21:50:41.644283',null);
 
-
 --cat data
 INSERT INTO CATEGORY VALUES (1, 'Phone', 'Phone');
 INSERT INTO CATEGORY VALUES (2, 'Laptop', 'Laptop');
@@ -41,10 +40,10 @@ INSERT INTO PRODUCT VALUES(9,3, null , 'Google Nexus 2020 is the lightest 7 inch
 
 -- insert 3 products, each product should have 1 auction
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (247, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+                values (247, '2020-12-06 15:00:00', '2020-12-10 20:25:00', 3, 100 , 4, null, null);
 
 INSERT INTO PRODUCT (PRODUCT_ID,CATEGORY_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STATE, PRODUCT_STATUS, UPLOAD_DATE,AUCTION_ID, SELLER_USER_ID)
-            VALUES(1,1, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone7s',250, 'SAVE_AND_RELEASE', 1,'2020-11-16', 247, 1);
+            VALUES(1,1, '2020-12-11 20:54:00' , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone7s',250, 'SAVE_AND_RELEASE', 1,'2020-11-16', 247, 1);
 
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
                 values (248, '2020-12-06 15:00:00', '2020-12-31 15:00:00', 1, 150 , null, null, null);
@@ -82,21 +81,12 @@ INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (101, 120
 INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (102, 130, '2020-12-06 17:30:00', 247, 5);
 INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (103, 140, '2020-12-06 18:00:00', 247, 4);
 INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (104, 150, '2020-12-06 19:00:00', 247, 6);
+INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (105, 200, '2020-12-06 20:00:00', 247, 4);
 --
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 101);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (5, 102);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 103);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (6, 104);
+INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 105);
 
 INSERT INTO DMV VALUES (1, 'user@miu', 'test1', 'nguyen', '12345');
-
-
-
-
-
-
-
-
-
-
-

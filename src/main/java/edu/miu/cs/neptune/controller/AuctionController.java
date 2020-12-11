@@ -3,15 +3,15 @@ package edu.miu.cs.neptune.controller;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import edu.miu.cs.neptune.domain.Auction;
-import edu.miu.cs.neptune.domain.AuctionOrder;
-import edu.miu.cs.neptune.domain.AuctionStatus;
-import edu.miu.cs.neptune.domain.Bid;
-import edu.miu.cs.neptune.domain.Product;
+import edu.miu.cs.neptune.Util.Util;
+import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.service.AuctionService;
+import edu.miu.cs.neptune.service.SystemPaymentService;
+import edu.miu.cs.neptune.service.UserService;
 import edu.miu.cs.neptune.service.impl.PaypalService;
 import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +19,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotNull;
+import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -38,6 +41,14 @@ public class AuctionController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserService userService;
+
+
+    @Autowired
+    private SystemPaymentService systemPaymentService;
+
 
     // Ganzo, bid history with pagination
     @GetMapping(value = "/{id}")
@@ -62,18 +73,38 @@ public class AuctionController {
         return "bidHistory";
     }
 
-    @GetMapping(value = "/")
-    public String showAllAuctions(Model model) {
-        model.addAttribute("auctions", auctionService.getAllByUserId(4L));
-        return "auctionHistory";
+    @GetMapping(value="")
+    public String showAllAuctions(Model model, Principal principal) {
+        System.out.println("username:"+principal.getName());
+        Optional<User> user = userService.getByName(principal.getName());
+
+        if (user.isPresent()) {
+            User theUser = user.get();
+            List<Auction> listAuction = auctionService.getAllByUserId(theUser.getUserId());
+
+            for (Auction auction : listAuction) {
+                System.out.println(auction.getAuctionStatus());
+            }
+
+            model.addAttribute("auctions", listAuction);
+            model.addAttribute("user", theUser);
+
+            return "auctionHistory";
+        }
+        System.out.println("Error: user not found");
+        return "error";
+
+
     }
+
 
     // review before payment, should provide shipping address
     @GetMapping(value = "/pay")
-    public String beforePayment(@RequestParam String auctionId, Model model) {
-        AuctionOrder auctionOrder =  paypalService.getAuctionOrder(Long.parseLong(auctionId));
+    public String beforePayment(@RequestParam String auctionId, Model model, Principal principal) {
+        AuctionOrder auctionOrder =  paypalService.getAuctionOrder(Long.parseLong(auctionId), principal.getName());
+
         if (auctionOrder==null) {
-            return "error";
+            return "redirect:/auction?error=1";
         }
         auctionOrder.setPrice(2.0);
         //System.out.println(auctionOrder);
@@ -112,10 +143,17 @@ public class AuctionController {
     public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Model model, HttpSession session) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
-            System.out.println(payment.toJSON());
+            //System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
-                model.addAttribute("auctionOrder", session.getAttribute("sessionAuctionOrder"));
-                System.out.println(session.getAttribute("sessionAuctionOrder"));
+                AuctionOrder theAuctionOrder = (AuctionOrder)session.getAttribute("sessionAuctionOrder");
+                String saleId = Util.parseJSONSaleId(payment.toJSON());
+                SystemPayment systemPayment = new SystemPayment(theAuctionOrder.getAuctionId(), theAuctionOrder.getUser().getUserId(), theAuctionOrder.getPrice(),
+                        PaymentStatus.PAID, PaymentType.PRODUCT_PAYMENT, saleId);
+                // store payment information in the database;
+                systemPaymentService.save(systemPayment);
+                auctionService.productSold(theAuctionOrder.getAuctionId());
+
+                model.addAttribute("auctionOrder", theAuctionOrder);
                 session.removeAttribute("sessionAuctionOrder");
                 return "invoice";
             }

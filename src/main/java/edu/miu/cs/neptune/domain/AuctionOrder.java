@@ -16,6 +16,8 @@ public class AuctionOrder {
     private String method="paypal";
     private String intent="SALE";
 
+    private Long auctionId;
+
     @Override
     public String toString() {
         return "AuctionOrder{" +
@@ -24,7 +26,8 @@ public class AuctionOrder {
                 ", currency='" + currency + '\'' +
                 ", method='" + method + '\'' +
                 ", intent='" + intent + '\'' +
-                ", user='" + user.getFirstName() +' '+user.getLastName() + '\'' +
+                ", user='" + user.getUserId() + '\'' +
+                ", auctionId='" + auctionId + '\'' +
                 '}';
     }
 }
