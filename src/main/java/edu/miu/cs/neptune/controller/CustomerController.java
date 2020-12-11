@@ -47,7 +47,7 @@ public class CustomerController {
     @GetMapping("products")
     public String viewHomePage(Model model) {
         count = 1;
-        return listProduct(model, 1, "productName", "asc");
+        return listProduct(model, 1, "uploadDate", "desc");
     }
 
 
@@ -63,8 +63,8 @@ public class CustomerController {
     @GetMapping("category/products")
     public String listProductByCategory(@RequestParam("id") Long id, Model model){
         count = 1;
-        Page<Product> page = productService.getProductsByCategoryId(id, 1, "productName", "asc");
-        general(model, page, 1, "productName", "asc");
+        Page<Product> page = productService.getProductsByCategoryId(id, 1, "uploadDate", "desc");
+        general(model, page, 1, "uploadDate", "desc");
 
         List<Product> list = page.getContent();
         System.out.println("----------category list"+list.toString());
@@ -152,10 +152,10 @@ public class CustomerController {
         //System.out.println(pageNum);
         String key=keyword.toLowerCase();
         System.out.println(key);
-        Page<Product> page = productService.findProductsByProductNameContains(keyword, 1, "productName", "asc");
+        Page<Product> page = productService.findProductsByProductNameContains(keyword, 1, "uploadDate", "desc");
         List<Product> list = page.getContent();
         System.out.println(list);
-        general(model, page, 1, "productName", "asc");
+        general(model, page, 1, "uploadDate", "desc");
         model.addAttribute("products", list);
         model.addAttribute("keyword", keyword);
        // model.addAttribute("searchURL", "/customer/products");
