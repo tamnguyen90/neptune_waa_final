@@ -84,21 +84,25 @@
                                         <div class="col-sm-3">Current price</div>
                                         <div class="col-sm-7"><span th:text="${#numbers.formatCurrency(highestBid)}"> Current Price </span></div>
                                     </div>
-
-                                    <form action="#" th:action="@{/auction/bidding}" method="post">
-                                        <div class="row">
-                                            <input type="hidden" name="auctionId" th:value="*{auctionId}">
-                                            <div class="col-sm-3">
-                                                <label for="amount">Bidding Amount</label>
+                                    <div th:if="${isUserVerified && !isSeller}">
+                                        <form action="#" th:action="@{/auction/bidding}" method="post">
+                                            <div class="row">
+                                                <input type="hidden" name="auctionId" th:value="*{auctionId}">
+                                                <div class="col-sm-3">
+                                                    <label for="amount">Bidding Amount</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input id="amount" type="number" name="amount" placeholder="Enter your bid">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input class="btn btn-success" id="submit" type="submit" tabindex="5" value="Bid">
+                                                </div>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <input id="amount" type="number" name="amount" placeholder="Enter your bid">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input class="btn btn-success" id="submit" type="submit" tabindex="5" value="Bid">
-                                            </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
+                                    <div th:if="${!isUserVerified}">
+                                        <span style="color: red;">Your account must be verified to bid.</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card">
@@ -108,8 +112,8 @@
                                         <tr>
                                             <th style="width:10%" scope="col">#</th>
                                             <th style="width:30%" scope="col">Bidder</th>
-                                            <th style="width:20%" scope="col">Bid Amount $</th>
-                                            <th style="width:40%" scope="col">Bid Time</th>
+                                            <th style="width:20%" scope="col">Amount</th>
+                                            <th style="width:40%" scope="col">Time</th>
                                         </tr>
                                         <tr th:each="bid: ${auction.bids}">
                                             <th scope="row" th:text="${bidStat.index+1}"/>

@@ -9,7 +9,7 @@ import java.util.List;
 public interface AuctionFacade {
     Bid createBid(Bid bid, User user, Auction auction);
     List<Bid> getUserBidsByAuction(Long auctionId, User user);
-    Auction closeAuction(Long auctionId);
+    Auction closeAuction(Auction auction);
     boolean returnDeposit(Long auctionId);
     User winner(Long auctionId);
     Bid getTheHighestBid(Auction auction);
@@ -29,4 +29,6 @@ public interface AuctionFacade {
     Auction saveAuction(Auction auction);
 
     User getUserByUserName(String name);
+
+    List<Auction> closingEndedAuctions();
 }

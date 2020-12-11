@@ -3,7 +3,6 @@ package edu.miu.cs.neptune.controller;
 import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.service.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

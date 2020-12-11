@@ -122,4 +122,20 @@ public class Auction implements Serializable {
     public void setBeginPrice(Double beginPrice) {
         this.beginPrice = beginPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "auctionId=" + auctionId +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                ", auctionStatus=" + auctionStatus +
+                ", beginPrice=" + beginPrice +
+                ", winnerId=" + winnerId +
+                ", bids=" + bids +
+                ", shippingDate=" + shippingDate +
+                ", shippingStatus=" + shippingStatus +
+                ", product=" + product +
+                '}';
+    }
 }

@@ -7,6 +7,7 @@ import edu.miu.cs.neptune.service.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,24 +64,20 @@ public class AuctionFacadeImpl implements AuctionFacade {
     }
 
     @Override
-    public Auction closeAuction(Long auctionId) {
-        Optional<Auction> optAuction = auctionService.getById(auctionId);
-        if (!optAuction.isPresent()) {
-            throw new RuntimeException("The auction is not found.");
-        }
-        Auction currentAuction = optAuction.get();
-        if (currentAuction.getEndDate().isBefore(LocalDateTime.now())) {
+    public Auction closeAuction(Auction currentAuction) {
+
+        if (currentAuction.getEndDate().isBefore(LocalDateTime.now()) && !AuctionStatus.ENDED.equals(currentAuction.getAuctionStatus())) {
             currentAuction.setAuctionStatus(AuctionStatus.ENDED);
             if (currentAuction.getBids().size() > 0) {
                 Bid highest = getTheHighestBid(currentAuction);
                 currentAuction.setWinnerId(highest.getBidder().getUserId());
                 //Send a notification email to seller and winner
                 sendMailToWinner(highest.getBidder());
-
             }
+            auctionService.save(currentAuction);
+            return currentAuction;
         }
-        auctionService.save(currentAuction);
-        return currentAuction;
+        return null;
     }
 
     private void sendMailToWinner(User bidder) {
@@ -171,6 +168,18 @@ public class AuctionFacadeImpl implements AuctionFacade {
     @Override
     public User getUserByUserName(String name) {
         return userService.getByName(name).orElse(null);
+    }
+
+    @Override
+    public List<Auction> closingEndedAuctions() {
+        List<Auction> endedAuctions = new ArrayList<>();
+        auctionService.getAll().forEach(auction -> {
+            Auction ended = closeAuction(auction);
+            if (ended != null) {
+                endedAuctions.add(ended);
+            }
+        });
+        return endedAuctions;
     }
 
 }
