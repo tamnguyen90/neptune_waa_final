@@ -2,10 +2,8 @@ package edu.miu.cs.neptune.controller;
 
 import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.*;
-import edu.miu.cs.neptune.service.AuctionService;
-import edu.miu.cs.neptune.service.BiddingService;
-import edu.miu.cs.neptune.service.CategoryService;
-import edu.miu.cs.neptune.service.ProductService;
+import edu.miu.cs.neptune.service.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,13 +25,16 @@ public class ProductController {
     private final CategoryService categoryService;
     private final ServletContext servletContext;
     private final BiddingService biddingService;
+    private final UserService userService;
 
     public ProductController(ProductService productService, CategoryService categoryService, ServletContext servletContext,
-                             BiddingService biddingService) {
+                             BiddingService biddingService,
+                             UserService userService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.servletContext = servletContext;
         this.biddingService = biddingService;
+        this.userService = userService;
     }
 
     @GetMapping("/all")
@@ -84,7 +86,7 @@ public class ProductController {
 
     @PostMapping("/saveProduct")
     //@PreAuthorize("hasRole('SELLER')")
-    public String saveProduct(Product product,@RequestParam(value="action", required=true) String action,
+    public String saveProduct(Product product, Principal principal, @RequestParam(value="action", required=true) String action,
                               BindingResult result) {
         Auction auction = product.getAuction();
         if(action.equals("Save And Release")) {
@@ -115,7 +117,8 @@ public class ProductController {
                 throw new RuntimeException("Product image was saving failed", ex);
             }
         }
-
+        User currentUser = userService.getByName(principal.getName()).orElse(null);
+        product.setSeller(currentUser);
         productService.save(product);
 
         return "user/SellerDetails";
