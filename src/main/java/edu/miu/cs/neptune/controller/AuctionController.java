@@ -156,7 +156,6 @@ public class AuctionController {
     public String capturePaypal(){
         //auctionFacade.finalizePayment("3C160388E42030817", 2.0);
         auctionFacade.cancelPayment("3C160388E42030817");
-        auctionFacade.finalizePayment();
         return "success";
     }
 
