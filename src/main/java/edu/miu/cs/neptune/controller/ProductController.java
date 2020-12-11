@@ -125,7 +125,7 @@ public class ProductController {
 
         productService.save(product);
 
-        return "user/SellerDetails";
+        return "redirect:/product/all";
     }
 
     @RequestMapping(value = "/edit/{productId}")

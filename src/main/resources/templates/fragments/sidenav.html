@@ -23,15 +23,27 @@
                    data-target="#guestLayouts"
                    data-toggle="collapse" href="#">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    Admin
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div aria-labelledby="headingOne" data-parent="#sidenavAccordion"
+                     id="guestLayouts">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" th:href="${'/admin/categories'}">Categories</a>
+                        <a class="nav-link" th:href="${'/admin/profile/review_list'}">Profiles</a>
+                    </nav>
+                </div>
+                <a aria-controls="guestLayouts" aria-expanded="false" class="nav-link collapsed"
+                   data-target="#guestLayouts"
+                   data-toggle="collapse" href="#">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Seller
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div aria-labelledby="headingOne" data-parent="#sidenavAccordion"
                      id="guestLayouts">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" th:href="${'/product/products'}">Products</a>
-                        <a class="nav-link" th:href="${'/product/inputProduct'}">Add Product</a>
-                        <!--                        <a class="nav-link" th:href="${'/rooms/available'}">Available Rooms</a>-->
+                        <a class="nav-link" th:href="${'/product/all'}">Products</a>
                     </nav>
                 </div>
 <!--                <a aria-controls="collapseLayouts" aria-expanded="false" class="nav-link collapsed"-->
