@@ -33,7 +33,12 @@
                         </ul>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="productId" name="productId" th:field="*{productId}" hidden />
+                            <input type="hidden" th:field="*{productId}"  />
+                            <input type="hidden" th:field="*{auction.auctionId}"  />
+                            <input type="hidden" th:field="*{productStatus}"  />
+                            <input type="hidden" th:field="*{categoryId}"  />
+                            <input type="hidden" th:field="*{paymentDueDate}"  />
+
                             <label for="id">Name: </span></label>
                             <input class="form-control" type="text" id="id" th:field="*{productName}" th:disabled="${disabled}" />
                             <p th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" th:errorclass="fieldError">Incorrect name</p>
@@ -65,7 +70,11 @@
                                 <span th:each="image : ${product.dbImages}">
 <!--                                    <span th:text="${product.dbImages.size()}"></span>-->
                                     <img th:src="@{'/ProductImages/' + ${image.name}}" width="150px" height="150px"/>
+                                    <input type="hidden" th:field="*{dbImages[__${imageStat.index}__].id}" />
+                                    <input type="hidden" th:field="*{dbImages[__${imageStat.index}__].name}" />
                                 </span>
+<!--                                <input type="text" id="dbImages" name="dbImages" th:field="*{dbImages}" hidden />-->
+
                                 <input class="form-control" type="file" multiple="multiple" th:field="*{images}" accept="image/png, image/jpeg">
                             </div>
                             <fieldset>

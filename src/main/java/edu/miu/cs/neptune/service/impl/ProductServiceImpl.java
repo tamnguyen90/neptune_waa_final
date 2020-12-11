@@ -4,6 +4,7 @@ import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
+import edu.miu.cs.neptune.domain.ProductState;
 import edu.miu.cs.neptune.repository.BiddingRepository;
 import edu.miu.cs.neptune.repository.CategoryRepository;
 import edu.miu.cs.neptune.repository.ProductRepository;
@@ -30,6 +31,13 @@ public class ProductServiceImpl implements ProductService {
         return Util.iterableToCollection(productRepository.findAll());
     }
 
+    @Override
+    public Page<Product> findProductsByProductStateEquals(ProductState state, int pageNum, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5,
+                sortDir.equals("asc")? Sort.by(sortField).ascending():Sort.by(sortField).descending());
+        return productRepository.findProductsByProductStateEquals(state, pageable);
+    }
+
 
     @Override
     public Product getProductById(Long productID) {
@@ -50,11 +58,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProductsByCategoryId(Long id, int pageNum, String sortField, String sortDir) {
+    public Page<Product> getProductsByCategoryIdAndProductStateEquals(Long id, ProductState state, int pageNum, String sortField, String sortDir) {
         Pageable pageable = PageRequest.of(pageNum - 1, 5,
                 sortDir.equals("asc")? Sort.by(sortField).ascending():Sort.by(sortField).descending());
 
-        return productRepository.getProductsByCategoryId(id, pageable);
+        return productRepository.getProductsByCategoryIdAndProductStateEquals(id,state, pageable);
     }
 
 
@@ -65,10 +73,18 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Page<Product> findProductsByProductNameContains(String keyword, int pageNum, String sortField, String sortDir) {
+    public Page<Product> findProductsByProductNameContainsOrProductNameContainsAndProductStateEquals(String keyword, String keywordUp, ProductState state, int pageNum, String sortField, String sortDir) {
         Pageable pageable = PageRequest.of(pageNum-1, 5,
                 sortDir.equals("asc")?Sort.by(sortField).ascending():Sort.by(sortField).descending());
-        return productRepository.findProductsByProductNameContains(keyword, pageable);
+        return productRepository.findProductsByProductNameContainsOrProductNameContainsAndProductStateEquals(keyword, keywordUp, state, pageable);
+    }
+
+    @Override
+    public Page<Product> findProductsByProductStateEqualsAndProductNameContainsOrProductNameContainsAndProductStateEquals(ProductState state,String name, String nameUp, ProductState productState,  int pageNum, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum-1, 5,
+                sortDir.equals("asc")?Sort.by(sortField).ascending():Sort.by(sortField).descending());
+
+        return productRepository.findProductsByProductStateEqualsAndProductNameContainsOrProductNameContainsAndProductStateEquals(state, name, nameUp, productState, pageable);
     }
 
 

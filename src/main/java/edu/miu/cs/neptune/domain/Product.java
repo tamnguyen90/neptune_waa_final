@@ -173,7 +173,7 @@ public class Product {
     public String toString() {
         return "{" +
                 '\"' + "productId" + '\"' + ':' + '\"'  +productId +
-//                '\"' +",categoryId" + '\"' + ':' + '\"' +categoryId  +
+//                '\"' +",productState" + '\"' + ':' + '\"' +productState  +
                 '\"' +";\"productName" + '\"'+ ':' + '\"' +productName +
 
 

@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
+import edu.miu.cs.neptune.domain.ProductState;
 import edu.miu.cs.neptune.service.CategoryService;
 import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,9 +32,11 @@ public class CustomerController {
     @Autowired
     CategoryService categoryService;
     int count = 1;
+
     public void general(Model model, Page<Product> page, int pageNum, String sortField, String sortDir){
 
         List<Product> list = page.getContent();
+
         System.out.println(list);
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -56,17 +61,18 @@ public class CustomerController {
                               @Param("sortField") String sortField,
                               @Param("sortDir") String sortDir){
         count = 1;
-        Page<Product> page = productService.listAll(pageNum, sortField, sortDir);
+        Page<Product> page = productService.findProductsByProductStateEquals(ProductState.SAVE_AND_RELEASE,pageNum, sortField, sortDir);
         general(model, page, pageNum, sortField, sortDir);
         return "customer/productList";
     }
     @GetMapping("category/products")
     public String listProductByCategory(@RequestParam("id") Long id, Model model){
         count = 1;
-        Page<Product> page = productService.getProductsByCategoryId(id, 1, "uploadDate", "desc");
+        Page<Product> page = productService.getProductsByCategoryIdAndProductStateEquals(id,ProductState.SAVE_AND_RELEASE, 1, "uploadDate", "desc");
         general(model, page, 1, "uploadDate", "desc");
 
         List<Product> list = page.getContent();
+
         System.out.println("----------category list"+list.toString());
         model.addAttribute("products", list);
         model.addAttribute("categoryId", id);
@@ -78,10 +84,11 @@ public class CustomerController {
                                             @Param("sortDir") String sortDir,
                                             @Param("categoryId") Long categoryId){
         count = 1;
-        Page<Product> page = productService.getProductsByCategoryId(categoryId, 1, sortField, sortDir);
+        Page<Product> page = productService.getProductsByCategoryIdAndProductStateEquals(categoryId,ProductState.SAVE_AND_RELEASE, 1, sortField, sortDir);
         general(model, page, 1, sortField, sortDir);
 
         List<Product> list = page.getContent();
+
         System.out.println("----------category list"+list.toString());
         model.addAttribute("products", list);
         model.addAttribute("categoryId", categoryId);
@@ -106,10 +113,11 @@ public class CustomerController {
         String sortField = jsonObject.get("sortField").getAsString();
         System.out.println(sortField);
 
-        Page<Product> page = productService.getProductsByCategoryId(categoryId, count, sortField, sortDir);
+        Page<Product> page = productService.getProductsByCategoryIdAndProductStateEquals(categoryId,ProductState.SAVE_AND_RELEASE, count, sortField, sortDir);
         general(model, page, pageNum, sortField, sortDir);
 //        System.out.println(id + "category id");
         List<Product> list = page.getContent();
+
         if(page.getTotalPages()>=count){
             return list.toString() + page.getTotalPages();
         }
@@ -152,8 +160,9 @@ public class CustomerController {
         //System.out.println(pageNum);
         String key=keyword.toLowerCase();
         System.out.println(key);
-        Page<Product> page = productService.findProductsByProductNameContains(keyword, 1, "uploadDate", "desc");
+        Page<Product> page = productService.findProductsByProductStateEqualsAndProductNameContainsOrProductNameContainsAndProductStateEquals(ProductState.SAVE_AND_RELEASE, keyword.toUpperCase(), keyword.toUpperCase(), ProductState.SAVE_AND_RELEASE, 1, "uploadDate", "desc");
         List<Product> list = page.getContent();
+
         System.out.println(list);
         general(model, page, 1, "uploadDate", "desc");
         model.addAttribute("products", list);
