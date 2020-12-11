@@ -2,13 +2,8 @@ package edu.miu.cs.neptune.controller;
 
 import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.*;
-import edu.miu.cs.neptune.exception.NoProductsFoundUnderCategoryException;
-import edu.miu.cs.neptune.exception.ProductDeleteException;
-import edu.miu.cs.neptune.service.AuctionService;
-import edu.miu.cs.neptune.service.BiddingService;
-import edu.miu.cs.neptune.service.CategoryService;
-import edu.miu.cs.neptune.service.ProductService;
-import org.springframework.security.access.prepost.PreAuthorize;
+import edu.miu.cs.neptune.service.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,13 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
-import java.io.File;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
@@ -32,28 +24,31 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final ServletContext servletContext;
-    private final AuctionService auctionService;
+    private final BiddingService biddingService;
+    private final UserService userService;
 
-    public ProductController(ProductService productService, CategoryService categoryService, ServletContext servletContext, AuctionService auctionService) {
+    public ProductController(ProductService productService, CategoryService categoryService, ServletContext servletContext,
+                             BiddingService biddingService,
+                             UserService userService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.servletContext = servletContext;
-        this.auctionService = auctionService;
+        this.biddingService = biddingService;
+        this.userService = userService;
     }
 
     @GetMapping("/all")
 //    @PreAuthorize("hasRole('SELLER')")
     private String getAllProducts(Model model) {
         List<Product> products = productService.getAll();
-        Auction auction;
         Integer numberOfBid = 0;
 
         Map<Long,Integer> productMaps = new HashMap<>();
         for (Product p: products
              ) {
-//            numberOfBid = biddingService.getNumberOfBidByProductId(p.getProductId());
+            numberOfBid = biddingService.getNumberOfBidByProductId(p.getProductId());
+
             productMaps.put(p.getProductId(), numberOfBid);
-            numberOfBid ++;
         }
         model.addAttribute("products", productService.getAll());
         model.addAttribute("productMaps", productMaps);
@@ -66,7 +61,7 @@ public class ProductController {
         List<Product> productList = productService.getProductsByCategoryId(categoryId);
 
         if (productList == null || productList.isEmpty()) {
-            throw new NoProductsFoundUnderCategoryException();
+            throw new RuntimeException("No product found under the category " + categoryId);
         }
 
         model.addAttribute("products", productList);
@@ -91,7 +86,7 @@ public class ProductController {
 
     @PostMapping("/saveProduct")
     //@PreAuthorize("hasRole('SELLER')")
-    public String saveProduct(Product product,@RequestParam(value="action", required=true) String action,
+    public String saveProduct(Product product, Principal principal, @RequestParam(value="action", required=true) String action,
                               BindingResult result) {
         Auction auction = product.getAuction();
         if(action.equals("Save And Release")) {
@@ -122,27 +117,28 @@ public class ProductController {
                 throw new RuntimeException("Product image was saving failed", ex);
             }
         }
-
+        User currentUser = userService.getByName(principal.getName()).orElse(null);
+        product.setSeller(currentUser);
         productService.save(product);
 
-        return "user/SellerDetails";
+        return "redirect:/product/all";
     }
 
     @RequestMapping(value = "/edit/{productId}")
     public String updateCategory(@PathVariable Long productId, Model model) {
         Product product = productService.getProductById(productId);
 
-       //Integer numberOfBid = biddingService.getNumberOfBidByProductId(product.getProductId());
-        Integer numberOfBid = 1;
-        boolean disabled = false;
+        Integer numberOfBid = biddingService.getNumberOfBidByProductId(product.getProductId());
+        Boolean disabled = false;
 
-        if(numberOfBid>0 || product.getProductState() == ProductState.SAVE_AND_RELEASE) {
+        if(numberOfBid>0) {
             disabled = true;
         }
 
         model.addAttribute("product", product);
         model.addAttribute("categories", categoryService.getAll());
         model.addAttribute("disabled", disabled);
+        model.addAttribute("numberOfBid", numberOfBid);
 
         return "seller/ProductEditForm";
     }
@@ -151,7 +147,7 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long productId, RedirectAttributes redirectAttributes) {
         try {
             productService.delete(productId);
-        } catch (ProductDeleteException productDeleteException) {
+        } catch (RuntimeException productDeleteException) {
             redirectAttributes.addFlashAttribute("error", productDeleteException.getMessage());
         }
         return "redirect:/product/all";

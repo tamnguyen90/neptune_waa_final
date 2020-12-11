@@ -1,7 +1,6 @@
 package edu.miu.cs.neptune.controller;
 
 import edu.miu.cs.neptune.domain.Category;
-import edu.miu.cs.neptune.exception.CategoryException;
 import edu.miu.cs.neptune.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,7 +53,7 @@ public class CategoryController {
         //Call service to save category.
         try {
             categoryService.save(category);
-        } catch (CategoryException e) {
+        } catch (RuntimeException e) {
             model.addAttribute("error",e.getMessage());
             return "admin/CategoryForm";
         }
@@ -78,7 +77,7 @@ public class CategoryController {
         //Call service to save category.
         try {
             categoryService.save(category);
-        } catch (CategoryException e) {
+        } catch (RuntimeException e) {
             model.addAttribute("error",e.getMessage());
             return "admin/CategoryEditForm";
         }
@@ -99,7 +98,7 @@ public class CategoryController {
         //Call service to save category.
         try {
             categoryService.delete(categoryId);
-        } catch (CategoryException e) {
+        } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("error",e.getMessage());
         }
 

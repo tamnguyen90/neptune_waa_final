@@ -6,6 +6,7 @@ import com.paypal.base.rest.PayPalRESTException;
 import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.repository.AuctionRepository;
 import edu.miu.cs.neptune.service.AuctionService;
+import edu.miu.cs.neptune.service.PaypalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-public class PaypalService {
+public class PaypalServiceImpl implements PaypalService {
 
     @Autowired
     AuctionService auctionService;
@@ -101,7 +102,7 @@ public class PaypalService {
         return payment.execute(apiContext, paymentExecute);
     }
 
-    public Refund refundPayment(String saleId, double refundAmount) throws PayPalRESTException{
+    public Refund refundPayment(String saleId, double refundAmount) throws PayPalRESTException {
         Refund refund = new Refund();
         Amount amount = new Amount();
         amount.setTotal(Double.toString(refundAmount));

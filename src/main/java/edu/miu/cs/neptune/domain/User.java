@@ -1,6 +1,10 @@
 package edu.miu.cs.neptune.domain;
 
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -63,10 +67,12 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToMany
+    @OneToMany(mappedBy = "bidder", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Bid> bids = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Product> products = new ArrayList<>();
 
 

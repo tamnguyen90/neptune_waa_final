@@ -21,20 +21,14 @@
 
 	<div class="page-content">
 		<div class="form-v10-content">
-			<form class="form-detail" form method="post" th:action="@{/login}" id="myform">
+			<form class="form-detail" form method="get" th:action="@{/login}" id="myform">
 				<div class="form-right">
-					<h2>Login to Neptune Auction System</h2>
+					<h2 style="font-size: 20px; color: #ff0000;">Access Denied</h2>
 					<div class="form-row">
-						<input type="text" class="username" id="username"  name="username" placeholder="Enter username" required>
-					</div>
-					<div class="form-row">
-						<input type="password" class="password" id="password"  name="password" placeholder="Enter password" required>
+						<span style="color: white">Sorry about that, but you do not have permission to access Nepture Auction System. Please go back to Login page.</span>
 					</div>
 					<div class="form-row-last">
-						<input type="submit" class="register" value="Login"/>
-						<br/>
-						<a style="color: white" th:href="@{/users/resetPassword}">Forgot Password?</a><span style="color: white" > | </span>
-						<a style="color: white" th:href="@{/users/create}">Register New User</a>
+						<input type="submit" class="register" value="Back to Login Page"/>
 					</div>
 				</div>
 			</form>

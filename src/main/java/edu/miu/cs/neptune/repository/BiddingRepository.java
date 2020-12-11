@@ -1,5 +1,6 @@
 package edu.miu.cs.neptune.repository;
 
+import edu.miu.cs.neptune.domain.AuctionStatus;
 import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,5 @@ public interface BiddingRepository extends JpaRepository<Bid, Long> {
     List<Bid> findBidsByProductId(Long productId);
 
     @Query(value = "SELECT COUNT(b) FROM Bid b JOIN Product p ON b.auction.auctionId = p.auction.auctionId WHERE p.productId = :productId")
-    Integer countBidsByProductId(Long productId);
+    Integer getNumberOfBidByProductId(Long productId);
 }

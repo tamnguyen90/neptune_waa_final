@@ -169,4 +169,24 @@ public class Product {
     public void setProductState(ProductState productState) {
         this.productState = productState;
     }
+    @Override
+    public String toString() {
+        return "{" +
+                '\"' + "productId" + '\"' + ':' + '\"'  +productId +
+//                '\"' +",categoryId" + '\"' + ':' + '\"' +categoryId  +
+                '\"' +";\"productName" + '\"'+ ':' + '\"' +productName +
+
+
+                '\"' + ";\"productDescription" + '\"'+ ':' + '\"' +productDescription +
+                '\"' + ";\"productPrice"+ '\"' + ':' + '\"' +productPrice +
+                '\"' +";\"uploadDate" + '\"'+ ':' + '\"' +uploadDate + '\"' +
+//                '\"' +",productStatus"+ '\"' + ':' + '\"' +productStatus +
+//                '\"' +",paymentDueDate"+ '\"' + ':' + '\"' +paymentDueDate +
+//                '\"' +",seller"+ '\"' + ':' + '\"' +seller +
+//                '\"' +",images"+ '\"' + ':' + '\"' +images +
+//                '\"' +",dbImages"+ '\"' + ':' + '\"' +dbImages +
+//                '\"' +",categories"+ '\"' + ':' + '\"' +categories +
+//                '\"' +",auction"+ '\"' + ':' + '\"' +auction +
+                '}';
+    }
 }

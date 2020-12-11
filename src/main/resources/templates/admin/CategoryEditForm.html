@@ -28,12 +28,12 @@
                             <h4 class="modal-title">Edit Category</h4>
                         </div>
                         <div class="modal-body">
-                                <p>
+                                <div>
                                     <span th:text="${error}">ID</span>
                                     <ul th:if="${#fields.hasErrors('*')}">
                                     <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input is incorrect</li>
                                 </ul>
-                                </p>
+                                </div>
                                 <div class="form-group">
                                     <label for="id"><span th:text="#{category.form.categoryId}">ID: </span></label>
                                     <input type="text" id="id" th:field="*{categoryId}" hidden />

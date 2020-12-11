@@ -13,6 +13,8 @@ public interface AuctionService {
     //    @Override
     List<Auction> getAllByUserId(Long userId);
 
+    List<Auction> getAllActiveAuctions();
+
     List<Auction> getAllEndedAuction();
 
     void productSold(Long id);

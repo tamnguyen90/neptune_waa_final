@@ -7,6 +7,15 @@ insert into users values (4,'bobby@miu.com',true,false, 'Bobby', false, 'Johnson
 insert into users values (5,'john@miu.com',true,false, 'John', false, 'Doe', '45678', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'johnd', 'hale01','2020-12-08 21:50:41.644283',null);
 insert into users values (6,'sam@miu.com',true,false, 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'samc', 'hale02','2020-12-08 21:50:41.644283',null);
 
+-- create profile to be verified
+insert into users values (7,'valid_user1@gmail.com',true,false, 'valid_user1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'valid_user1', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (8,'valid_user2@gmail.com',true,false, 'valid_user2', false, 'nguyen', '54321', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'valid_user2', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (9,'invalid_user@gmail.com',true,false, 'invalid_user', false, 'nguyen', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'invalid_user', 'namn01','2020-12-08 21:50:41.644283',null);
+
+-- create dmv fake data
+INSERT INTO DMV VALUES (1, 'valid_user1@gmail.com', 'valid_user1', 'nguyen', '12345');
+INSERT INTO DMV VALUES (2, 'valid_user2@gmail.com', 'valid_user2', 'nguyen', '54321');
+
 --cat data
 INSERT INTO CATEGORY VALUES (1, 'Phone', 'Phone');
 INSERT INTO CATEGORY VALUES (2, 'Laptop', 'Laptop');
@@ -38,12 +47,23 @@ INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRI
 INSERT INTO PRODUCT VALUES(9,3, null , 'Google Nexus 2020 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 2020',500, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',9 ,3);
 
 
+INSERT INTO PRODUCT VALUES(10,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+INSERT INTO PRODUCT VALUES(11,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+INSERT INTO PRODUCT VALUES(12,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+INSERT INTO PRODUCT VALUES(13,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+INSERT INTO PRODUCT VALUES(14,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+INSERT INTO PRODUCT VALUES(15,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+INSERT INTO PRODUCT VALUES(16,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+INSERT INTO PRODUCT VALUES(17,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+INSERT INTO PRODUCT VALUES(18,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+INSERT INTO PRODUCT VALUES(19,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
+
 -- insert 3 products, each product should have 1 auction
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (247, '2020-12-06 15:00:00', '2020-12-10 20:25:00', 3, 100 , 4, null, null);
+                values (247, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
 
 INSERT INTO PRODUCT (PRODUCT_ID,CATEGORY_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STATE, PRODUCT_STATUS, UPLOAD_DATE,AUCTION_ID, SELLER_USER_ID)
-            VALUES(1,1, '2020-12-11 20:54:00' , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone7s',250, 'SAVE_AND_RELEASE', 1,'2020-11-16', 247, 1);
+            VALUES(1,1, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone7s',250, 'SAVE_AND_RELEASE', 1,'2020-11-16', 247, 1);
 
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
                 values (248, '2020-12-06 15:00:00', '2020-12-31 15:00:00', 1, 150 , null, null, null);
@@ -56,6 +76,18 @@ INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRI
 
 INSERT INTO PRODUCT (PRODUCT_ID,CATEGORY_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STATE, PRODUCT_STATUS, UPLOAD_DATE,AUCTION_ID, SELLER_USER_ID)
             VALUES(3,3, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7',90, 'SAVE_AND_RELEASE', 1,'2020-09-26', 249, 3);
+
+--insert multiple cat to some product
+INSERT INTO PRODUCT_CATEGORIES VALUES(1, 1);
+INSERT INTO PRODUCT_CATEGORIES VALUES(1, 2);
+INSERT INTO PRODUCT_CATEGORIES VALUES(1, 3);
+
+INSERT INTO PRODUCT_CATEGORIES VALUES(2, 1);
+INSERT INTO PRODUCT_CATEGORIES VALUES(2, 2);
+INSERT INTO PRODUCT_CATEGORIES VALUES(3, 3);
+
+
+
 
 --image data
 INSERT INTO IMAGE VALUES (1, 'iphone6s.jpg');
@@ -74,6 +106,14 @@ INSERT INTO IMAGE VALUES (13,  'iphone7s_3.jpg');
 
 INSERT INTO PRODUCT_DB_IMAGES VALUES(8, 2);
 INSERT INTO PRODUCT_DB_IMAGES VALUES(8, 5);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(8, 8);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(8, 11);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(7, 7);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(7, 1);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(7, 10);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(7, 13);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(3, 12);
+
 
 
 -- create bid for each user on product id: 247
@@ -90,3 +130,14 @@ INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (6, 104);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 105);
 
 INSERT INTO DMV VALUES (1, 'user@miu', 'test1', 'nguyen', '12345');
+
+
+
+
+
+
+
+
+
+
+

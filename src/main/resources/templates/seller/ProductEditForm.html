@@ -16,7 +16,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Categories</h1>
+                <h1 class="mt-4">Products</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a th:href="${'/product'}">Seller</a></li>
                     <li class="breadcrumb-item"><a th:href="${'/product/all'}">Products</a></li>
@@ -27,12 +27,13 @@
                         <h4 class="modal-title">Edit Product</h4>
                     </div>
                     <div class="modal-body">
-                        <p>
+                        <div>
                         <ul th:if="${#fields.hasErrors('*')}">
                             <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input is incorrect</li>
                         </ul>
-                        </p>
+                        </div>
                         <div class="form-group">
+                            <input type="text" id="productId" name="productId" th:field="*{productId}" hidden />
                             <label for="id">Name: </span></label>
                             <input class="form-control" type="text" id="id" th:field="*{productName}" th:disabled="${disabled}" />
                             <p th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" th:errorclass="fieldError">Incorrect name</p>
@@ -42,19 +43,29 @@
                             <input class="form-control" type="number" id="name" th:field="*{productPrice}" th:disabled="${disabled}" />
                             <p th:if="${#fields.hasErrors('productPrice')}" th:errors="*{productPrice}" th:errorclass="fieldError">Incorrect price</p><div class="form-group">
                         </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" id="description" th:field="*{productDescription}" th:disabled="${disabled}" />
-                            </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" th:field="*{productDescription}" th:disabled="${disabled}" />
+                        </div>
                             <div class="form-group">
                                 <label for="categories">Categories </label>
-                                <select class="form-control" id="categories" th:field="*{categories}" multiple="multiple" th:disabled="${disabled}">
-                                    <option th:each="category: ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}">
+                                <select class="form-control" id="categories" name="categories"  multiple="multiple" th:disabled="${disabled}">
+                                    <option th:each="category: ${categories}"
+                                            th:value="${category.categoryId}"
+                                            th:text="${category.categoryName}"
+                                            th:selected="${product.categories.contains(category)}">
                                     </option>
                                 </select>
                             </div>
+                        <div class="form-group">
+                            <label for="productState">State</label>: <span id="productState" th:text="*{productState}" />
+                        </div>
                             <div class="form-group">
-                                <label>Images</label>
+                                <label>Images</label><br>
+                                <span th:each="image : ${product.dbImages}">
+<!--                                    <span th:text="${product.dbImages.size()}"></span>-->
+                                    <img th:src="@{'/ProductImages/' + ${image.name}}" width="150px" height="150px"/>
+                                </span>
                                 <input class="form-control" type="file" multiple="multiple" th:field="*{images}" accept="image/png, image/jpeg">
                             </div>
                             <fieldset>
@@ -76,12 +87,12 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="modal-footer">
-                            <!--                            <input id="reset" type="reset" tabindex="4">-->
-                            <input class="btn btn-success" name="action" type="submit" tabindex="5" value="Save Without Release" th:disabled="${disabled}">
-                            <input class="btn btn-success" name="action" type="submit" tabindex="5" value="Save And Release" th:disabled="${disabled}">
-                        </div>
-                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <!--                            <input id="reset" type="reset" tabindex="4">-->
+                        <input class="btn btn-success" name="action" type="submit" tabindex="5" value="Save Without Release" th:disabled="${disabled}">
+                        <input class="btn btn-success" name="action" type="submit" tabindex="5" value="Save And Release" th:disabled="${disabled}">
+                    </div>
                 </form>
             </div>
         </main>

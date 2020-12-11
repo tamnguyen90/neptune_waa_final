@@ -16,10 +16,11 @@ public interface ProductService {
     Product getProductById(Long productID);
     List<Product> getProductsByCategoryId(Long categoryId);
     Page<Product> listAll(int pageNum, String sortField, String sortDir);
-    Slice<Product> getProductsByCategoryId(Long id, int start, int end, String sortField, String sortDir);
+    Page<Product> getProductsByCategoryId(Long id, int pageNum, String sortField, String sortDir);
 
-    List<Product> findProductsByProductNameContaining(String keyword);
+    Page<Product> findProductsByProductNameContaining(String keyword, int pageNum, String sortField, String sortDir);
     Page<Product> findProductsByProductNameContains(String keyword, int pageNum, String sortField, String sortDir);
+  //  Page<Product> findProductsByProductNameContainUppercase(String keyword, int pageNum, String sortField, String sortDir, Pageable pageable);
     List<Category> findByCategoryId(Long id);
 
     //For Sell module
