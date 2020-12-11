@@ -23,19 +23,21 @@ public class UserController {
         this.userService = userService;
     }
 
+    //click Create User button, go to createUser page
     @RequestMapping("/create")
     public String createUserGet(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("availableRoles", Arrays.asList(Role.values()));
-//        return "user/create";
         return "user/createUser";
     }
 
+    //submit createUser page
     @PostMapping(value = "/create")
     public String createUserPost(User user) {
         userService.saveUser(user);
         return "redirect:/login";
     }
 
+    //click Forgot Password button, go to Forgot Password page
     @RequestMapping("/forgotPassword")
     public String forgotPasswordGet(Model model) {
         return "user/forgotPassword";
@@ -44,8 +46,6 @@ public class UserController {
     @PostMapping("/forgotPassword")
     public String forgotPasswordPost(@RequestParam(value = "username", required = false) String username,
                                      @RequestParam(value = "email", required = false) String email,
-//                                    @RequestParam(value = "newPassword", required = false) String newPassword,
-//                                    @RequestParam(value = "verifyNewPassword", required = false) String verifyNewPassword,
                                      RedirectAttributes redirectAttributes,
                                      Model model) {
         User user = userService.getByName(username).orElse(null);
@@ -57,23 +57,16 @@ public class UserController {
             String emailError = "Email input is not correct";
             model.addAttribute("errorMessage", emailError);
             return "user/forgotPassword";
-//        } else if(!newPassword.equals(verifyNewPassword)){
-//            String passwordError = "Input Passwords are not matched";
-//            model.addAttribute("errorMessage",passwordError);
-//            return "resetPassword";
         } else {
             redirectAttributes.addFlashAttribute("username", username);
             userService.forgotPasswordSendVC(user);
             return "redirect:/users/resetPasswordVerification";
-//            user.setPassword(newPassword);
-//            userService.updatePassword(user);
-//            return "redirect:/login";
         }
     }
 
     @GetMapping("/resetPasswordVerification")
     public String getResetPasswordVerification(@ModelAttribute(value = "username") String username, Model model) {
-        System.out.println(username);
+        //if user is not exist, need to go to accessDenied
         if (!StringUtils.hasText(username)) {
             return "redirect:/users/accessDenied";
         }else
@@ -105,7 +98,7 @@ public class UserController {
 
     @GetMapping("/resetPassword")
     public String resetPasswordGet(@ModelAttribute(value = "username") String username, Model model) {
-        System.out.println(username);
+        //if user is not exist, need to go to accessDenied
         if (!StringUtils.hasText(username)) {
             return "redirect:/users/accessDenied";
         } else
@@ -135,9 +128,6 @@ public class UserController {
             user.setPassword(newPassword);
             userService.updatePassword(user);
             return "redirect:/login";
-//            user.setPassword(newPassword);
-//            userService.updatePassword(user);
-//            return "redirect:/login";
         }
     }
 }
