@@ -8,7 +8,7 @@ import edu.miu.cs.neptune.domain.AuctionOrder;
 public interface PaypalService {
     Refund refundPayment(String saleId, double refundAmount) throws PayPalRESTException;
     void sendFundToSeller();
-    AuctionOrder getAuctionOrder(Long auctionId);
+    AuctionOrder getAuctionOrder(Long auctionId, String userName);
     Payment executePayment(String paymentId, String payerId) throws PayPalRESTException;
     Payment createPayment(
             Double total,

@@ -6,26 +6,16 @@ import com.paypal.base.rest.PayPalRESTException;
 import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.facade.AuctionFacade;
 import edu.miu.cs.neptune.Util.Util;
-import edu.miu.cs.neptune.domain.*;
-import edu.miu.cs.neptune.service.AuctionService;
 import edu.miu.cs.neptune.service.SystemPaymentService;
 import edu.miu.cs.neptune.service.UserService;
-import edu.miu.cs.neptune.service.impl.PaypalService;
-import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
-import javax.validation.constraints.NotNull;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,9 +23,6 @@ import java.util.Optional;
 @SessionAttributes({"sessionAuctionOrder"})
 @RequestMapping("/auction")
 public class AuctionController {
-
-    @Autowired
-    PaypalService paypalService;
 
     public static final String SUCCESS_URL = "/pay/success";
     public static final String CANCEL_URL = "/pay/cancel";
@@ -75,10 +62,6 @@ public class AuctionController {
         return "bidHistory";
     }
 
-    @GetMapping(value = "/")
-    public String showAllAuctions(Model model) {
-        model.addAttribute("auctions", auctionFacade.getAllAuctionsByUserId(4L));
-        return "auctionHistory";
     @GetMapping(value="")
     public String showAllAuctions(Model model, Principal principal) {
         System.out.println("username:"+principal.getName());
@@ -86,11 +69,7 @@ public class AuctionController {
 
         if (user.isPresent()) {
             User theUser = user.get();
-            List<Auction> listAuction = auctionService.getAllByUserId(theUser.getUserId());
-
-            for (Auction auction : listAuction) {
-                System.out.println(auction.getAuctionStatus());
-            }
+            List<Auction> listAuction = auctionFacade.getAllAuctionsByUserId(theUser.getUserId());
 
             model.addAttribute("auctions", listAuction);
             model.addAttribute("user", theUser);
@@ -100,14 +79,12 @@ public class AuctionController {
         System.out.println("Error: user not found");
         return "error";
 
-
     }
-
 
     // review before payment, should provide shipping address
     @GetMapping(value = "/pay")
-    public String beforePayment(@RequestParam String auctionId, Model model) {
-        AuctionOrder auctionOrder =  auctionFacade.getAuctionOrderByAuctionId(Long.parseLong(auctionId));
+    public String beforePayment(@RequestParam String auctionId, Model model, Principal principal) {
+        AuctionOrder auctionOrder =  auctionFacade.getAuctionOrderByAuctionId(Long.parseLong(auctionId), principal.getName());
         if (auctionOrder==null) {
             return "redirect:/auction?error=1";
         }
@@ -156,7 +133,7 @@ public class AuctionController {
                         PaymentStatus.PAID, PaymentType.PRODUCT_PAYMENT, saleId);
                 // store payment information in the database;
                 systemPaymentService.save(systemPayment);
-                auctionService.productSold(theAuctionOrder.getAuctionId());
+                auctionFacade.productSold(theAuctionOrder.getAuctionId());
 
                 model.addAttribute("auctionOrder", theAuctionOrder);
                 session.removeAttribute("sessionAuctionOrder");

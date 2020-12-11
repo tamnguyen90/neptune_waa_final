@@ -94,7 +94,7 @@ public class ProductController {
             auction.setAuctionStatus(AuctionStatus.ACTIVE);
         } else {
             product.setProductState(ProductState.SAVE_WITHOUT_RELEASE);
-            auction.setAuctionStatus(AuctionStatus.SAVE_WITHOUT_RELEASE);
+            auction.setAuctionStatus(AuctionStatus.INACTIVE);
         }
 
         if (result.hasErrors()) {

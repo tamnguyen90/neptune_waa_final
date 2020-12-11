@@ -20,7 +20,7 @@ public interface AuctionFacade {
 
     List<Auction> getAllAuctionsByUserId(long userId);
 
-    AuctionOrder getAuctionOrderByAuctionId(long auctionId);
+    AuctionOrder getAuctionOrderByAuctionId(long auctionId, String userName);
 
     Payment createPayment(Double price, String currency, String method, String intent, String description, String s, String s1) throws PayPalRESTException;
 
@@ -29,4 +29,6 @@ public interface AuctionFacade {
     Auction saveAuction(Auction auction);
 
     User getUserByUserName(String name);
+
+    void productSold(Long auctionId);
 }

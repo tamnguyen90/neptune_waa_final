@@ -149,8 +149,8 @@ public class AuctionFacadeImpl implements AuctionFacade {
     }
 
     @Override
-    public AuctionOrder getAuctionOrderByAuctionId(long auctionId) {
-        return paypalService.getAuctionOrder(auctionId);
+    public AuctionOrder getAuctionOrderByAuctionId(long auctionId, String userName) {
+        return paypalService.getAuctionOrder(auctionId, userName);
     }
 
     @Override
@@ -171,6 +171,11 @@ public class AuctionFacadeImpl implements AuctionFacade {
     @Override
     public User getUserByUserName(String name) {
         return userService.getByName(name).orElse(null);
+    }
+
+    @Override
+    public void productSold(Long auctionId) {
+        auctionService.productSold(auctionId);
     }
 
 }
