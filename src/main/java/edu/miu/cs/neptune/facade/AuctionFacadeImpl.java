@@ -1,9 +1,8 @@
 package edu.miu.cs.neptune.facade;
 
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
 import edu.miu.cs.neptune.domain.*;
-import edu.miu.cs.neptune.exception.BiddingAmountException;
-import edu.miu.cs.neptune.exception.ObjectNotFoundException;
-import edu.miu.cs.neptune.exception.OvertimeBiddingException;
 import edu.miu.cs.neptune.service.*;
 import org.springframework.stereotype.Component;
 
@@ -21,39 +20,38 @@ public class AuctionFacadeImpl implements AuctionFacade {
     private final ShippingService shippingService;
     private final SystemPaymentService systemPaymentService;
     private final MailService mailService;
+    private final PaypalService paypalService;
 
-    public AuctionFacadeImpl(UserService userService, BiddingService biddingService, AuctionService auctionService, ShippingService shippingService, SystemPaymentService systemPaymentService, MailService mailService) {
+    public AuctionFacadeImpl(UserService userService, BiddingService biddingService, AuctionService auctionService, ShippingService shippingService, SystemPaymentService systemPaymentService, MailService mailService, PaypalService paypalService) {
         this.userService = userService;
         this.biddingService = biddingService;
         this.auctionService = auctionService;
         this.shippingService = shippingService;
         this.systemPaymentService = systemPaymentService;
         this.mailService = mailService;
+        this.paypalService = paypalService;
     }
 
     @Override
-    public Bid createBid(Bid bid, User user, Long auctionId) {
-        Optional<Auction> optAuction = auctionService.getById(auctionId);
-        if (!optAuction.isPresent()) {
-            throw new ObjectNotFoundException("Auction is not found.");
-        }
-        Auction currentAuction = optAuction.get();
+    public Bid createBid(Bid bid, User user, Auction currentAuction) {
+
         if (bid.getBiddingTime().isAfter(currentAuction.getEndDate()) || !AuctionStatus.ACTIVE.equals(currentAuction.getAuctionStatus())) {
-            throw new OvertimeBiddingException("The bidding time is ended.");
+            throw new RuntimeException("The bidding time is ended.");
         }
 
-        Optional<Bid> currentHighestBid = biddingService.getHighestBidByAuctionId(currentAuction.getAuctionId());
-        if (!currentHighestBid.isPresent() && bid.getBiddingAmount() < currentAuction.getBeginPrice()) {
-            throw new BiddingAmountException("The bidding amount must be greater than the initial price.");
-        } else if (currentHighestBid.get().getBiddingAmount() >= bid.getBiddingAmount()) {
-            throw new BiddingAmountException("The bidding amount must be greater than the previous one.");
+        Bid currentHighestBid = biddingService.getHighestBidByAuctionId(currentAuction.getAuctionId()).orElse(null);
+        if (currentHighestBid == null && bid.getBiddingAmount() < currentAuction.getBeginPrice()) {
+            throw new RuntimeException("The bidding amount must be greater than the initial price.");
+        } else if (currentHighestBid!= null && currentHighestBid.getBiddingAmount() >= bid.getBiddingAmount()) {
+            throw new RuntimeException("The bidding amount must be greater than the previous one.");
         }
-        Bid savedBid = biddingService.save(bid);
-        user.addBid(savedBid);
+        //Bid savedBid = biddingService.save(bid);
+        bid.setBidder(user);
+        bid.setAuction(currentAuction);
+        user.addBid(bid);
         currentAuction.addBid(bid);
-        userService.saveUser(user);
-        auctionService.save(currentAuction);
-        return savedBid;
+
+        return  biddingService.save(bid);
     }
 
     @Override
@@ -68,7 +66,7 @@ public class AuctionFacadeImpl implements AuctionFacade {
     public Auction closeAuction(Long auctionId) {
         Optional<Auction> optAuction = auctionService.getById(auctionId);
         if (!optAuction.isPresent()) {
-            throw new ObjectNotFoundException("The auction is not found.");
+            throw new RuntimeException("The auction is not found.");
         }
         Auction currentAuction = optAuction.get();
         if (currentAuction.getEndDate().isBefore(LocalDateTime.now())) {
@@ -76,27 +74,33 @@ public class AuctionFacadeImpl implements AuctionFacade {
             if (currentAuction.getBids().size() > 0) {
                 Bid highest = getTheHighestBid(currentAuction);
                 currentAuction.setWinnerId(highest.getBidder().getUserId());
-                //TODO Send a notification email to seller and winner
+                //Send a notification email to seller and winner
+                sendMailToWinner(highest.getBidder());
+
             }
         }
         auctionService.save(currentAuction);
         return currentAuction;
     }
 
+    private void sendMailToWinner(User bidder) {
+        //TODO send mail to the winner
+    }
+
     @Override
     public boolean returnDeposit(Long auctionId) {
         Optional<Auction> optAuction = auctionService.getById(auctionId);
         if (!optAuction.isPresent()) {
-            throw new ObjectNotFoundException("The auction is not found.");
+            throw new RuntimeException("The auction is not found.");
         }
         Auction currentAuction = optAuction.get();
         if (!currentAuction.getAuctionStatus().equals(AuctionStatus.ENDED)) {
-            throw new OvertimeBiddingException("The auction isn't finished yet.");
+            throw new RuntimeException("The auction isn't finished yet.");
         }
         List<SystemPayment> systemPayments = systemPaymentService.getPaymentsByAuction(currentAuction.getAuctionId());
         systemPayments.forEach(payment -> {
             if (!payment.getUserId().equals(currentAuction.getWinnerId())) {
-                //TODO need review the payment structure and logic
+                //paypalService.refundPayment();
             }
         });
         return false;
@@ -106,7 +110,7 @@ public class AuctionFacadeImpl implements AuctionFacade {
     public User winner(Long auctionId) {
         Optional<Auction> optAuction = auctionService.getById(auctionId);
         if (!optAuction.isPresent()) {
-            throw new ObjectNotFoundException("The auction is not found.");
+            throw new RuntimeException("The auction is not found.");
         }
         Long winnerId = optAuction.get().getWinnerId();
         return userService.getById(winnerId).orElse(null);
@@ -115,7 +119,7 @@ public class AuctionFacadeImpl implements AuctionFacade {
     @Override
     public Bid getTheHighestBid(Auction auction) {
         if (auction == null) {
-            throw new ObjectNotFoundException("The auction is not found.");
+            throw new RuntimeException("The auction is not found.");
         }
 
         Bid highest = null;
@@ -128,4 +132,45 @@ public class AuctionFacadeImpl implements AuctionFacade {
         }
         return highest;
     }
+
+    @Override
+    public List<Auction> getALlActiveAuctions() {
+        return auctionService.getAllActiveAuctions();
+    }
+
+    @Override
+    public Auction getAuctionById(Long auctionId) {
+       return auctionService.getById(auctionId).orElse(null);
+    }
+
+    @Override
+    public List<Auction> getAllAuctionsByUserId(long userId) {
+        return auctionService.getAllByUserId(userId);
+    }
+
+    @Override
+    public AuctionOrder getAuctionOrderByAuctionId(long auctionId) {
+        return paypalService.getAuctionOrder(auctionId);
+    }
+
+    @Override
+    public Payment createPayment(Double price, String currency, String method, String intent, String description, String s, String s1) throws PayPalRESTException {
+        return paypalService.createPayment(price, currency, method, intent, description, s, s1);
+    }
+
+    @Override
+    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
+        return paypalService.executePayment(paymentId, payerId);
+    }
+
+    @Override
+    public Auction saveAuction(Auction auction) {
+        return auctionService.save(auction);
+    }
+
+    @Override
+    public User getUserByUserName(String name) {
+        return userService.getByName(name).orElse(null);
+    }
+
 }

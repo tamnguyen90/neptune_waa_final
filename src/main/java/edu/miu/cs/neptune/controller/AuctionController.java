@@ -3,48 +3,35 @@ package edu.miu.cs.neptune.controller;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import edu.miu.cs.neptune.domain.Auction;
-import edu.miu.cs.neptune.domain.AuctionOrder;
-import edu.miu.cs.neptune.domain.AuctionStatus;
-import edu.miu.cs.neptune.domain.Bid;
-import edu.miu.cs.neptune.domain.Product;
-import edu.miu.cs.neptune.service.AuctionService;
-import edu.miu.cs.neptune.service.impl.PaypalService;
-import edu.miu.cs.neptune.service.ProductService;
+import edu.miu.cs.neptune.domain.*;
+import edu.miu.cs.neptune.facade.AuctionFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @SessionAttributes({"sessionAuctionOrder"})
 @RequestMapping("/auction")
 public class AuctionController {
 
-    @Autowired
-    PaypalService paypalService;
-
     public static final String SUCCESS_URL = "/pay/success";
     public static final String CANCEL_URL = "/pay/cancel";
 
-
     @Autowired
-    AuctionService auctionService;
-
-    @Autowired
-    private ProductService productService;
+    private AuctionFacade auctionFacade;
 
     // Ganzo, bid history with pagination
     @GetMapping(value = "/{id}")
     public String bidHistory(@PathVariable("id") Long auctionId, Model model) {
 //        System.out.println("auctionId:"+auctionId);
-        if (auctionService.getById(auctionId).isPresent()) {
-            Auction currAuction = auctionService.getById(auctionId).get();
+        Auction currAuction = auctionFacade.getAuctionById(auctionId);
+        if (currAuction != null) {
             // bidirectional
             currAuction.getProduct().setAuction(currAuction);
             model.addAttribute("auction", currAuction);
@@ -64,20 +51,19 @@ public class AuctionController {
 
     @GetMapping(value = "/")
     public String showAllAuctions(Model model) {
-        model.addAttribute("auctions", auctionService.getAllByUserId(4L));
+        model.addAttribute("auctions", auctionFacade.getAllAuctionsByUserId(4L));
         return "auctionHistory";
     }
 
     // review before payment, should provide shipping address
     @GetMapping(value = "/pay")
     public String beforePayment(@RequestParam String auctionId, Model model) {
-        AuctionOrder auctionOrder =  paypalService.getAuctionOrder(Long.parseLong(auctionId));
+        AuctionOrder auctionOrder =  auctionFacade.getAuctionOrderByAuctionId(Long.parseLong(auctionId));
         if (auctionOrder==null) {
             return "error";
         }
         auctionOrder.setPrice(2.0);
         //System.out.println(auctionOrder);
-
         model.addAttribute("auctionOrder", auctionOrder);
         return "reviewPayment";
     }
@@ -88,7 +74,7 @@ public class AuctionController {
         session.setAttribute("sessionAuctionOrder", auctionOrder);
         System.out.println(auctionOrder);
         try {
-            Payment payment = paypalService.createPayment(auctionOrder.getPrice(), auctionOrder.getCurrency(), auctionOrder.getMethod(), auctionOrder.getIntent(),
+            Payment payment = auctionFacade.createPayment(auctionOrder.getPrice(), auctionOrder.getCurrency(), auctionOrder.getMethod(), auctionOrder.getIntent(),
                     auctionOrder.getDescription(), "http://localhost:9999/auction"+CANCEL_URL, "http://localhost:9999/auction"+SUCCESS_URL);
             for(Links link : payment.getLinks()) {
                 if (link.getRel().equals("approval_url")) {
@@ -99,8 +85,6 @@ public class AuctionController {
             e.printStackTrace();
         }
         return "redirect:/";
-//        model.addAttribute("auctionOrder",auctionOrder);
-//        return "invoice";
     }
 
     @GetMapping(value = CANCEL_URL)
@@ -111,7 +95,7 @@ public class AuctionController {
     @GetMapping(value = SUCCESS_URL)
     public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Model model, HttpSession session) {
         try {
-            Payment payment = paypalService.executePayment(paymentId, payerId);
+            Payment payment = auctionFacade.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
                 model.addAttribute("auctionOrder", session.getAttribute("sessionAuctionOrder"));
@@ -125,25 +109,53 @@ public class AuctionController {
         return "redirect:/";
     }
 
+     @GetMapping("/activeAuctions")
+     public String getActiveAuctions(Model model) {
+        List<Auction> activeAuctions = auctionFacade.getALlActiveAuctions();
+        model.addAttribute("activeAuctions", activeAuctions);
 
-    @GetMapping("/inputAuction")
-    public String inputAuction(@ModelAttribute("auction") Auction auction, @RequestParam("productId") Long productId, Model model) {
-        model.addAttribute("product", productService.getProductById(productId));
-        return "auction/AuctionForm";
-    }
+        return "auction/ActiveAuctions";
+     }
 
-    @PostMapping("/saveAuction")
-    public String saveAuction(@ModelAttribute("auction") Auction auction, @RequestParam("productId") Long productId, Model model, BindingResult result) {
-        if (result.hasErrors()) {
-            return "auction/AuctionForm";
+     @GetMapping("/auction")
+     public String auctionDetail(@RequestParam("id") Long auctionId, Model model) {
+        Auction auction = auctionFacade.getAuctionById(auctionId);
+        model.addAttribute("auction", auction);
+        Bid highestBid = auctionFacade.getTheHighestBid(auction);
+        Double highestPrice = highestBid != null ? highestBid.getBiddingAmount() : auction.getBeginPrice();
+        model.addAttribute("highestBid", highestPrice);
+
+        return "auction/AuctionDetail";
+     }
+
+     @PostMapping("/bidding")
+    public String bidding(@RequestParam("amount") Double bidAmount,
+                          @RequestParam("auctionId") Long auctionId,
+                          Principal principal,
+                          Model model) {
+        User currentUser = auctionFacade.getUserByUserName(principal.getName());
+        if (currentUser == null) {
+            throw new RuntimeException("The user not found.");
+        }
+        if (!UserVerificationType.VERIFIED.equals(currentUser.getUserVerificationType())) {
+            throw new RuntimeException("The user need to be verified to be able to bid on the product.");
         }
 
-        Product product = productService.getProductById(productId);
-        auction.setProduct(product);
-        auction.setAuctionStatus(AuctionStatus.ACTIVE);
-        auctionService.save(auction);
-        model.addAttribute("auction", auction);
-        return "auction/AuctionDetail";
+        Auction auction = auctionFacade.getAuctionById(auctionId);
+        if (currentUser.getUsername().equals(auction.getProduct().getSeller().getUsername())) {
+            throw new RuntimeException("The sellers can't bid on their own products.");
+        }
+
+        Bid highestBid = auctionFacade.getTheHighestBid(auction);
+        if (bidAmount < auction.getBeginPrice() || (highestBid != null && bidAmount <= highestBid.getBiddingAmount())) {
+            throw new RuntimeException("The bid amount must greater than the initial price or the current bid price.");
+        }
+
+        Bid newBid = new Bid(bidAmount, LocalDateTime.now());
+
+        newBid = auctionFacade.createBid(newBid, currentUser, auction);
+
+        return "redirect:/auction/auction?id="+ auctionId;
      }
 
 }

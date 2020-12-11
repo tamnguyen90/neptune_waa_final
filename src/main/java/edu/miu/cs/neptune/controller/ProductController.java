@@ -2,13 +2,10 @@ package edu.miu.cs.neptune.controller;
 
 import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.*;
-import edu.miu.cs.neptune.exception.NoProductsFoundUnderCategoryException;
-import edu.miu.cs.neptune.exception.ProductDeleteException;
 import edu.miu.cs.neptune.service.AuctionService;
 import edu.miu.cs.neptune.service.BiddingService;
 import edu.miu.cs.neptune.service.CategoryService;
 import edu.miu.cs.neptune.service.ProductService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,13 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
-import java.io.File;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
@@ -66,7 +59,7 @@ public class ProductController {
         List<Product> productList = productService.getProductsByCategoryId(categoryId);
 
         if (productList == null || productList.isEmpty()) {
-            throw new NoProductsFoundUnderCategoryException();
+            throw new RuntimeException("No product found under the category " + categoryId);
         }
 
         model.addAttribute("products", productList);
@@ -151,7 +144,7 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long productId, RedirectAttributes redirectAttributes) {
         try {
             productService.delete(productId);
-        } catch (ProductDeleteException productDeleteException) {
+        } catch (RuntimeException productDeleteException) {
             redirectAttributes.addFlashAttribute("error", productDeleteException.getMessage());
         }
         return "redirect:/product/all";

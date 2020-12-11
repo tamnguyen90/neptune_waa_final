@@ -1,5 +1,9 @@
 package edu.miu.cs.neptune.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -25,6 +29,7 @@ public class Auction implements Serializable {
     private Long winnerId;
 
     @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Bid> bids = new ArrayList<>();
     private LocalDateTime shippingDate;
     private ShippingStatus shippingStatus;

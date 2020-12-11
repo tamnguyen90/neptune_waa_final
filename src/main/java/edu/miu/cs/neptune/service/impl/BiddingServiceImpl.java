@@ -1,6 +1,7 @@
 package edu.miu.cs.neptune.service.impl;
 
 import edu.miu.cs.neptune.Util.Util;
+import edu.miu.cs.neptune.domain.AuctionStatus;
 import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.repository.BiddingRepository;
@@ -18,12 +19,12 @@ public class BiddingServiceImpl implements BiddingService {
 
     @Override
     public Bid save(Bid bid) {
-        return null;
+        return biddingRepository.save(bid);
     }
 
     @Override
     public Bid getBidById(Long bidId) {
-        return null;
+        return biddingRepository.findById(bidId).orElse(null);
     }
 
     @Override
@@ -45,4 +46,5 @@ public class BiddingServiceImpl implements BiddingService {
     public Integer getNumberOfBidByProductId(Long productId) {
         return biddingRepository.getNumberOfBidByProductId(productId);
     }
+
 }

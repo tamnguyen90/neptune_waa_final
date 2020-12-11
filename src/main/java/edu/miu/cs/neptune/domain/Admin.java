@@ -1,7 +1,5 @@
 package edu.miu.cs.neptune.domain;
 
-import edu.miu.cs.neptune.exception.ObjectNotFoundException;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -76,21 +74,21 @@ public class Admin {
 
     public void addVerifyCustomer(User customer) {
         if (customer == null) {
-            throw new ObjectNotFoundException("The customer is not found.");
+            throw new RuntimeException("The customer is not found.");
         }
         this.verifyCustomers.add(customer);
     }
 
     public void addVerifySeller(User seller) {
         if (seller == null) {
-            throw new ObjectNotFoundException("The seller is not found.");
+            throw new RuntimeException("The seller is not found.");
         }
         this.verifySellers.add(seller);
     }
 
     public void addCategory(Category category) {
         if (category == null) {
-            throw new ObjectNotFoundException("The category is not found.");
+            throw new RuntimeException("The category is not found.");
         }
         this.categories.add(category);
     }
