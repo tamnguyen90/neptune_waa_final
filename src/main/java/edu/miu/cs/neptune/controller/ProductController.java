@@ -106,11 +106,24 @@ public class ProductController {
             try {
 
                 int count = 0;
+                int numberImages = images.size();
+
+                //Remove images which has zero size.
+                for(int i=0; i<numberImages; ++i) {
+                    if(images.get(i).getSize() ==0) {
+                        images.remove(i);
+                    }
+                }
+
                 for (MultipartFile image : images) {
-                    String uploadDir = "ProductImages/";
-                    String fileName = now + "_" + ++count + ".png";
-                    Util.saveFile(uploadDir, fileName, image);
-                    product.addDbImage(new Image(fileName));
+                    if(image.getSize() ==0) {
+                        images.remove(image);
+                    } else {
+                        String uploadDir = "ProductImages/";
+                        String fileName = now + "_" + ++count + ".png";
+                        Util.saveFile(uploadDir, fileName, image);
+                        product.addDbImage(new Image(fileName));
+                    }
                 }
             } catch (Exception ex) {
                 throw new RuntimeException("Product image was saving failed", ex);

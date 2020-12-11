@@ -43,6 +43,10 @@ public class Auction implements Serializable {
         this.beginPrice = beginPrice;
     }
 
+    public void setAuctionId(Long auctionId) {
+        this.auctionId = auctionId;
+    }
+
     public Product getProduct() {
         return product;
     }
