@@ -8,9 +8,13 @@ insert into users values (5,'john@miu.com',true,false, 'John', false, 'Doe', '45
 insert into users values (6,'sam@miu.com',true,false, 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'samc', 'hale02','2020-12-08 21:50:41.644283',null);
 
 -- create profile to be verified
-insert into users values (7,'valid_user1@gmail.com',true,false, 'valid_user1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'valid_user', 'namn01','2020-12-08 21:50:41.644283',null);
-insert into users values (8,'valid_user2@gmail.com',true,false, 'valid_user2', false, 'nguyen', '54321', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'valid_user', 'namn01','2020-12-08 21:50:41.644283',null);
-insert into users values (9,'invalid_user@gmail.com',true,false, 'invalid_user', false, 'nguyen', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'valid_user', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (7,'valid_user1@gmail.com',true,false, 'valid_user1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'valid_user1', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (8,'valid_user2@gmail.com',true,false, 'valid_user2', false, 'nguyen', '54321', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'valid_user2', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (9,'invalid_user@gmail.com',true,false, 'invalid_user', false, 'nguyen', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'invalid_user', 'namn01','2020-12-08 21:50:41.644283',null);
+
+-- create dmv fake data
+INSERT INTO DMV VALUES (1, 'valid_user1@gmail.com', 'valid_user1', 'nguyen', '12345');
+INSERT INTO DMV VALUES (2, 'valid_user2@gmail.com', 'valid_user2', 'nguyen', '54321');
 
 --cat data
 INSERT INTO CATEGORY VALUES (1, 'Phone', 'Phone');
@@ -124,8 +128,7 @@ INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 103);
 INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (6, 104);
 
 
-INSERT INTO DMV VALUES (1, 'valid_user1@gmail.com', 'valid_user1', 'nguyen', '12345');
-INSERT INTO DMV VALUES (2, 'valid_user2@gmail.com', 'valid_user2', 'nguyen', '54321');
+
 
 
 
