@@ -154,12 +154,17 @@ public class AuctionController {
      }
 
      @GetMapping("/auction")
-     public String auctionDetail(@RequestParam("id") Long auctionId, Model model) {
+     public String auctionDetail(@RequestParam("id") Long auctionId, Principal principal, Model model) {
         Auction auction = auctionFacade.getAuctionById(auctionId);
-        model.addAttribute("auction", auction);
         Bid highestBid = auctionFacade.getTheHighestBid(auction);
         Double highestPrice = highestBid != null ? highestBid.getBiddingAmount() : auction.getBeginPrice();
+        User currentUser = auctionFacade.getUserByUserName(principal.getName());
+        boolean isSeller = currentUser.getUsername().equals(auction.getProduct().getSeller().getUsername()) ? true : false;
+        boolean isUserVerified = UserVerificationType.VERIFIED.equals(currentUser.getUserVerificationType()) ? true : false;
+        model.addAttribute("auction", auction);
         model.addAttribute("highestBid", highestPrice);
+        model.addAttribute("isSeller", isSeller);
+        model.addAttribute("isUserVerified", isUserVerified);
 
         return "auction/AuctionDetail";
      }
