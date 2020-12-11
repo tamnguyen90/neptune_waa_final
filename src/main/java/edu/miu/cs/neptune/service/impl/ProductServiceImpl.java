@@ -50,16 +50,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Slice<Product> getProductsByCategoryId(Long id, int start, int end, String sortField, String sortDir) {
-        Pageable pageable = PageRequest.of(start - 1, 5,
+    public Page<Product> getProductsByCategoryId(Long id, int pageNum, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5,
                 sortDir.equals("asc")? Sort.by(sortField).ascending():Sort.by(sortField).descending());
 
         return productRepository.getProductsByCategoryId(id, pageable);
     }
 
+
     @Override
-    public List<Product> findProductsByProductNameContaining(String keyword) {
-        return productRepository.findProductsByProductNameContaining(keyword);
+    public Page<Product> findProductsByProductNameContaining(String keyword, int pageNum, String sortField, String sortDir) {
+        return productRepository.findProductsByProductNameContaining(keyword.toUpperCase(), Pageable.unpaged());
     }
 
 
@@ -67,8 +68,9 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> findProductsByProductNameContains(String keyword, int pageNum, String sortField, String sortDir) {
         Pageable pageable = PageRequest.of(pageNum-1, 5,
                 sortDir.equals("asc")?Sort.by(sortField).ascending():Sort.by(sortField).descending());
-        return productRepository.findProductsByProductNameContains(keyword,pageable);
+        return productRepository.findProductsByProductNameContains(keyword, pageable);
     }
+
 
     @Override
     public List<Category> findByCategoryId(Long id) {
