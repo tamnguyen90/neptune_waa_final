@@ -2,6 +2,7 @@ package edu.miu.cs.neptune.service.impl;
 
 import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.Auction;
+import edu.miu.cs.neptune.domain.AuctionStatus;
 import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.repository.AuctionRepository;
@@ -50,6 +51,11 @@ public class AuctionServiceImpl implements AuctionService {
             }
         }
         return userAuctionList;
+    }
+
+    @Override
+    public List<Auction> getAllActiveAuctions() {
+        return auctionRepository.findAllByAuctionStatus(AuctionStatus.ACTIVE);
     }
 
 //    @Override

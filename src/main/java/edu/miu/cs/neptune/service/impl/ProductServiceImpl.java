@@ -4,7 +4,6 @@ import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
-import edu.miu.cs.neptune.exception.ProductDeleteException;
 import edu.miu.cs.neptune.repository.BiddingRepository;
 import edu.miu.cs.neptune.repository.CategoryRepository;
 import edu.miu.cs.neptune.repository.ProductRepository;
@@ -13,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -53,16 +50,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Slice<Product> getProductsByCategoryId(Long id, int start, int end, String sortField, String sortDir) {
-        Pageable pageable = PageRequest.of(start - 1, 5,
+    public Page<Product> getProductsByCategoryId(Long id, int pageNum, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5,
                 sortDir.equals("asc")? Sort.by(sortField).ascending():Sort.by(sortField).descending());
 
         return productRepository.getProductsByCategoryId(id, pageable);
     }
 
+
     @Override
-    public List<Product> findProductsByProductNameContaining(String keyword) {
-        return productRepository.findProductsByProductNameContaining(keyword);
+    public Page<Product> findProductsByProductNameContaining(String keyword, int pageNum, String sortField, String sortDir) {
+        return productRepository.findProductsByProductNameContaining(keyword.toUpperCase(), Pageable.unpaged());
     }
 
 
@@ -70,8 +68,9 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> findProductsByProductNameContains(String keyword, int pageNum, String sortField, String sortDir) {
         Pageable pageable = PageRequest.of(pageNum-1, 5,
                 sortDir.equals("asc")?Sort.by(sortField).ascending():Sort.by(sortField).descending());
-        return productRepository.findProductsByProductNameContains(keyword,pageable);
+        return productRepository.findProductsByProductNameContains(keyword, pageable);
     }
+
 
     @Override
     public List<Category> findByCategoryId(Long id) {
@@ -89,8 +88,9 @@ public class ProductServiceImpl implements ProductService {
         List<Bid> bids= biddingRepository.findBidsByProductId(productId);
 
         if(bids.size()>0) {
-            throw new ProductDeleteException("Product has already been started bidding");
+            throw new RuntimeException("Product has already been started bidding.");
         }
         productRepository.deleteById(productId);
     }
+
 }

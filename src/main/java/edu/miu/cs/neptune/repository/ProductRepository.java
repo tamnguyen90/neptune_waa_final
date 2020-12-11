@@ -9,6 +9,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,10 +21,12 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 //    Page<Product> listAll(int pageNum, String sortField, String sortDir);
 
 //    @Query(value = "SELECT p FROM Product p WHERE UPPER(p.productName) = UPPER(?1)")
-    @Query(value = "SELECT p FROM Product p WHERE p.productName like ?1")
+//    @Query(value = "SELECT p FROM Product p WHERE p.productName like ?1")
     Page<Product> findProductsByProductNameContains(String name, Pageable pageable);
-    Slice<Product> getProductsByCategoryId(Long id, Pageable pageable);
+    //Page<Product> findProductsByProductNameContainUppercase(String name, Pageable pageable);
+//    Slice<Product> getProductsByCategoryId(Long id, Pageable pageable);
     Product getProductByProductId(Long id);
+
 
 
 //    @Query("select p from Product p where p.productId = :id")
@@ -31,8 +34,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 //    List<Product> getProductsByCategoryID(@Param("id") long id);
 
     List<Product> getProductsByCategoryId(Long id);
+    Page<Product> getProductsByCategoryId(Long id, Pageable pageable);
 //    @Query(value = "SELECT p FROM Product p WHERE p.productName like %:keyword%")
-    List<Product> findProductsByProductNameContaining(String keyword);
+    Page<Product> findProductsByProductNameContaining(String name, Pageable pageable);
     List<Category> findByCategoryId(Long id);
 
     //For seller module

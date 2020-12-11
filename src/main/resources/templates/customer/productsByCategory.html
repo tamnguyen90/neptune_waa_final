@@ -36,28 +36,27 @@
                                 <thead>
                                 <tr>
                                     <th>
-                                        <a th:href="@{'products/' +${currentPage} + '?sortField=productId&sortDir=' + ${reverseSortDir}}" >Product ID</a>
+                                        <a th:href="@{'/customer/category/productsSort/' +${currentPage} + '?sortField=productId&sortDir=' + ${reverseSortDir} +'&categoryId='+ ${categoryId}}" >Product ID</a>
                                     </th>
                                     <th>
-                                        <a th:href="@{${currentPage} + '?sortField=productName&sortDir=' + ${reverseSortDir}}" >Product Name</a>
+                                        <a th:href="@{'/customer/category/productsSort/'+${currentPage} + '?sortField=productName&sortDir=' + ${reverseSortDir} +'&categoryId='+ ${categoryId}}" >Product Name</a>
                                     </th>
                                     <th>
-                                        <a th:href="@{${currentPage} + '?sortField=productDescription&sortDir=' + ${reverseSortDir}}" >Product Description</a>
+                                        <a th:href="@{'/customer/category/productsSort/'+ ${currentPage} + '?sortField=productDescription&sortDir=' + ${reverseSortDir} +'&categoryId='+ ${categoryId}}" >Product Description</a>
                                     </th>
-                                    <!--                                    <th>Product Image</th>-->
 
                                     <th>
-                                        <a th:href="@{${currentPage} + '?sortField=productPrice&sortDir=' + ${reverseSortDir}}" >Price</a>
+                                        <a th:href="@{'/customer/category/productsSort/'+${currentPage} + '?sortField=productPrice&sortDir=' + ${reverseSortDir} +'&categoryId='+ ${categoryId}}"  >Price</a>
                                     </th>
                                     <th>
-                                        <a th:href="@{${currentPage} + '?sortField=uploadDate&sortDir=' + ${reverseSortDir}}" >Uploaded Date</a>
+                                        <a th:href="@{'/customer/category/productsSort/'+${currentPage} + '?sortField=uploadDate&sortDir=' + ${reverseSortDir}+'&categoryId='+ ${categoryId}}" >Uploaded Date</a>
                                     </th>
 
                                     <th>Actions</th>
                                 </tr>
 
-                                <tbody>
-                                <tr th:each="product : ${products}">
+                                <tbody id="row">
+                                <tr  th:each="product : ${products}">
                                     <td th:text="${product.productId}">Tiger Nixon</td>
                                     <td th:text="${product.productName}">System Architect</td>
                                     <td th:text="${product.productDescription}">Edinburgh</td>
@@ -77,6 +76,15 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <form id="nextPage" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                                <div class="input-group">
+                                    <input name="currentPage" type="text" th:value="${currentPage} + 1" hidden/>
+                                    <input name="sortField" type="text" th:value="${sortField}" hidden/>
+                                    <input name="sortDir" type="text" th:value="${sortDir}" hidden/>
+                                    <input name="categoryId" type="text" th:value="${categoryId}" hidden/>
+                                    <!--                <input name="param" hidden th:value="${currentPage}" type="text"/>-->
+                                </div>
+                            </form>
                             <div>&nbsp;</div>
                             <div><i>Sorted by [[${sortField}]] in [[${sortDir}]] order</i></div>
                             <div>&nbsp;</div>
@@ -85,26 +93,26 @@
                                 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
                                 <a th:if="${currentPage > 1}" th:href="@{'/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
-                                <span th:unless="${currentPage > 1}" onclick="clearCache();">First</span>
+<!--                                <span th:unless="${currentPage > 1}" onclick="clearCache();">First</span>-->
                                 &nbsp;&nbsp;
 
                                 <a th:if="${currentPage > 1}" th:href="@{${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
-                                <span th:unless="${currentPage > 1}">Previous</span>
+<!--                                <span th:unless="${currentPage > 1}">Previous</span>-->
 
                                 &nbsp;&nbsp;
 
-                                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+<!--                                <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
 			                    <a th:if="${currentPage != i}" th:href="@{ ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-			                    <span th:unless="${currentPage != i}">[[${i}]]</span>
+<!--			                    <span th:unless="${currentPage != i}">[[${i}]]</span>-->
 			&nbsp;
-		                        </span>
+<!--		                        </span>-->
 
-                                <a th:if="${currentPage < totalPages}" th:href="@{${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-                                <span th:unless="${currentPage < totalPages}">Next</span>
+                                <a id="next" th:if="${currentPage < totalPages}" th:href="@{'/customer/category/products/'+${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"></a>
+                                <span th:unless="${currentPage < totalPages}" onmousedown="triggerNext();"></span>
                                 &nbsp;&nbsp;
 
-                                <a th:if="${currentPage < totalPages}" th:href="@{${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-                                <span th:unless="${currentPage < totalPages}">Last</span>
+<!--                                <a th:if="${currentPage < totalPages}" th:href="@{${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
+<!--                                <span th:unless="${currentPage < totalPages}">Last</span>-->
                             </div>
                         </div>
                     </div>
@@ -115,9 +123,13 @@
     </div>
 </div>
 <th:block th:insert="fragments/scripts"></th:block>
+<th:block th:insert="fragments/scripts_pro"></th:block>
 <script type="text/javascript">
     function clearSearch() {
         window.location = "[[@{/customer/products}]]";
+    }
+    function triggerNext(){
+        $("#next").click();
     }
 </script>
 

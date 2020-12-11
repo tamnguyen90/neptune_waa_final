@@ -40,6 +40,14 @@ public class Bid {
         return bidder;
     }
 
+    public void setAuction(Auction auction) {
+        this.auction = auction;
+    }
+
+    public void setBidder(User bidder) {
+        this.bidder = bidder;
+    }
+
     public Long getId() {
         return id;
     }

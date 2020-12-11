@@ -1,5 +1,6 @@
 package edu.miu.cs.neptune.repository;
 
+import edu.miu.cs.neptune.domain.AuctionStatus;
 import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
