@@ -33,4 +33,8 @@ public interface AuctionFacade {
     void productSold(Long auctionId);
 
     List<Auction> closingEndedAuctions();
+
+    void finalizePayment(String authorizationId, Double unitAmount);
+
+    void cancelPayment(String authorizationId);
 }

@@ -51,7 +51,7 @@ public class PaypalServiceImpl implements PaypalService {
             auctionOrder.setUser(theUser);
             auctionOrder.setCurrency("USD");
             auctionOrder.setMethod("paypal");
-            auctionOrder.setIntent("SALE");
+            auctionOrder.setIntent("authorize");
 
             auctionOrder.setAuctionId(theAuction.getAuctionId());
             return auctionOrder;
@@ -92,6 +92,45 @@ public class PaypalServiceImpl implements PaypalService {
         payment.setRedirectUrls(redirectUrls);
 
         return payment.create(apiContext);
+    }
+
+    @Override
+    public void finalizePayment(String authorizationId, Double unitAmount) {
+
+        Authorization authorization = new Authorization();
+        authorization.setId(authorizationId);
+
+        // Set capture amount
+        Amount amount = new Amount();
+        amount.setCurrency("USD");
+        amount.setTotal(Double.toString(unitAmount));
+
+        Capture capture = new Capture();
+        capture.setAmount(amount);
+
+        // Set as final capture amount
+        capture.setIsFinalCapture(true);
+
+        // Capture payment
+        Capture responseCapture = null;
+        try {
+            responseCapture = authorization.capture(apiContext, capture);
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Capture id = " + responseCapture.getId() + " and status = " + responseCapture.getState());
+    }
+
+    @Override
+    public void cancelPayment(String authorizationId) {
+        Authorization authorization = new Authorization();
+        authorization.setId(authorizationId);
+        try {
+            authorization.doVoid(apiContext);
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+        }
     }
 
     public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{

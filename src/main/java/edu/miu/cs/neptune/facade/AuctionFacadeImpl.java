@@ -187,4 +187,14 @@ public class AuctionFacadeImpl implements AuctionFacade {
         return endedAuctions;
     }
 
+    @Override
+    public void finalizePayment(String authorizationId, Double unitAmount) {
+        paypalService.finalizePayment(authorizationId, unitAmount);
+    }
+
+    @Override
+    public void cancelPayment(String authorizationId) {
+        paypalService.cancelPayment(authorizationId);
+    }
+
 }

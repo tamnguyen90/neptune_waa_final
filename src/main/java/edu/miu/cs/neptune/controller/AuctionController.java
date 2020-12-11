@@ -1,5 +1,6 @@
 package edu.miu.cs.neptune.controller;
 
+import com.paypal.api.payments.Authorization;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -99,6 +100,7 @@ public class AuctionController {
     public String doPayment(@ModelAttribute("order") AuctionOrder auctionOrder, HttpSession session, Model model) {
 
         session.setAttribute("sessionAuctionOrder", auctionOrder);
+        auctionOrder.setIntent("authorize");
         System.out.println(auctionOrder);
         try {
             Payment payment = auctionFacade.createPayment(auctionOrder.getPrice(), auctionOrder.getCurrency(), auctionOrder.getMethod(), auctionOrder.getIntent(),
@@ -128,7 +130,12 @@ public class AuctionController {
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
                 AuctionOrder theAuctionOrder = (AuctionOrder)session.getAttribute("sessionAuctionOrder");
-                String saleId = Util.parseJSONSaleId(payment.toJSON());
+
+                Authorization authorization = payment.getTransactions().get(0).getRelatedResources().get(0).getAuthorization();
+
+                String saleId = authorization.getId(); //Util.parseJSONSaleId(payment.toJSON());
+                System.out.println("AuthorizationId:" + saleId);
+
                 SystemPayment systemPayment = new SystemPayment(theAuctionOrder.getAuctionId(), theAuctionOrder.getUser().getUserId(), theAuctionOrder.getPrice(),
                         PaymentStatus.PAID, PaymentType.PRODUCT_PAYMENT, saleId);
                 // store payment information in the database;
@@ -143,6 +150,14 @@ public class AuctionController {
             System.out.println(e.getMessage());
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/capturePaypal")
+    public String capturePaypal(){
+        //auctionFacade.finalizePayment("3C160388E42030817", 2.0);
+        auctionFacade.cancelPayment("3C160388E42030817");
+        auctionFacade.finalizePayment();
+        return "success";
     }
 
      @GetMapping("/activeAuctions")

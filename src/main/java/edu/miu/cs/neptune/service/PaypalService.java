@@ -18,4 +18,9 @@ public interface PaypalService {
             String description,
             String cancelUrl,
             String successUrl) throws PayPalRESTException;
+    void finalizePayment(String authorizationId, Double unitAmount);
+
+    void cancelPayment(String authorizationId);
+
+
 }
