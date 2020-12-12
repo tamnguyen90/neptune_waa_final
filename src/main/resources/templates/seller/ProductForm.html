@@ -76,6 +76,11 @@
                                 <input class="form-control" type="number" id="beginPrice" th:field="*{auction.beginPrice}" />
                                 <p th:if="${#fields.hasErrors('auction.beginPrice')}" th:errors="*{auction.beginPrice}" th:errorclass="fieldError">Incorrect Price</p>
                             </div>
+                            <div class="form-group">
+                                <label for="deposit">Deposit Amount</label>
+                                <input class="form-control" type="number" id="deposit" th:field="*{auction.depositAmount}" />
+                                <p th:if="${#fields.hasErrors('auction.beginPrice')}" th:errors="*{auction.depositAmount}" th:errorclass="fieldError">Incorrect Price</p>
+                            </div>
                         </fieldset>
                     </div>
                     </div>

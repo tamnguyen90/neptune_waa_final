@@ -27,6 +27,7 @@ public class Auction implements Serializable {
     private AuctionStatus auctionStatus;
     private Double beginPrice;
     private Long winnerId;
+    private Double depositAmount;
 
     @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -37,10 +38,19 @@ public class Auction implements Serializable {
     private Product product;
 
     public Auction() {}
-    public Auction(LocalDateTime beginDate, LocalDateTime endDate, Double beginPrice) {
+    public Auction(LocalDateTime beginDate, LocalDateTime endDate, Double beginPrice, Double depositAmount) {
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.beginPrice = beginPrice;
+        this.depositAmount = depositAmount;
+    }
+
+    public Double getDepositAmount() {
+        return depositAmount;
+    }
+
+    public void setDepositAmount(Double depositAmount) {
+        this.depositAmount = depositAmount;
     }
 
     public void setAuctionId(Long auctionId) {
