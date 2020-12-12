@@ -35,7 +35,7 @@ public class LoginController {
 
 
     @GetMapping(value = {"/postlogin"})
-    public String postLogin(Authentication authentication, Model model) {
+    public String loginPost(Authentication authentication, Model model) {
         User user = userService.getByName(authentication.getName()).orElse(null);
         System.out.println(user.getEmail());
         if (user != null && UserVerificationType.NEED_TO_VERIFY.equals(user.getUserVerificationType())) {
@@ -47,7 +47,7 @@ public class LoginController {
     }
 
     @GetMapping("/index")
-    public String getIndex(Model model) {
+    public String indexGet(Model model) {
         return "index";
     }
 

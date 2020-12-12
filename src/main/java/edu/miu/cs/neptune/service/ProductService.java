@@ -24,8 +24,9 @@ public interface ProductService {
     Page<Product> findProductsByProductNameContaining(String keyword, int pageNum, String sortField, String sortDir);
     Page<Product> findProductsByProductNameContainsOrProductNameContainsAndProductStateEquals(String keyword, String keywordUp, ProductState state, int pageNum, String sortField, String sortDir);
     Page<Product> findProductsByProductStateEqualsAndProductNameContainsOrProductNameContainsAndProductStateEquals(ProductState state,String name, String nameUp, ProductState productState,  int pageNum, String sortField, String sortDir);
-  //  Page<Product> findProductsByProductNameContainUppercase(String keyword, int pageNum, String sortField, String sortDir, Pageable pageable);
+  //  Page<Product> findProductsByProductNameContainUppercase(String keyword, int pageNum, String sortField, String sortDir, int pageNum, String sortField, String sortDir);
     List<Category> findByCategoryId(Long id);
+    Page<Product> findProductsByProductStateEqualsAndProductNameContaining(ProductState state, String name, int pageNum, String sortField, String sortDir);
 
     //For Sell module
     Product save(Product product);

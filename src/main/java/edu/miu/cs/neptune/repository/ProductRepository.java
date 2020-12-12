@@ -10,7 +10,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +27,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 //    @Query(value = "SELECT p FROM Product p WHERE p.productName like ?1")
     Page<Product> findProductsByProductNameContainsOrProductNameContainsAndProductStateEquals(String name,String nameUp, ProductState state, Pageable pageable);
     Page<Product> findProductsByProductStateEqualsAndProductNameContainsOrProductNameContainsAndProductStateEquals( ProductState state,String name, String nameUp, ProductState productState,Pageable pageable);
+    Page<Product> findProductsByProductStateEqualsAndProductNameContaining(ProductState state, String name, Pageable pageable);
     //Page<Product> findProductsByProductNameContainUppercase(String name, Pageable pageable);
 //    Slice<Product> getProductsByCategoryId(Long id, Pageable pageable);
     Product getProductByProductId(Long id);

@@ -93,6 +93,14 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByCategoryId(id);
     }
 
+    @Override
+    public Page<Product> findProductsByProductStateEqualsAndProductNameContaining(ProductState state, String name, int pageNum, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum-1, 5,
+                sortDir.equals("asc")?Sort.by(sortField).ascending():Sort.by(sortField).descending());
+
+        return productRepository.findProductsByProductStateEqualsAndProductNameContaining(state, name, pageable);
+    }
+
 
     @Override
     public Product save(Product product) {
