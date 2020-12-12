@@ -1,20 +1,26 @@
 -- create sellers
-insert into users values (1,'namco2011@gmail.com',true,false,'tam', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED','SELLER','VERIFIED', 'user', 'baon01','2020-12-08 21:50:41.644283',null);
-insert into users values (2,'namco2011@gmail.com',true,false, 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'user1', 'namn01','2020-12-08 21:50:41.644283',null);
-insert into users values (3,'namco2011@gmail.com', true,false,'test2', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'SELLER','NEED_TO_VERIFY', 'user2', 'tamn01','2020-12-08 21:50:41.644283',null);
+insert into users values (1,'namco2011@gmail.com',true,false,'tam', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED','ROLE_SELLER','VERIFIED', 'user', 'baon01','2020-12-08 21:50:41.644283',null);
+insert into users values (2,'namco2011@gmail.com',true,false, 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_BUYER','VERIFIED', 'user1', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (3,'namco2011@gmail.com', true,false,'test2', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_SELLER','NEED_TO_VERIFY', 'user2', 'tamn01','2020-12-08 21:50:41.644283',null);
 -- create buyers
-insert into users values (4,'bobby@miu.com',true,false, 'Bobby', false, 'Johnson', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'bobbyj','ganz01','2020-12-08 21:50:41.644283',null);
-insert into users values (5,'john@miu.com',true,false, 'John', false, 'Doe', '45678', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'johnd', 'hale01','2020-12-08 21:50:41.644283',null);
-insert into users values (6,'sam@miu.com',true,false, 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'BUYER','VERIFIED', 'samc', 'hale02','2020-12-08 21:50:41.644283',null);
+insert into users values (4,'bobby@miu.com',true,false, 'Bobby', false, 'Johnson', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_BUYER','VERIFIED', 'bobbyj','ganz01','2020-12-08 21:50:41.644283',null);
+insert into users values (5,'john@miu.com',true,false, 'John', false, 'Doe', '45678', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_BUYER','VERIFIED', 'johnd', 'hale01','2020-12-08 21:50:41.644283',null);
+insert into users values (6,'sam@miu.com',true,false, 'Sam', false, 'Cassel', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_BUYER','VERIFIED', 'samc', 'hale02','2020-12-08 21:50:41.644283',null);
 
 -- create profile to be verified
-insert into users values (7,'valid_user1@gmail.com',true,false, 'valid_user1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'valid_user1', 'namn01','2020-12-08 21:50:41.644283',null);
-insert into users values (8,'valid_user2@gmail.com',true,false, 'valid_user2', false, 'nguyen', '54321', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'valid_user2', 'namn01','2020-12-08 21:50:41.644283',null);
-insert into users values (9,'invalid_user@gmail.com',true,false, 'invalid_user', false, 'nguyen', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'BUYER','VERIFIED', 'invalid_user', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (7,'valid_user1@gmail.com',true,false, 'valid_user1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'ROLE_BUYER','VERIFIED', 'valid_user1', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (8,'valid_user2@gmail.com',true,false, 'valid_user2', false, 'nguyen', '54321', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'ROLE_BUYER','VERIFIED', 'valid_user2', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (9,'invalid_user@gmail.com',true,false, 'invalid_user', false, 'nguyen', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'NEED_TO_VERIFY', 'ROLE_BUYER','VERIFIED', 'invalid_user', 'namn01','2020-12-08 21:50:41.644283',null);
 
 -- create dmv fake data
 INSERT INTO DMV VALUES (1, 'valid_user1@gmail.com', 'valid_user1', 'nguyen', '12345');
 INSERT INTO DMV VALUES (2, 'valid_user2@gmail.com', 'valid_user2', 'nguyen', '54321');
+
+-- default admin & seller1, seller2 users for presentation
+insert into users values (10,'seller1@gmail.com',true,false, 'seller1', false, 'nguyen', '11111', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_SELLER','VERIFIED', 'seller1', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (11,'seller1@gmail.com',true,false, 'seller2', false, 'nguyen', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_SELLER','VERIFIED', 'seller2', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (12,'admin@gmail.com',true,false, 'admin', false, 'nguyen', '112233', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_ADMIN','VERIFIED', 'admin', 'namn01','2020-12-08 21:50:41.644283',null);
+
 
 --cat data
 INSERT INTO CATEGORY VALUES (1, 'Phone', 'Phone');
@@ -22,28 +28,28 @@ INSERT INTO CATEGORY VALUES (2, 'Laptop', 'Laptop');
 INSERT INTO CATEGORY VALUES (3, 'Table', 'Table');
 
 --product data
-INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (4, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
+                values (4, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null, 100);
 INSERT INTO PRODUCT VALUES(4,1, null , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone6s', 100, 'SAVE_WITHOUT_RELEASE', 1,'2020-10-26',4 , 1);
 
-INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (5, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
+                values (5, '2020-12-06 15:00:00', '2020-12-10 15:00:00', 1, 100 , null, null, null, 100);
 INSERT INTO PRODUCT VALUES(5,2, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron',200, 'SAVE_WITHOUT_RELEASE', 1,'2020-10-27',5 ,2 );
 
-INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (6, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
+                values (6, '2020-12-06 15:00:00', '2020-12-10 15:00:00', 1, 100 , null, null, null, 100);
 INSERT INTO PRODUCT VALUES(6,3, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7',300, 'SAVE_WITHOUT_RELEASE', 2,'2020-10-28',6 ,3);
 
-INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (7, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
+                values (7, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null, 100);
 INSERT INTO PRODUCT VALUES(7,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_AND_RELEASE', 1,'2020-11-02',7 , 1);
 
-INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (8, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
+                values (8, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null, 100);
 INSERT INTO PRODUCT VALUES(8,2, null , 'Dell 2020 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell 2020',1000, 'SAVE_AND_RELEASE', 1,'2020-11-10', 8 ,2);
 
-INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (9, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
+                values (9, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null, 100);
 INSERT INTO PRODUCT VALUES(9,3, null , 'Google Nexus 2020 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 2020',500, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',9 ,3);
 
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
@@ -78,20 +84,20 @@ values (19, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, n
 INSERT INTO PRODUCT VALUES(19,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',19 , 1);
 
 -- insert 3 products, each product should have 1 auction
-INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (247, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 2, 100 , 4, null, null);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
+                values (247, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 2, 100 , 4, null, null, 100);
 
 INSERT INTO PRODUCT (PRODUCT_ID,CATEGORY_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STATE, PRODUCT_STATUS, UPLOAD_DATE,AUCTION_ID, SELLER_USER_ID)
             VALUES(1,1, '2020-12-15 17:00:00' , 'Apple iPhone 6s smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone7s',250, 'SAVE_AND_RELEASE', 1,'2020-11-16', 247, 1);
 
-INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (248, '2020-12-06 15:00:00', '2020-12-31 15:00:00', 1, 150 , null, null, null);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
+                values (248, '2020-12-06 15:00:00', '2020-12-31 15:00:00', 1, 150 , null, null, null, 100);
 
 INSERT INTO PRODUCT (PRODUCT_ID,CATEGORY_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STATE, PRODUCT_STATUS, UPLOAD_DATE,AUCTION_ID, SELLER_USER_ID)
             VALUES(2,2, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron',110, 'SAVE_AND_RELEASE', 1,'2020-12-28', 248, 2);
 
-INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
-                values (249, '2020-12-06 15:00:00', '2020-12-28 17:00:00', 1, 50 , null, null, null);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
+                values (249, '2020-12-06 15:00:00', '2020-12-28 17:00:00', 1, 50 , null, null, null, 100);
 
 INSERT INTO PRODUCT (PRODUCT_ID,CATEGORY_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STATE, PRODUCT_STATUS, UPLOAD_DATE,AUCTION_ID, SELLER_USER_ID)
             VALUES(3,3, null , 'Google Nexus 7 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 7',90, 'SAVE_AND_RELEASE', 1,'2020-09-26', 249, 3);

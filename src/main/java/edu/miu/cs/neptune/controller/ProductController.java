@@ -37,7 +37,6 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-//    @PreAuthorize("hasRole('SELLER')")
     private String getAllProducts(Model model) {
         List<Product> products = productService.getAll();
         Integer numberOfBid = 0;
@@ -77,14 +76,12 @@ public class ProductController {
     }
 
     @GetMapping("/createProduct")
-    //@PreAuthorize("hasRole('SELLER')")
     public String addProduct(@ModelAttribute("product") Product product, Model model) {
         model.addAttribute("categories", categoryService.getAll());
         return "seller/ProductForm";
     }
 
     @PostMapping("/saveProduct")
-    //@PreAuthorize("hasRole('SELLER')")
     public String saveProduct(Product product, Principal principal, @RequestParam(value="action", required=true) String action,
                               BindingResult result) {
         Auction auction = product.getAuction();

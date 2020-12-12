@@ -73,6 +73,9 @@ public class AuctionFacadeImpl implements AuctionFacade {
                 currentAuction.setWinnerId(highest.getBidder().getUserId());
                 //Send a notification email to seller and winner
                 sendMailToWinner(highest.getBidder());
+                //Charge the deposit amount from the winner
+                SystemPayment winnerPayment = systemPaymentService.getDepositPaymentByUser(highest.getBidder(), currentAuction);
+                paypalService.finalizePayment(winnerPayment.getSaleId(), winnerPayment.getPaymentAmount());
             }
             auctionService.save(currentAuction);
             return currentAuction;
@@ -97,7 +100,7 @@ public class AuctionFacadeImpl implements AuctionFacade {
         List<SystemPayment> systemPayments = systemPaymentService.getPaymentsByAuction(currentAuction.getAuctionId());
         systemPayments.forEach(payment -> {
             if (!payment.getUserId().equals(currentAuction.getWinnerId())) {
-                //paypalService.refundPayment();
+                paypalService.cancelPayment(payment.getSaleId());
             }
         });
         return false;
@@ -242,6 +245,36 @@ public class AuctionFacadeImpl implements AuctionFacade {
             }
         }
         return false;
+    }
+
+    @Override
+    public User getUserByUserId(long userId) {
+        return userService.getById(userId).orElse(null);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userService.updateUser(user);
+    }
+
+    @Override
+    public SystemPayment getDepositPaymentByUser(User currentUser, Auction auction) {
+        return systemPaymentService.getDepositPaymentByUser(currentUser, auction);
+    }
+
+    @Override
+    public AuctionOrder getDepositAuctionOrder(Long auctionId, String username) {
+        Auction auction = auctionService.getById(auctionId).orElse(null);
+        User user = userService.getByName(username).orElse(null);
+        if (auction != null && user != null) {
+            return paypalService.getDepositAuctionOrder(auction, user);
+        }
+        return null;
+    }
+
+    @Override
+    public SystemPayment savePayment(SystemPayment systemPayment) {
+        return systemPaymentService.save(systemPayment);
     }
 
 }

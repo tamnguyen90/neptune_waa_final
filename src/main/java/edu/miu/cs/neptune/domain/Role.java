@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public enum Role {
-    BUYER,
-    SELLER;
+    ROLE_BUYER,
+    ROLE_SELLER,
+    ROLE_ADMIN;
 }

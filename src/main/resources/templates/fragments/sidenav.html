@@ -22,13 +22,13 @@
                 </div>
                 <a aria-controls="guestLayouts" aria-expanded="false" class="nav-link collapsed"
                    data-target="#guestLayouts"
-                   data-toggle="collapse" href="#">
+                   data-toggle="collapse" href="#" sec:authorize="hasAuthority('ROLE_ADMIN')">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Admin
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div aria-labelledby="headingOne" data-parent="#sidenavAccordion"
-                     id="guestLayouts">
+                     id="guestLayouts" sec:authorize="hasAuthority('ROLE_ADMIN')">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" th:href="${'/admin/categories'}">Categories</a>
                         <a class="nav-link" th:href="${'/admin/profile/review_list'}">Profiles</a>
@@ -36,13 +36,13 @@
                 </div>
                 <a aria-controls="guestLayouts" aria-expanded="false" class="nav-link collapsed"
                    data-target="#guestLayouts"
-                   data-toggle="collapse" href="#">
+                   data-toggle="collapse" href="#" sec:authorize="hasAuthority('ROLE_SELLER')">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Seller
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div aria-labelledby="headingOne" data-parent="#sidenavAccordion"
-                     id="guestLayouts">
+                     id="guestLayouts" sec:authorize="hasAuthority('ROLE_SELLER')">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" th:href="${'/product/all'}">Products</a>
                     </nav>

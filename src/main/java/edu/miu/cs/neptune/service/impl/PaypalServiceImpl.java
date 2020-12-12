@@ -4,7 +4,6 @@ import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 import edu.miu.cs.neptune.domain.*;
-import edu.miu.cs.neptune.repository.AuctionRepository;
 import edu.miu.cs.neptune.service.AuctionService;
 import edu.miu.cs.neptune.service.PaypalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,6 +130,25 @@ public class PaypalServiceImpl implements PaypalService {
         } catch (PayPalRESTException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public AuctionOrder getDepositAuctionOrder(Auction theAuction, User user) {
+        if (theAuction != null) {
+            Product theProduct = theAuction.getProduct();
+            // create paypal order object
+            AuctionOrder auctionOrder = new AuctionOrder();
+            auctionOrder.setDescription(theProduct.getProductName());
+            auctionOrder.setPrice(theAuction.getDepositAmount());
+            auctionOrder.setUser(user);
+            auctionOrder.setCurrency("USD");
+            auctionOrder.setMethod("paypal");
+            auctionOrder.setIntent("DEPOSIT");
+
+            auctionOrder.setAuctionId(theAuction.getAuctionId());
+            return auctionOrder;
+        }
+        return null;
     }
 
     public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{

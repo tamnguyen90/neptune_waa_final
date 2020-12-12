@@ -6,9 +6,6 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.facade.AuctionFacade;
-import edu.miu.cs.neptune.service.ShippingService;
-import edu.miu.cs.neptune.service.SystemPaymentService;
-import edu.miu.cs.neptune.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,28 +16,18 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @SessionAttributes({"sessionAuctionOrder"})
 @RequestMapping("/auction")
 public class AuctionController {
 
-    public static final String SUCCESS_URL = "/pay/success";
-    public static final String CANCEL_URL = "/pay/cancel";
-
+    private static final String PAY_SUCCESS = "/pay/success";
+    private static final String DEPOSIT_SUCCESS = "/deposit/success";
+    private static final String CANCEL_URL = "/pay/cancel";
 
     @Autowired
     private AuctionFacade auctionFacade;
-
-    @Autowired
-    private UserService userService;
-//
-//    @Autowired
-//    private ShippingService shippingService;
-
-    @Autowired
-    private SystemPaymentService systemPaymentService;
 
 
     // Ganzo, bid history with pagination
@@ -69,12 +56,11 @@ public class AuctionController {
     @GetMapping(value="")
     public String showAllAuctions(Model model, Principal principal) {
         System.out.println("username:"+principal.getName());
-        Optional<User> user = userService.getByName(principal.getName());
+        User theUser = auctionFacade.getUserByUserName(principal.getName());
 
-        if (user.isPresent()) {
-            User theUser = user.get();
+        if (theUser != null) {
             List<Auction> listAuction;
-            if (theUser.getRole() == Role.BUYER) {
+            if (theUser.getRole() == Role.ROLE_BUYER) {
                 listAuction = auctionFacade.getAllAuctionsByUserId(theUser.getUserId());
                 model.addAttribute("auctions", listAuction);
                 model.addAttribute("user", theUser);
@@ -94,9 +80,8 @@ public class AuctionController {
     public String showInvoice(@RequestParam String auctionId, @RequestParam String userId, Model model, Principal principal) {
 
         System.out.println("auctionId:"+auctionId+" userId:"+userId);
-        Optional<User> user = userService.getById(Long.parseLong(userId));
-        if (user.isPresent()) {
-            User theUser = user.get();
+        User theUser = auctionFacade.getUserByUserId(Long.parseLong(userId));
+        if (theUser != null) {
             if (!theUser.getUsername().equals(principal.getName())) {
                 return "error";
             }
@@ -118,9 +103,9 @@ public class AuctionController {
     @GetMapping(value="/ship")
     public String shipItem(@RequestParam String auctionId, Principal principal) {
         Auction auction = auctionFacade.getAuctionById(Long.parseLong(auctionId));
-        Optional<User> user = userService.getByName(principal.getName());
-        if (user.isPresent()) {
-            if (auction.getProduct().getSeller().getUserId() == user.get().getUserId()) {
+        User user = auctionFacade.getUserByUserName(principal.getName());
+        if (user != null) {
+            if (auction.getProduct().getSeller().getUserId() == user.getUserId()) {
                 // only seller can ship the item
                 auction.setShippingDate(LocalDateTime.now());
                 auction.setShippingStatus(ShippingStatus.IN_TRANSIT);
@@ -140,9 +125,9 @@ public class AuctionController {
     @GetMapping(value="/shippingReceived")
     public String shippingReceived(@RequestParam String auctionId, Principal principal) {
         Auction auction = auctionFacade.getAuctionById(Long.parseLong(auctionId));
-        Optional<User> user = userService.getByName(principal.getName());
-        if (user.isPresent()) {
-            if (auction.getWinnerId() == user.get().getUserId()) {
+        User user = auctionFacade.getUserByUserName(principal.getName());
+        if (user != null) {
+            if (auction.getWinnerId() == user.getUserId()) {
                 // buyer should be the winner
                 auction.setShippingStatus(ShippingStatus.DELIVERED);
                 auctionFacade.saveAuction(auction);
@@ -166,6 +151,65 @@ public class AuctionController {
         return "reviewPayment";
     }
 
+    @GetMapping(value = "/deposit")
+    public String beforeDeposit(@RequestParam("auctionId") Long auctionId, Model model, Principal principal) {
+        AuctionOrder auctionOrder = auctionFacade.getDepositAuctionOrder(auctionId, principal.getName());
+        if (auctionOrder==null) {
+            return "redirect:/auction?error=1";
+        }
+        model.addAttribute("auctionOrder", auctionOrder);
+        model.addAttribute("auction", auctionFacade.getAuctionById(auctionId));
+        return "auction/DepositPaymentReview";
+    }
+
+    @PostMapping(value = "/deposit")
+    public String doDeposit(@ModelAttribute("order") AuctionOrder auctionOrder, HttpSession session, Model model) {
+
+        session.setAttribute("sessionAuctionOrder", auctionOrder);
+        auctionOrder.setIntent("authorize");
+        System.out.println(auctionOrder);
+        try {
+            Payment payment = auctionFacade.createPayment(auctionOrder.getPrice(), auctionOrder.getCurrency(), auctionOrder.getMethod(), auctionOrder.getIntent(),
+                    auctionOrder.getDescription(), "http://localhost:9999/auction"+CANCEL_URL, "http://localhost:9999/auction"+ DEPOSIT_SUCCESS);
+            for(Links link : payment.getLinks()) {
+                if (link.getRel().equals("approval_url")) {
+                    return "redirect:"+link.getHref();
+                }
+            }
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping(value = DEPOSIT_SUCCESS)
+    public String depositSuccess(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Model model, HttpSession session) {
+        try {
+            Payment payment = auctionFacade.executePayment(paymentId, payerId);
+            System.out.println(payment.toJSON());
+            if (payment.getState().equals("approved")) {
+                AuctionOrder theAuctionOrder = (AuctionOrder)session.getAttribute("sessionAuctionOrder");
+
+                Authorization authorization = payment.getTransactions().get(0).getRelatedResources().get(0).getAuthorization();
+
+                String saleId = authorization.getId(); //Util.parseJSONSaleId(payment.toJSON());
+                System.out.println("AuthorizationId:" + saleId);
+
+                SystemPayment systemPayment = new SystemPayment(theAuctionOrder.getAuctionId(), theAuctionOrder.getUser().getUserId(), theAuctionOrder.getPrice(),
+                        PaymentStatus.DEPOSITED, PaymentType.PRODUCT_PAYMENT, saleId);
+                // store payment information in the database;
+                auctionFacade.savePayment(systemPayment);
+
+                model.addAttribute("auctionOrder", theAuctionOrder);
+                session.removeAttribute("sessionAuctionOrder");
+                return "auction/DepositSuccess";
+            }
+        } catch (PayPalRESTException e) {
+            System.out.println(e.getMessage());
+        }
+        return "redirect:/";
+    }
+
     @PostMapping(value = "/pay")
     public String doPayment(@ModelAttribute("order") AuctionOrder auctionOrder, HttpSession session, Model model) {
 
@@ -174,7 +218,7 @@ public class AuctionController {
         System.out.println(auctionOrder);
         try {
             Payment payment = auctionFacade.createPayment(auctionOrder.getPrice(), auctionOrder.getCurrency(), auctionOrder.getMethod(), auctionOrder.getIntent(),
-                    auctionOrder.getDescription(), "http://localhost:9999/auction"+CANCEL_URL, "http://localhost:9999/auction"+SUCCESS_URL);
+                    auctionOrder.getDescription(), "http://localhost:9999/auction"+CANCEL_URL, "http://localhost:9999/auction"+PAY_SUCCESS);
             for(Links link : payment.getLinks()) {
                 if (link.getRel().equals("approval_url")) {
                     return "redirect:"+link.getHref();
@@ -193,7 +237,7 @@ public class AuctionController {
         return "cancel";
     }
 
-    @GetMapping(value = SUCCESS_URL)
+    @GetMapping(value = PAY_SUCCESS)
     public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Model model, HttpSession session, Principal principal) {
         try {
             Payment payment = auctionFacade.executePayment(paymentId, payerId);
@@ -209,16 +253,16 @@ public class AuctionController {
                 SystemPayment systemPayment = new SystemPayment(theAuctionOrder.getAuctionId(), theAuctionOrder.getUser().getUserId(), theAuctionOrder.getPrice(),
                         PaymentStatus.PAID, PaymentType.PRODUCT_PAYMENT, saleId);
                 // store payment information in the database;
-                systemPaymentService.save(systemPayment);
+                auctionFacade.savePayment(systemPayment);
                 auctionFacade.productSold(theAuctionOrder.getAuctionId());
 
                 model.addAttribute("auctionOrder", theAuctionOrder);
                 Invoice invoice = new Invoice(LocalDate.now(), theAuctionOrder.getPrice(), theAuctionOrder.getUser().getUserId(), theAuctionOrder.getAuctionId());
 
-                Optional<User> user = userService.getByName(principal.getName());
-                if (user.isPresent()) {
-                    user.get().getInvoices().add(invoice);
-                    userService.updateUser(user.get());
+                User user = auctionFacade.getUserByUserName(principal.getName());
+                if (user != null) {
+                    user.getInvoices().add(invoice);
+                    auctionFacade.updateUser(user);
                 }
 
                 session.removeAttribute("sessionAuctionOrder");
@@ -251,12 +295,14 @@ public class AuctionController {
         Bid highestBid = auctionFacade.getTheHighestBid(auction);
         Double highestPrice = highestBid != null ? highestBid.getBiddingAmount() : auction.getBeginPrice();
         User currentUser = auctionFacade.getUserByUserName(principal.getName());
+        SystemPayment depositPaymemt = auctionFacade.getDepositPaymentByUser(currentUser, auction);
         boolean isSeller = currentUser.getUsername().equals(auction.getProduct().getSeller().getUsername()) ? true : false;
         boolean isUserVerified = UserVerificationType.VERIFIED.equals(currentUser.getUserVerificationType()) ? true : false;
         model.addAttribute("auction", auction);
         model.addAttribute("highestBid", highestPrice);
         model.addAttribute("isSeller", isSeller);
         model.addAttribute("isUserVerified", isUserVerified);
+        model.addAttribute("isDeposited", depositPaymemt != null ? true : false);
 
         return "auction/AuctionDetail";
      }

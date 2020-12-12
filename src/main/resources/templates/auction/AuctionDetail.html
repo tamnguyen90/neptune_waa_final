@@ -47,20 +47,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-sm-5">Product Id</div>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">Product Id</div>
                                         <div class="col-sm-7" th:text="*{product.getProductId()}"></div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-5">Product Name</div>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">Product Name</div>
                                         <div class="col-sm-7" th:text="*{product.getProductName()}"></div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-5">Description</div>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">Description</div>
                                         <div class="col-sm-7 text-wrap" style="width: 6rem;" th:text="*{product.getProductDescription()}"></div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-5">Tags:</div>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">Tags:</div>
                                         <div class="col-sm-7 text-wrap" style="width: 6rem;"th:each=" tag : *{product.getCategories()}">
                                             <a th:href="@{'product/products/' + ${tag.categoryId}}"><span th:text="${tag.getCategoryName()}">Category</span></a>
                                         </div>
@@ -68,43 +68,66 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 form-group">
                             <div class="card">
                                 <div class="card-header">Auction Detail</div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="row form-group">
                                         <div class="col-sm-3">Start date</div>
                                         <div class="col-sm-7"><span th:text="*{{beginDate}}"> Start Date </span></div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row form-group">
                                         <div class="col-sm-3">End date</div>
                                         <div class="col-sm-7"><span th:text="*{{endDate}}"> End Date </span></div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row form-group">
                                         <div class="col-sm-3">Current price</div>
                                         <div class="col-sm-7"><span th:text="${#numbers.formatCurrency(highestBid)}"> Current Price </span></div>
                                     </div>
-                                    <div th:if="${isUserVerified && !isSeller}">
-                                        <form action="#" th:action="@{/auction/bidding}" method="post">
-                                            <div class="row">
-                                                <input type="hidden" name="auctionId" th:value="*{auctionId}">
-                                                <div class="col-sm-3">
-                                                    <label for="amount">Bidding Amount</label>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">Deposit Amount</div>
+                                        <div class="col-sm-7"><span th:text="${#numbers.formatCurrency(auction.depositAmount)}"> Deposit Amount </span></div>
+                                    </div>
+                                    <div th:if="${isDeposited && !isSeller}">
+                                        <div th:if="${isUserVerified}">
+                                            <form action="#" th:action="@{/auction/bidding}" method="post">
+                                                <div class="row form-group">
+                                                    <input type="hidden" name="auctionId" th:value="*{auctionId}">
+                                                    <div class="col-sm-3">
+                                                        <label for="amount">Bidding Amount</label>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <input id="amount" type="number" name="amount" placeholder="Enter your bid">
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input class="btn btn-success" id="submit" type="submit" tabindex="5" value="Bid">
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <input id="amount" type="number" name="amount" placeholder="Enter your bid">
+                                            </form>
+                                        </div>
+                                        <div th:if="${!isUserVerified}">
+                                            <span style="color: red;">Your account must be verified to bid.</span>
+                                        </div>
+                                    </div>
+                                    <div th:unless="${isDeposited}">
+                                        <form action="#" th:action="@{/auction/deposit}" method="get">
+                                            <input type="hidden" name="auctionId" th:value="*{auctionId}">
+                                            <div class="row form-group">
+                                                <div class="col-sm-10" style="color: red;">
+                                                    <h4>Deposit is needed before joining this auction.</h4>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    <input class="btn btn-success" id="submit" type="submit" tabindex="5" value="Bid">
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-sm-7">
+                                                    <input class="btn btn-success" id="pay" type="submit" tabindex="5" value="Review Deposit">
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                    <div th:if="${!isUserVerified}">
-                                        <span style="color: red;">Your account must be verified to bid.</span>
-                                    </div>
+
                                 </div>
                             </div>
+                            <br>
                             <div class="card">
                                 <div class="card-header">Bidding History</div>
                                 <div class="card-body">
