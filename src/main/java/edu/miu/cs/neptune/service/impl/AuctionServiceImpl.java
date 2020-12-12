@@ -56,6 +56,18 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
+    public List<Auction> getAllBySellerId(Long sellerId) {
+        List<Auction> auctionList = getAll();
+        List<Auction> sellerAuctionList = new ArrayList<>();
+        for (Auction theAuction : auctionList) {
+            if (theAuction.getProduct().getSeller().getUserId() == sellerId) {
+                sellerAuctionList.add(theAuction);
+            }
+        }
+        return sellerAuctionList;
+    }
+
+    @Override
     public List<Auction> getAllEndedAuction() {
         List<Auction> auctionList = getAll();
         return auctionList.stream().filter(e -> e.getAuctionStatus()==AuctionStatus.ENDED).collect(Collectors.toList());

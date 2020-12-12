@@ -9,7 +9,7 @@
     <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
     <div id="layoutSidenav_content">
         <main>
-            <h3 class="display-5 text-center">List of Auctions participated</h3>
+            <h3 class="display-5 text-center">List of Auctions</h3>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Duration</label>
                 <select class="form-control input-sm w-25" id="exampleFormControlSelect1">
@@ -22,12 +22,11 @@
             <table class="table">
                 <tr>
                     <th style="width:10%" scope="col">#</th>
-                    <th style="width:15%" scope="col">Product</th>
-                    <th style="width:15%" scope="col">Auction Deadline</th>
-                    <th style="width:15%" scope="col">Status</th>
-                    <th style="width:15%" scope="col">Payment Due Date</th>
-                    <th style="width:15%" scope="col">Action</th>
-                    <th style="width:15%" scope="col">Shipping</th>
+                    <th style="width:20%" scope="col">Product</th>
+                    <th style="width:20%" scope="col">Auction Deadline</th>
+                    <th style="width:20%" scope="col">Status</th>
+                    <th style="width:20%" scope="col">Payment Due Date</th>
+                    <th style="width:10%" scope="col">Action</th>
                 </tr>
                 <tr th:each="auction: ${auctions}">
                     <th scope="row" th:text="${auctionStat.index+1}"/>
@@ -35,25 +34,22 @@
                     <td th:text="${#temporals.format(auction.endDate, 'yyyy-MM-dd HH:mm:ss')}" />
                     <td th:text="${auction.AuctionStatus}"></td>
                     <td>
-                        <div th:if="${auction.winnerId==user.userId and auction.product.paymentDueDate!=null}">
+                        <div th:if="${auction.product.paymentDueDate!=null}">
                             <span th:text="${#temporals.format(auction.product.paymentDueDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
                         </div>
                     </td>
                     <td>
-                        <div th:if="${auction.winnerId==user.userId and auction.product.productStatus!=T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD}">
-                            <a class="btn btn-success active" th:href="@{'/auction/pay?auctionId='+${auction.auctionId}}">Pay</a>
+                        <div th:if="${auction.product.productStatus!=T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD}">
+                            <span>Payment pending</span>
                         </div>
-                        <div th:if="${auction.winnerId==user.userId and auction.product.productStatus==T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD}">
-<!--                            <span>Paid</span>-->
-                            <a class="btn btn-success active" th:href="@{'/auction/invoice?auctionId=' + ${auction.auctionId}+'&userId='+${user.userId}}">Invoice</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div th:if="${auction.shippingStatus==T(edu.miu.cs.neptune.domain.ShippingStatus).IN_TRANSIT}">
-                            <a class="btn btn-success active" th:href="@{'/auction/shippingReceived?auctionId='+${auction.auctionId}}">Received</a>
-                        </div>
-                        <div th:unless="${auction.shippingStatus==T(edu.miu.cs.neptune.domain.ShippingStatus).IN_TRANSIT}">
-                            <span th:text="${auction.shippingStatus}"></span>
+                        <div th:if="${auction.product.productStatus==T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD}">
+                            <span>Payment complete</span>
+                            <div th:if="${auction.shippingStatus == null}">
+                                <a th:href="@{'/auction/ship?auctionId='+${auction.auctionId}}">Ship Now</a>
+                            </div>
+                            <div th:unless="${auction.shippingStatus == null}">
+                                <span th:text="${auction.shippingStatus}"></span>
+                            </div>
                         </div>
                     </td>
                 </tr>
