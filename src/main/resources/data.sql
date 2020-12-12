@@ -46,17 +46,36 @@ INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRI
                 values (9, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null, 100);
 INSERT INTO PRODUCT VALUES(9,3, null , 'Google Nexus 2020 is the lightest 7 inch tablet with a quad-core S4 Pro procrssor', 'Nexus 2020',500, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',9 ,3);
 
-
-INSERT INTO PRODUCT VALUES(10,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',null , 1);
-INSERT INTO PRODUCT VALUES(11,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',null , 1);
-INSERT INTO PRODUCT VALUES(12,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',null , 1);
-INSERT INTO PRODUCT VALUES(13,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',null , 1);
-INSERT INTO PRODUCT VALUES(14,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',null , 1);
-INSERT INTO PRODUCT VALUES(15,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',null , 1);
-INSERT INTO PRODUCT VALUES(16,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',null , 1);
-INSERT INTO PRODUCT VALUES(17,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',null , 1);
-INSERT INTO PRODUCT VALUES(18,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',null , 1);
-INSERT INTO PRODUCT VALUES(19,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',null , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (10, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(10,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_WITHOUT_RELEASE', 2, '2020-11-25',10 , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (11, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(11,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',11 , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (12, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(12,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',12 , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (13, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(13,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',13 , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (14, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(14,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',14 , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (15, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(15,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',15 , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (16, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(16,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',16 , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (17, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(17,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',17 , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (18, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(18,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',18 , 1);
+INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS)
+values (19, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null);
+INSERT INTO PRODUCT VALUES(19,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'iPhone12',900, 'SAVE_AND_RELEASE', 2, '2020-11-25',19 , 1);
 
 -- insert 3 products, each product should have 1 auction
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
@@ -100,6 +119,16 @@ INSERT INTO IMAGE VALUES (10,  'iphone12_2.png');
 INSERT INTO IMAGE VALUES (11,  'del2.jpg');
 INSERT INTO IMAGE VALUES (12,  'nexus2.jpg');
 INSERT INTO IMAGE VALUES (13,  'iphone7s_3.jpg');
+INSERT INTO IMAGE VALUES (14,  'iphone12.jpeg');
+INSERT INTO IMAGE VALUES (15,  'iphone12.jpeg');
+INSERT INTO IMAGE VALUES (16,  'iphone12.jpeg');
+INSERT INTO IMAGE VALUES (17,  'iphone12.jpeg');
+INSERT INTO IMAGE VALUES (18,  'iphone12.jpeg');
+INSERT INTO IMAGE VALUES (19,  'dell2020.jpg');
+INSERT INTO IMAGE VALUES (20,  'dell2020.jpg');
+INSERT INTO IMAGE VALUES (21,  'nexus2.jpg');
+INSERT INTO IMAGE VALUES (22,  'nexus2.jpg');
+
 
 INSERT INTO PRODUCT_DB_IMAGES VALUES(8, 2);
 INSERT INTO PRODUCT_DB_IMAGES VALUES(8, 5);
@@ -110,6 +139,15 @@ INSERT INTO PRODUCT_DB_IMAGES VALUES(7, 1);
 INSERT INTO PRODUCT_DB_IMAGES VALUES(7, 10);
 INSERT INTO PRODUCT_DB_IMAGES VALUES(7, 13);
 INSERT INTO PRODUCT_DB_IMAGES VALUES(3, 12);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(16, 14);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(15, 15);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(19, 16);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(17, 17);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(18, 18);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(2, 19);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(7, 20);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(8, 21);
+INSERT INTO PRODUCT_DB_IMAGES VALUES(3, 22);
 
 -- create bid for each user on product id: 247
 INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (101, 120, '2020-12-06 17:00:00', 247, 4);
