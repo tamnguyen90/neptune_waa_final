@@ -40,5 +40,15 @@ public interface AuctionFacade {
 
     void cancelPayment(String authorizationId);
 
+    SystemPayment getDepositPaymentByUser(User currentUser, Auction auction);
+
+    AuctionOrder getDepositAuctionOrder(Long auctionId, String username);
+
+    SystemPayment savePayment(SystemPayment systemPayment);
+
     boolean refundProductPayment(Long auctionId, Long userId);
+
+    User getUserByUserId(long parseLong);
+
+    User updateUser(User user);
 }

@@ -3,7 +3,11 @@ package edu.miu.cs.neptune.service;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.Refund;
 import com.paypal.base.rest.PayPalRESTException;
+import edu.miu.cs.neptune.domain.Auction;
+import edu.miu.cs.neptune.domain.Auction;
 import edu.miu.cs.neptune.domain.AuctionOrder;
+import edu.miu.cs.neptune.domain.User;
+import edu.miu.cs.neptune.domain.User;
 
 public interface PaypalService {
     Refund refundPayment(String saleId, double refundAmount) throws PayPalRESTException;
@@ -22,5 +26,6 @@ public interface PaypalService {
 
     void cancelPayment(String authorizationId);
 
+    AuctionOrder getDepositAuctionOrder(Auction auction, User user);
 
 }
