@@ -22,16 +22,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @NotBlank
-    private String username = "namnguyen";
+    private String username;// = "namnguyen";
     @Email
     @NotBlank
-    private String email = "namco2011@gmail.com";
+    private String email;// = "namco2011@gmail.com";
     @NotBlank
-    private String password = "123456";
+    private String password;
     @NotBlank
-    private String firstName = "Truong Thanh Nam";
+    private String firstName;// = "Truong Thanh Nam";
     @NotBlank
-    private String lastName = "Nguyen";
+    private String lastName;// = "Nguyen";
 //    @NotBlank
     private String licenseNumber;
     @Enumerated (EnumType.STRING)

@@ -65,7 +65,7 @@ public class UserController {
     }
 
     @GetMapping("/resetPasswordVerification")
-    public String getResetPasswordVerification(@ModelAttribute(value = "username") String username, Model model) {
+    public String resetPasswordVerificationGet(@ModelAttribute(value = "username") String username, Model model) {
         //if user is not exist, need to go to accessDenied
         if (!StringUtils.hasText(username)) {
             return "redirect:/users/accessDenied";
@@ -74,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping("/resetPasswordVerification")
-    public String postResetPasswordVerification(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "verificationCode", required = false) String verificationCode,
+    public String resetPasswordVerificationPost(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "verificationCode", required = false) String verificationCode,
                                                 Model model, RedirectAttributes redirectAttributes) {
         User user = userService.getByName(username).orElse(null);
         if (verificationCode != null && user.getVerificationCreationTime().isBefore(LocalDateTime.now())) {
