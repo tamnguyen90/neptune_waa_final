@@ -222,6 +222,16 @@ public class AuctionFacadeImpl implements AuctionFacade {
     }
 
     @Override
+    public User getUserByUserId(long userId) {
+        return userService.getById(userId).orElse(null);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userService.updateUser(user);
+    }
+
+    @Override
     public SystemPayment getDepositPaymentByUser(User currentUser, Auction auction) {
         return systemPaymentService.getDepositPaymentByUser(currentUser, auction);
     }

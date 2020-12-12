@@ -47,4 +47,8 @@ public interface AuctionFacade {
     SystemPayment savePayment(SystemPayment systemPayment);
 
     boolean refundProductPayment(Long auctionId, Long userId);
+
+    User getUserByUserId(long parseLong);
+
+    User updateUser(User user);
 }
