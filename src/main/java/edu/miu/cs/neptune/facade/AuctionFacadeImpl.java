@@ -218,4 +218,30 @@ public class AuctionFacadeImpl implements AuctionFacade {
         return false;
     }
 
+    @Override
+    public boolean payTheProduct(Long auctionId, Long userId) {
+
+        List<SystemPayment> listSystemPayment = systemPaymentService.getPaymentsByAuction(auctionId);
+        if (listSystemPayment==null) {
+            System.out.println("no payment history found for auctionId:"+auctionId);
+            return false;
+        }
+
+
+        for (SystemPayment systemPayment : listSystemPayment) {
+            if (systemPayment.getUserId()==userId && systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT && systemPayment.getPaymentStatus()==PaymentStatus.PAID) {
+                String authorizationId = systemPayment.getSaleId();
+
+                System.out.println("authorizationId:"+authorizationId);
+                System.out.println("Amount:"+systemPayment.getPaymentAmount());
+
+                finalizePayment(authorizationId, systemPayment.getPaymentAmount());
+                systemPayment.setPaymentStatus(PaymentStatus.SENT);
+                systemPaymentService.save(systemPayment);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

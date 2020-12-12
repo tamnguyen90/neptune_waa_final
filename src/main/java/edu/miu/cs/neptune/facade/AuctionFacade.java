@@ -41,4 +41,6 @@ public interface AuctionFacade {
     void cancelPayment(String authorizationId);
 
     boolean refundProductPayment(Long auctionId, Long userId);
+
+    boolean payTheProduct(Long auctionId, Long userId);
 }
