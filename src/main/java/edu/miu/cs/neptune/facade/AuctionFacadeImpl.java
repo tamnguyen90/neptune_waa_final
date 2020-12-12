@@ -146,6 +146,11 @@ public class AuctionFacadeImpl implements AuctionFacade {
     }
 
     @Override
+    public List<Auction> getAllAuctionsBySellerId(long sellerId) {
+        return auctionService.getAllBySellerId(sellerId);
+    }
+
+    @Override
     public AuctionOrder getAuctionOrderByAuctionId(long auctionId, String userName) {
         return paypalService.getAuctionOrder(auctionId, userName);
     }
@@ -195,6 +200,22 @@ public class AuctionFacadeImpl implements AuctionFacade {
     @Override
     public void cancelPayment(String authorizationId) {
         paypalService.cancelPayment(authorizationId);
+    }
+
+    @Override
+    public boolean refundProductPayment(Long auctionId, Long userId) {
+        // delivery time is expired, need to refund the money back
+        List<SystemPayment> listSystemPayment = systemPaymentService.getPaymentsByAuction(auctionId);
+        for (SystemPayment systemPayment : listSystemPayment) {
+            if (systemPayment.getUserId()==userId && systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT && systemPayment.getPaymentStatus()==PaymentStatus.PAID) {
+                String authorizationId = systemPayment.getSaleId();
+                cancelPayment(authorizationId);
+                systemPayment.setPaymentStatus(PaymentStatus.REFUNDED);
+                systemPaymentService.save(systemPayment);
+                return true;
+            }
+        }
+        return false;
     }
 
 }

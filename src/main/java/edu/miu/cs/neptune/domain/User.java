@@ -46,6 +46,17 @@ public class User {
     @Enumerated (EnumType.STRING)
     private Role role;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Invoice> invoices = new ArrayList<>();
+
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
+    }
+
     public User(Long userId, @NotBlank String username, @Email @NotBlank String email, @NotBlank String password, @NotBlank String firstName, @NotBlank String lastName, String licenseNumber, ProfileVerificationType profileVerificationType, String verificationCode, UserVerificationType userVerificationType, LocalDateTime verificationCreationTime, Integer failedVerificationCount, Boolean isResetPassword, Boolean enable, Role role) {
         this.userId = userId;
         this.username = username;

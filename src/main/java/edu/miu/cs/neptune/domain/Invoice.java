@@ -22,6 +22,37 @@ public class Invoice {
     @NotNull
     private Double amount;
 
+    private Long userId;
+
+    private Long auctionId;
+
+    public Invoice(){
+
+    };
+
+    public Invoice(LocalDate invoiceDate, @NotNull Double amount, Long userId, Long auctionId) {
+        this.invoiceDate = invoiceDate;
+        this.amount = amount;
+        this.userId = userId;
+        this.auctionId = auctionId;
+    }
+
+    public Long getAuctionId() {
+        return auctionId;
+    }
+
+    public void setAuctionId(Long auctionId) {
+        this.auctionId = auctionId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public Long getInvoiceId() {
         return invoiceId;
     }
