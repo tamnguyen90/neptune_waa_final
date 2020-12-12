@@ -6,7 +6,7 @@
 <body class="sb-nav-fixed">
 <th:block th:insert="fragments/navbar :: navbar"></th:block>
 <div id="layoutSidenav">
-    <th:block th:insert="fragments/sidenav_cus :: sidenav"></th:block>
+    <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
@@ -54,11 +54,11 @@
                                     <td th:text="${category.categoryDescription}">Edinburgh</td>
                                     <td><a th:href="@{/customer/category/products(id=${category.categoryId})}" class="btn ui-state-default">View Products</a></td>
 <!--                                    <td>-->
-<!--                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"-->
+<!--                                        <a class="edit" sec:authorize="hasAuthority('CUSTOMER')"-->
 <!--                                           th:href="@{/users/edit/{username}(username=${user.username})}">-->
 <!--                                            <i class="material-icons" data-toggle="tooltip"-->
 <!--                                               title="Edit">&#xE254;</i></a>-->
-<!--                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"-->
+<!--                                        <a class="delete" sec:authorize="hasAuthority('CUSTOMER')"-->
 <!--                                           th:href="@{/users/delete/{username}(username=${user.username})}">-->
 <!--                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
 <!--                                    </td>-->

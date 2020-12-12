@@ -26,24 +26,26 @@ $(document).ready(function() {
                 data: data,
                 contentType: "application/json",
                 success: function (data) {
+                    if(data=="done" ||data==null){
+                        console.log("do nothing");
+                    }
+                    else {
+                        totalPage = parseInt(data.charAt(data.length - 1));
+                        var newdata = data.substring(1, data.length - 2);
+                        var arr = newdata.split(",");
+                        for (var i = 0; i < arr.length; i++) {
+                            console.log(arr[i]);
+                            var objmo = arr[i].replaceAll(";", ",");
+                            console.log(objmo);
 
-                    totalPage = parseInt(data.charAt(data.length-1));
+                            var obj = JSON.parse(objmo);
+                            console.log(obj["productId"]);
 
-                    var newdata = data.substring(1, data.length-2);
-                    var arr = newdata.split(",");
-                    console.log(newdata);
-                    for (var i=0; i<arr.length; i++){
-                       console.log(arr[i]);
-                       var objmo=arr[i].replaceAll(";", ",");
-                       console.log(objmo);
+                            dispList(obj)
+                        }
 
-                       var obj = JSON.parse(objmo);
-                       console.log(obj["productId"]);
-
-                       dispList(obj)
-                   }
-
-                    console.log(obj);
+                        console.log(obj);
+                    }
 
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {

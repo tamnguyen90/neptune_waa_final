@@ -8,7 +8,7 @@
 <body class="sb-nav-fixed">
 <th:block th:insert="fragments/navbar :: navbar"></th:block>
 <div id="layoutSidenav">
-    <th:block th:insert="fragments/sidenav_cus :: sidenav"></th:block>
+    <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
@@ -90,26 +90,26 @@
                             <div>&nbsp;</div>
                             <div th:if="${totalPages > 1}">
                                 Total Items: [[${totalItems}]]
-                                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+<!--                                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;-->
 
-                                <a th:if="${currentPage > 1}" th:href="@{'/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
-<!--                                <span th:unless="${currentPage > 1}" onclick="clearCache();">First</span>-->
-                                &nbsp;&nbsp;
+<!--                                <a th:if="${currentPage > 1}" th:href="@{'/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>-->
+<!--&lt;!&ndash;                                <span th:unless="${currentPage > 1}" onclick="clearCache();">First</span>&ndash;&gt;-->
+<!--                                &nbsp;&nbsp;-->
 
-                                <a th:if="${currentPage > 1}" th:href="@{${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
-<!--                                <span th:unless="${currentPage > 1}">Previous</span>-->
+<!--                                <a th:if="${currentPage > 1}" th:href="@{${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>-->
+<!--&lt;!&ndash;                                <span th:unless="${currentPage > 1}">Previous</span>&ndash;&gt;-->
 
-                                &nbsp;&nbsp;
+<!--                                &nbsp;&nbsp;-->
 
-<!--                                <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-			                    <a th:if="${currentPage != i}" th:href="@{ ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-<!--			                    <span th:unless="${currentPage != i}">[[${i}]]</span>-->
-			&nbsp;
-<!--		                        </span>-->
+<!--&lt;!&ndash;                                <span th:each="i: ${#numbers.sequence(1, totalPages)}">&ndash;&gt;-->
+<!--			                    <a th:if="${currentPage != i}" th:href="@{ ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
+<!--&lt;!&ndash;			                    <span th:unless="${currentPage != i}">[[${i}]]</span>&ndash;&gt;-->
+<!--			&nbsp;-->
+<!--&lt;!&ndash;		                        </span>&ndash;&gt;-->
 
-                                <a id="next" th:if="${currentPage < totalPages}" th:href="@{'/customer/category/products/'+${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"></a>
-                                <span th:unless="${currentPage < totalPages}" onmousedown="triggerNext();"></span>
-                                &nbsp;&nbsp;
+<!--                                <a id="next" th:if="${currentPage < totalPages}" th:href="@{'/customer/category/products/'+${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"></a>-->
+<!--                                <span th:unless="${currentPage < totalPages}" onmousedown="triggerNext();"></span>-->
+<!--                                &nbsp;&nbsp;-->
 
 <!--                                <a th:if="${currentPage < totalPages}" th:href="@{${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
 <!--                                <span th:unless="${currentPage < totalPages}">Last</span>-->

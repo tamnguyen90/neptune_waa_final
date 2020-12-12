@@ -16,8 +16,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -103,19 +101,12 @@ public class CustomerController {
         count++;
         System.out.println("test ......" + request);
         JsonObject jsonObject = new JsonParser().parse(request).getAsJsonObject();
-        System.out.println(jsonObject.get("currentPage"));
         int pageNum = jsonObject.get("currentPage").getAsInt();
-        System.out.println(pageNum);
         Long categoryId = jsonObject.get("categoryId").getAsLong();
-        System.out.println(categoryId);
         String sortDir = jsonObject.get("sortDir").getAsString();
-        System.out.println(sortDir);
         String sortField = jsonObject.get("sortField").getAsString();
-        System.out.println(sortField);
-
         Page<Product> page = productService.getProductsByCategoryIdAndProductStateEquals(categoryId,ProductState.SAVE_AND_RELEASE, count, sortField, sortDir);
         general(model, page, pageNum, sortField, sortDir);
-//        System.out.println(id + "category id");
         List<Product> list = page.getContent();
 
         if(page.getTotalPages()>=count){
@@ -160,7 +151,7 @@ public class CustomerController {
         //System.out.println(pageNum);
         String key=keyword.toLowerCase();
         System.out.println(key);
-        Page<Product> page = productService.findProductsByProductStateEqualsAndProductNameContainsOrProductNameContainsAndProductStateEquals(ProductState.SAVE_AND_RELEASE, keyword.toUpperCase(), keyword.toUpperCase(), ProductState.SAVE_AND_RELEASE, 1, "uploadDate", "desc");
+        Page<Product> page = productService.findProductsByProductStateEqualsAndProductNameContaining( ProductState.SAVE_AND_RELEASE, keyword,1, "uploadDate", "desc");
         List<Product> list = page.getContent();
 
         System.out.println(list);

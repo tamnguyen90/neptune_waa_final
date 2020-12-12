@@ -6,7 +6,7 @@
 <body class="sb-nav-fixed">
 <th:block th:insert="fragments/navbar :: navbar"></th:block>
 <div id="layoutSidenav">
-    <th:block th:insert="fragments/sidenav_cus :: sidenav"></th:block>
+    <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-4">
+                <div class="card mb-6">
                     <div class="card-body">
                         <div class="align-content-center">
                             <h3>Product Information</h3>
@@ -39,12 +39,19 @@
                             <br/>
                             Product Upload Day: <span th:text="${product.uploadDate}"></span>
                         </div>
+
                         <div th:each="image : ${images}">
 
-                    <img th:src="@{'/ProductImages/' + ${image.name}}" width="200px" height="200px"/>
+                        <img th:src="@{'/ProductImages/' + ${image.name}}" width="200px" height="200px"/>
+                        </div>
 
                 </div>
             </div>
+                <div><a th:href="@{/auction/auction(id=${product.auction.getAuctionId()})}" class="btn btn-outline-info" role="button">Biding</a>
+<!--                    <a href="#" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Link</a>-->
+                </div>
+            </div>
+
         </main>
         <th:block th:insert="fragments/footer :: footer"></th:block>
     </div>

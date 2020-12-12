@@ -6,7 +6,7 @@
 <body class="sb-nav-fixed">
 <th:block th:insert="fragments/navbar :: navbar"></th:block>
 <div id="layoutSidenav">
-    <th:block th:insert="fragments/sidenav_cus :: sidenav"></th:block>
+    <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
@@ -47,6 +47,7 @@
                                     </th>
 
                                     <th>Actions</th>
+<!--                                    <th>Bidding</th>-->
                                 </tr>
 
                                 <tbody>
@@ -56,16 +57,9 @@
                                     <td th:text="${product.productDescription}">Edinburgh</td>
                                     <td th:text="${product.productPrice}">Edinburgh</td>
                                     <td th:text="${product.uploadDate}">Edinburgh</td>
-                                    <td><a th:href="@{/customer/product(id=${product.productId})}" class="btn ui-state-default">View Product Details</a></td>
-<!--                                    <td>-->
-<!--                                        <a class="edit" sec:authorize="hasAuthority('ADMIN')"-->
-<!--                                           th:href="@{/users/edit/{username}(username=${user.username})}">-->
-<!--                                            <i class="material-icons" data-toggle="tooltip"-->
-<!--                                               title="Edit">&#xE254;</i></a>-->
-<!--                                        <a class="delete" sec:authorize="hasAuthority('ADMIN')"-->
-<!--                                           th:href="@{/users/delete/{username}(username=${user.username})}">-->
-<!--                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
-<!--                                    </td>-->
+                                    <td><a th:href="@{/customer/product(id=${product.productId})}" class="btn btn-light">View Product Details</a></td>
+<!--                                    <td><a th:href="@{/auction/auction(id=${product.auction.getAuctionId()})}" class="btn btn-outline-info" role="button">Biding</a></td>-->
+
                                 </tr>
                                 </tbody>
                             </table>
