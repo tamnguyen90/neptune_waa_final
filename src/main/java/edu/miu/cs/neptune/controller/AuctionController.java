@@ -60,7 +60,7 @@ public class AuctionController {
 
         if (theUser != null) {
             List<Auction> listAuction;
-            if (theUser.getRole() == Role.BUYER) {
+            if (theUser.getRole() == Role.ROLE_BUYER) {
                 listAuction = auctionFacade.getAllAuctionsByUserId(theUser.getUserId());
                 model.addAttribute("auctions", listAuction);
                 model.addAttribute("user", theUser);
