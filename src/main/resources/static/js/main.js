@@ -43,8 +43,6 @@ $(document).ready(function() {
 
                             dispList(obj)
                         }
-
-                        console.log(obj);
                     }
 
                 },
@@ -100,11 +98,6 @@ function dispList(resp) {
     // Update new data
     let $startrow='<tr>\n';
     let $endrow = '</tr>\n';
-    let $productId=resp["productId"];
-
-    // $.each(resp, function(i, data){
-        // New Row
-        // console.log(data);
         $('#dataTable').append($startrow);
         let $row ='<tbody>\n'+
 
@@ -116,15 +109,6 @@ function dispList(resp) {
             '                                    <td >'+ resp["productPrice"]+'</td>\n' +
             '                                    <td >'+ resp["uploadDate"]+'</td>\n' +
             '                                    <th><a href="/customer/product?id='+ resp["productId"]+'" class="btn ui-state-default">View Product Details</a></th>\n'+
-            // '                                    <!--                                    <td>-->\n' +
-            // '                                    <!--                                        <a class="edit" sec:authorize="hasAuthority(\'ADMIN\')"-->\n' +
-            // '                                    <!--                                           th:href="@{/users/edit/{username}(username=${user.username})}">-->\n' +
-            // '                                    <!--                                            <i class="material-icons" data-toggle="tooltip"-->\n' +
-            // '                                    <!--                                               title="Edit">&#xE254;</i></a>-->\n' +
-            // '                                    <!--                                        <a class="delete" sec:authorize="hasAuthority(\'ADMIN\')"-->\n' +
-            // '                                    <!--                                           th:href="@{/users/delete/{username}(username=${user.username})}">-->\n' +
-            // '                                    <!--                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->\n' +
-            // '                                    <!--                                    </td>-->\n' +
             '                                </tr>\n' +
             '                                </tbody>';
         $('#dataTable').append($row);
