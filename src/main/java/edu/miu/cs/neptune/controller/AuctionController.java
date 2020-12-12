@@ -131,7 +131,7 @@ public class AuctionController {
                 // buyer should be the winner
                 auction.setShippingStatus(ShippingStatus.DELIVERED);
                 auctionFacade.saveAuction(auction);
-                auctionFacade.payTheProduct(auction.getAuctionId(), user.get().getUserId());
+                auctionFacade.payTheProduct(auction.getAuctionId(), user.getUserId());
             }
         }
         return "redirect:";
