@@ -18,7 +18,7 @@ public class LoginController {
     @Autowired
     UserService userService;
 
-    @GetMapping(value = "/login")
+    @GetMapping(value = {"/","/login"})
     public String loginGet(@RequestParam(value = "error", required = false) String error,
                            @RequestParam(value = "logout", required = false) String logout,
                            Model model) {
