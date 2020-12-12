@@ -55,6 +55,4 @@ public class AdminController {
 
         return "redirect:/admin/profile/review_list";
     }
-
-
 }
