@@ -6,7 +6,7 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.facade.AuctionFacade;
-import edu.miu.cs.neptune.Util.Util;
+import edu.miu.cs.neptune.service.ShippingService;
 import edu.miu.cs.neptune.service.SystemPaymentService;
 import edu.miu.cs.neptune.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,9 @@ public class AuctionController {
 
     @Autowired
     private UserService userService;
-
+//
+//    @Autowired
+//    private ShippingService shippingService;
 
     @Autowired
     private SystemPaymentService systemPaymentService;
@@ -70,16 +73,82 @@ public class AuctionController {
 
         if (user.isPresent()) {
             User theUser = user.get();
-            List<Auction> listAuction = auctionFacade.getAllAuctionsByUserId(theUser.getUserId());
-
-            model.addAttribute("auctions", listAuction);
-            model.addAttribute("user", theUser);
-
-            return "auctionHistory";
+            List<Auction> listAuction;
+            if (theUser.getRole() == Role.BUYER) {
+                listAuction = auctionFacade.getAllAuctionsByUserId(theUser.getUserId());
+                model.addAttribute("auctions", listAuction);
+                model.addAttribute("user", theUser);
+                return "auctionHistory";
+            } else {
+                listAuction = auctionFacade.getAllAuctionsBySellerId(theUser.getUserId());
+                model.addAttribute("auctions", listAuction);
+                model.addAttribute("user", theUser);
+                return "auctionHistorySeller";
+            }
         }
         System.out.println("Error: user not found");
         return "error";
+    }
 
+    @GetMapping(value="/invoice")
+    public String showInvoice(@RequestParam String auctionId, @RequestParam String userId, Model model, Principal principal) {
+
+        System.out.println("auctionId:"+auctionId+" userId:"+userId);
+        Optional<User> user = userService.getById(Long.parseLong(userId));
+        if (user.isPresent()) {
+            User theUser = user.get();
+            if (!theUser.getUsername().equals(principal.getName())) {
+                return "error";
+            }
+            System.out.println("user is present");
+            List<Invoice> listOfInvoices = theUser.getInvoices();
+            System.out.println("number of List:"+listOfInvoices.size());
+            for (Invoice invoice : listOfInvoices) {
+                if (invoice.getAuctionId() == Long.parseLong(auctionId)) {
+                    System.out.println(theUser.getAddress());
+                    model.addAttribute("user", theUser);
+                    model.addAttribute("invoice", invoice);
+                    return "Invoice";
+                }
+            }
+        }
+        return "error";
+    }
+
+    @GetMapping(value="/ship")
+    public String shipItem(@RequestParam String auctionId, Principal principal) {
+        Auction auction = auctionFacade.getAuctionById(Long.parseLong(auctionId));
+        Optional<User> user = userService.getByName(principal.getName());
+        if (user.isPresent()) {
+            if (auction.getProduct().getSeller().getUserId() == user.get().getUserId()) {
+                // only seller can ship the item
+                auction.setShippingDate(LocalDateTime.now());
+                auction.setShippingStatus(ShippingStatus.IN_TRANSIT);
+                auctionFacade.saveAuction(auction);
+//                Shipping shipping = new Shipping();
+//                shipping.setUserId(user.get().getUserId());
+//                shipping.setSellerId(auction.getProduct().getSeller().getUserId());
+//                shipping.setProductId(auction.getProduct().getProductId());
+//                shipping.setShippingStatus(ShippingStatus.IN_TRANSIT);
+//                shipping.setShippingDate(LocalDate.now());
+//                shippingService.save(shipping);
+            }
+        }
+        return "redirect:";
+    }
+
+    @GetMapping(value="/shippingReceived")
+    public String shippingReceived(@RequestParam String auctionId, Principal principal) {
+        Auction auction = auctionFacade.getAuctionById(Long.parseLong(auctionId));
+        Optional<User> user = userService.getByName(principal.getName());
+        if (user.isPresent()) {
+            if (auction.getWinnerId() == user.get().getUserId()) {
+                // buyer should be the winner
+                auction.setShippingStatus(ShippingStatus.DELIVERED);
+                auctionFacade.saveAuction(auction);
+            }
+        }
+        return "redirect:";
     }
 
     // review before payment, should provide shipping address
@@ -124,7 +193,7 @@ public class AuctionController {
     }
 
     @GetMapping(value = SUCCESS_URL)
-    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Model model, HttpSession session) {
+    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Model model, HttpSession session, Principal principal) {
         try {
             Payment payment = auctionFacade.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
@@ -143,8 +212,16 @@ public class AuctionController {
                 auctionFacade.productSold(theAuctionOrder.getAuctionId());
 
                 model.addAttribute("auctionOrder", theAuctionOrder);
+                Invoice invoice = new Invoice(LocalDate.now(), theAuctionOrder.getPrice(), theAuctionOrder.getUser().getUserId(), theAuctionOrder.getAuctionId());
+
+                Optional<User> user = userService.getByName(principal.getName());
+                if (user.isPresent()) {
+                    user.get().getInvoices().add(invoice);
+                    userService.updateUser(user.get());
+                }
+
                 session.removeAttribute("sessionAuctionOrder");
-                return "invoice";
+                return "orderConfirmation";
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());

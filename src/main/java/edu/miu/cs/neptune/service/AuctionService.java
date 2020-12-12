@@ -12,7 +12,7 @@ public interface AuctionService {
     Auction save(Auction auction);
     //    @Override
     List<Auction> getAllByUserId(Long userId);
-
+    List<Auction> getAllBySellerId(Long sellerId);
     List<Auction> getAllActiveAuctions();
 
     List<Auction> getAllEndedAuction();

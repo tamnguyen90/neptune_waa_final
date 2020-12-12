@@ -1,5 +1,5 @@
 -- create sellers
-insert into users values (1,'namco2011@gmail.com',true,false,'tam', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED','ROLE_BUYER','VERIFIED', 'user', 'baon01','2020-12-08 21:50:41.644283',null);
+insert into users values (1,'namco2011@gmail.com',true,false,'tam', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED','ROLE_SELLER','VERIFIED', 'user', 'baon01','2020-12-08 21:50:41.644283',null);
 insert into users values (2,'namco2011@gmail.com',true,false, 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_BUYER','VERIFIED', 'user1', 'namn01','2020-12-08 21:50:41.644283',null);
 insert into users values (3,'namco2011@gmail.com', true,false,'test2', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_SELLER','NEED_TO_VERIFY', 'user2', 'tamn01','2020-12-08 21:50:41.644283',null);
 -- create buyers
@@ -162,11 +162,17 @@ INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (103, 140
 INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (104, 150, '2020-12-06 19:00:00', 247, 6);
 INSERT into BID (ID, AMOUNT, BIDDING_TIME, AUCTION_ID, USER_ID) values (105, 200, '2020-12-06 20:00:00', 247, 4);
 --
-INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 101);
-INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (5, 102);
-INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 103);
-INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (6, 104);
-INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 105);
+--
+-- insert into invoice values (1, 2, 247, '2020-12-11', 4);
+-- insert into users_invoices values (4,1);
+
+--
+-- INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 101);
+-- INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (5, 102);
+-- INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 103);
+-- INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (6, 104);
+-- INSERT into USERS_BIDS (USER_USER_ID, BIDS_ID) values (4, 105);
+
 
 INSERT INTO DMV VALUES (1, 'user@miu', 'test1', 'nguyen', '12345');
 
