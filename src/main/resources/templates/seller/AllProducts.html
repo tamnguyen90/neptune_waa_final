@@ -33,7 +33,9 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <span th:text="${error}">ID</span>
+                            <div class="alert-danger">
+                                <span th:text="${error}">ID</span>
+                            </div>
                             <table cellspacing="0" class="table table-bordered" id="dataTable"
                                    th:if="${not #lists.isEmpty(products)}" width="100%">
                                 <thead>
@@ -59,13 +61,6 @@
                                     <td><span th:text="${product.getAuction().getBeginPrice()}"> Begin Price </span></td>
                                     <td><span th:text="${productMaps.get(product.productId)}" > Number Of Bids </span></td>
                                     <td>
-                                        <!--                                    <a class="edit" sec:authorize="hasAuthority('ADMIN')"-->
-                                        <!--                                       th:href="@{/categories/edit/{username}(username=${user.username})}">-->
-                                        <!--                                        <i class="material-icons" data-toggle="tooltip"-->
-                                        <!--                                           title="Edit">&#xE254;</i></a>-->
-                                        <!--                                    <a class="delete" sec:authorize="hasAuthority('ADMIN')"-->
-                                        <!--                                       th:href="@{/categories/delete/{username}(username=${user.username})}">-->
-                                        <!--                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
                                         <a class="edit" th:if="${product.getProductState() != 'SAVE_AND_RELEASE'} and ${productMaps.get(product.productId)}==0" th:href="@{/product/edit/{productId}(productId=${product.productId})}">
                                             <i class="material-icons" data-toggle="tooltip"
                                                title="Edit">&#xE254;</i></a>

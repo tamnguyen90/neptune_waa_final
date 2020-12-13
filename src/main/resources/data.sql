@@ -94,7 +94,7 @@ INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRI
                 values (248, '2020-12-06 15:00:00', '2020-12-31 15:00:00', 1, 150 , null, null, null, 100);
 
 INSERT INTO PRODUCT (PRODUCT_ID,CATEGORY_ID, PAYMENT_DUE_DATE, PRODUCT_DESCRIPTION, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STATE, PRODUCT_STATUS, UPLOAD_DATE,AUCTION_ID, SELLER_USER_ID)
-            VALUES(2,2, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron',110, 'SAVE_AND_RELEASE', 1,'2020-12-28', 248, 2);
+            VALUES(2,2, null , 'Dell Inspiron 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell Inspiron',110, 'SAVE_AND_RELEASE', 1,'2020-11-28', 248, 2);
 
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
                 values (249, '2020-12-06 15:00:00', '2020-12-28 17:00:00', 1, 50 , null, null, null, 100);

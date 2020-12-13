@@ -12,10 +12,14 @@ import edu.miu.cs.neptune.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -104,6 +108,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(Product product) {
+        product.setUploadDate(LocalDate.now());
         return productRepository.save(product);
     }
 
@@ -115,6 +120,11 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("Product has already been started bidding.");
         }
         productRepository.deleteById(productId);
+    }
+
+    @Override
+    public List<Product> findProductsBySeller(String username) {
+        return productRepository.findProductsBySeller(username);
     }
 
 }
