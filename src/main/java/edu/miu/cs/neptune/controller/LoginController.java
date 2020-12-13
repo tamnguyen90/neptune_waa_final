@@ -46,9 +46,9 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/index")
+    @GetMapping(value = {"/index"})
     public String indexGet(Model model) {
-        return "index";
+        return "customer/productList";
     }
 
     @PostMapping("/resendVerificationCode")
