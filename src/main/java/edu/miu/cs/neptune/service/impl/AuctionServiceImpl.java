@@ -5,13 +5,13 @@ import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.domain.Auction;
 import edu.miu.cs.neptune.domain.AuctionStatus;
 import edu.miu.cs.neptune.domain.Bid;
-import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.repository.AuctionRepository;
 import edu.miu.cs.neptune.repository.UserRepository;
 import edu.miu.cs.neptune.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -88,7 +88,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public List<Auction> getAllActiveAuctions() {
-        return auctionRepository.findAllByAuctionStatus(AuctionStatus.ACTIVE);
+        return auctionRepository.findAllByAuctionStatusAndEndDateAfter(AuctionStatus.ACTIVE, LocalDateTime.now());
     }
 
 //    @Override
