@@ -40,7 +40,8 @@
                         </div>
                     </td>
                     <td>
-                        <div th:if="${auction.winnerId==user.userId and auction.product.productStatus!=T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD}">
+                        <div th:if="${auction.winnerId==user.userId and auction.product.productStatus!=T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD and
+                               auction.AuctionStatus==T(edu.miu.cs.neptune.domain.AuctionStatus).ENDED}">
                             <a class="btn btn-success active" th:href="@{'/auction/pay?auctionId='+${auction.auctionId}}">Pay</a>
                         </div>
                         <div th:if="${auction.winnerId==user.userId and auction.product.productStatus==T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD}">

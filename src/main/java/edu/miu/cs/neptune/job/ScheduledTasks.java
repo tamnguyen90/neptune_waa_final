@@ -43,7 +43,7 @@ public class ScheduledTasks {
 
     // check if user hasn't paid the product within allowed time,
     // if yes, remove the pay button, don't refund the deposit
-    @Scheduled(initialDelay = 60000, fixedRate = 600000)
+    @Scheduled(initialDelay = 60000, fixedRate = 60000)
     public void performDelayedTask() {
         List<Auction> list = auctionService.getAllEndedAuction();
         for (Auction auction : list) {
