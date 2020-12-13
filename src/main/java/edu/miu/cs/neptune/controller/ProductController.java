@@ -84,6 +84,10 @@ public class ProductController {
     @PostMapping("/saveProduct")
     public String saveProduct(Product product, Principal principal, @RequestParam(value="action", required=true) String action,
                               BindingResult result) {
+        if (result.hasErrors()) {
+            return "seller/ProductForm";
+        }
+
         Auction auction = product.getAuction();
         if(action.equals("Save And Release")) {
             product.setProductState(ProductState.SAVE_AND_RELEASE);
@@ -93,8 +97,9 @@ public class ProductController {
             auction.setAuctionStatus(AuctionStatus.INACTIVE);
         }
 
-        if (result.hasErrors()) {
-            return "seller/ProductForm";
+        if (auction.getDepositAmount() == null) {
+            //the deposit is 10% of the starting price by default.
+            auction.setDepositAmount(product.getProductPrice() * 0.1);
         }
 
         List<MultipartFile> images = product.getImages();

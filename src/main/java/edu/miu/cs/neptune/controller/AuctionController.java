@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -311,7 +313,7 @@ public class AuctionController {
     public String bidding(@RequestParam("amount") Double bidAmount,
                           @RequestParam("auctionId") Long auctionId,
                           Principal principal,
-                          Model model) {
+                          RedirectAttributes redirectAttributes) {
         User currentUser = auctionFacade.getUserByUserName(principal.getName());
         if (currentUser == null) {
             throw new RuntimeException("The user not found.");
@@ -324,15 +326,15 @@ public class AuctionController {
         if (currentUser.getUsername().equals(auction.getProduct().getSeller().getUsername())) {
             throw new RuntimeException("The sellers can't bid on their own products.");
         }
-
+        String error = "";
         Bid highestBid = auctionFacade.getTheHighestBid(auction);
         if (bidAmount < auction.getBeginPrice() || (highestBid != null && bidAmount <= highestBid.getBiddingAmount())) {
-            throw new RuntimeException("The bid amount must greater than the initial price or the current bid price.");
+            error = "The bidding amount must greater than the current price.";
+            redirectAttributes.addFlashAttribute("error", error);
+        } else {
+            Bid newBid = new Bid(bidAmount, LocalDateTime.now());
+            newBid = auctionFacade.createBid(newBid, currentUser, auction);
         }
-
-        Bid newBid = new Bid(bidAmount, LocalDateTime.now());
-
-        newBid = auctionFacade.createBid(newBid, currentUser, auction);
 
         return "redirect:/auction/auction?id="+ auctionId;
      }

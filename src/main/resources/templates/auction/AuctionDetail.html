@@ -103,13 +103,14 @@
                                                         <input class="btn btn-success" id="submit" type="submit" tabindex="5" value="Bid">
                                                     </div>
                                                 </div>
+                                                <div class="row"><span th:text="${error}" style="color: red;">ID</span></div>
                                             </form>
                                         </div>
                                         <div th:if="${!isUserVerified}">
                                             <span style="color: red;">Your account must be verified to bid.</span>
                                         </div>
                                     </div>
-                                    <div th:unless="${isDeposited}">
+                                    <div th:unless="${isDeposited || isSeller}">
                                         <form action="#" th:action="@{/auction/deposit}" method="get">
                                             <input type="hidden" name="auctionId" th:value="*{auctionId}">
                                             <div class="row form-group">
