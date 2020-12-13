@@ -21,8 +21,8 @@ public class Product {
     private String productName;
     private Double productPrice;
 
-    @DateTimeFormat(pattern = "MM-dd-yyyy")
-    private LocalDate uploadDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime uploadDate;
     private String productDescription;
     private ProductStatus productStatus;
     private LocalDateTime paymentDueDate;
@@ -146,11 +146,11 @@ public class Product {
         this.productPrice = productPrice;
     }
 
-    public LocalDate getUploadDate() {
+    public LocalDateTime getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(LocalDate uploadDate) {
+    public void setUploadDate(LocalDateTime uploadDate) {
         this.uploadDate = uploadDate;
     }
 
@@ -189,4 +189,5 @@ public class Product {
 //                '\"' +",auction"+ '\"' + ':' + '\"' +auction +
                 '}';
     }
+
 }

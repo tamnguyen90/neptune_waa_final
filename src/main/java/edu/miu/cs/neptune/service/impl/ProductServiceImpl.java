@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -108,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(Product product) {
-        product.setUploadDate(LocalDate.now());
+        product.setUploadDate(LocalDateTime.now());
         return productRepository.save(product);
     }
 
