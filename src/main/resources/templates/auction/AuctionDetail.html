@@ -62,7 +62,7 @@
                                     <div class="row form-group">
                                         <div class="col-sm-3">Tags:</div>
                                         <div class="col-sm-7 text-wrap" style="width: 6rem;"th:each=" tag : *{product.getCategories()}">
-                                            <a th:href="@{'product/products/' + ${tag.categoryId}}"><span th:text="${tag.getCategoryName()}">Category</span></a>
+                                            <a th:href="@{'category/products/id=?' + ${tag.categoryId}}"><span th:text="${tag.getCategoryName()}">Category</span></a>
                                         </div>
                                     </div>
                                 </div>
