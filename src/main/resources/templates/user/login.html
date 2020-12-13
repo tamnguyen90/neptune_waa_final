@@ -23,6 +23,7 @@
 		<div class="form-v10-content">
 			<form class="form-detail" form method="post" th:action="@{/login}" id="myform">
 				<div class="form-right">
+					<h4 style="font-size: 20px; color: red;" th:text="${errorMessage}"></h4>
 					<h2>Login to Neptune Auction System</h2>
 					<div class="form-row">
 						<input type="text" class="username" id="username"  name="username" placeholder="Enter username" required>

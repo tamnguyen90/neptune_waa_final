@@ -22,14 +22,14 @@ public class LoginController {
     public String loginGet(@RequestParam(value = "error", required = false) String error,
                            @RequestParam(value = "logout", required = false) String logout,
                            Model model) {
-        String errorMessge = null;
+        String errorMessage = "";
         if (error != null) {
-            errorMessge = "Username or Password is incorrect !!";
+            errorMessage = "Username or Password is incorrect !!";
         }
         if (logout != null) {
-            errorMessge = "You have been successfully logged out !!";
+            errorMessage = "You have been successfully logged out !!";
         }
-        model.addAttribute("errorMessge", errorMessge);
+        model.addAttribute("errorMessage", errorMessage);
         return "user/login";
     }
 
