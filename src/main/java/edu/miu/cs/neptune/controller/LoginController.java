@@ -1,9 +1,13 @@
 package edu.miu.cs.neptune.controller;
 
+import edu.miu.cs.neptune.domain.Product;
+import edu.miu.cs.neptune.domain.ProductState;
 import edu.miu.cs.neptune.domain.User;
 import edu.miu.cs.neptune.domain.UserVerificationType;
+import edu.miu.cs.neptune.service.ProductService;
 import edu.miu.cs.neptune.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +21,8 @@ import java.time.LocalDateTime;
 public class LoginController {
     @Autowired
     UserService userService;
+    @Autowired
+    ProductService productService;
 
     @GetMapping(value = {"/","/login"})
     public String loginGet(@RequestParam(value = "error", required = false) String error,
@@ -48,6 +54,9 @@ public class LoginController {
 
     @GetMapping(value = {"/index"})
     public String indexGet(Model model) {
+        Page<Product> page = productService.findProductsByProductStateEquals(ProductState.SAVE_AND_RELEASE,1, "uploadDate", "decs");
+        CustomerController cus = new CustomerController();
+        cus.general(model, page, 1, "uploadDate", "decs");
         return "customer/productList";
     }
 
