@@ -27,7 +27,7 @@
                         <h4 class="modal-title">Edit Product</h4>
                     </div>
                     <div class="modal-body">
-                        <div>
+                        <div class="alert-danger">
                         <ul th:if="${#fields.hasErrors('*')}">
                             <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input is incorrect</li>
                         </ul>

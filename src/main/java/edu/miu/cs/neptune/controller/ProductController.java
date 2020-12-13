@@ -3,6 +3,7 @@ package edu.miu.cs.neptune.controller;
 import edu.miu.cs.neptune.Util.Util;
 import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.service.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,18 +38,24 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    private String getAllProducts(Model model) {
-        List<Product> products = productService.getAll();
+    private String getAllProducts(Authentication authentication, Model model) {
+        String username = authentication.getName();
+
+        List<Product> products = productService.findProductsBySeller(username);
         Integer numberOfBid = 0;
 
         Map<Long,Integer> productMaps = new HashMap<>();
-        for (Product p: products
-             ) {
-            numberOfBid = biddingService.getNumberOfBidByProductId(p.getProductId());
+        if(products.size()>0) {
+            for (Product p : products
+            ) {
+                numberOfBid = biddingService.getNumberOfBidByProductId(p.getProductId());
 
-            productMaps.put(p.getProductId(), numberOfBid);
+                productMaps.put(p.getProductId(), numberOfBid);
+            }
+        } else {
+            model.addAttribute("error", "You don't have any product!");
         }
-        model.addAttribute("products", productService.getAll());
+        model.addAttribute("products", products);
         model.addAttribute("productMaps", productMaps);
 
         return "seller/AllProducts";
