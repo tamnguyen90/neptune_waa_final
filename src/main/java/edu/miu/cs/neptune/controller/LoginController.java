@@ -77,7 +77,7 @@ public class LoginController {
             user.setUserVerificationType(UserVerificationType.VERIFIED);
             userService.updateUser(user);
             return "redirect:/index";
-        } else if (user.getFailedVerificationCount() < 3) {
+        } else if (user.getFailedVerificationCount() < 2) {
             user.increaseFailedVerificationCount();
             userService.updateUser(user);
             return "redirect:/verification";

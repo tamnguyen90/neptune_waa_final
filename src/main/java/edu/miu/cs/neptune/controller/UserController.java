@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -26,7 +27,9 @@ public class UserController {
     //click Create User button, go to createUser page
     @RequestMapping("/create")
     public String createUserGet(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("availableRoles", Arrays.asList(Role.values()));
+        List<Role> roleList = Arrays.asList(Role.values());
+//        roleList.remove(2);
+        model.addAttribute("availableRoles", roleList);
         return "user/createUser";
     }
 
@@ -84,7 +87,7 @@ public class UserController {
             userService.updateUser(user);
             redirectAttributes.addFlashAttribute("username", username);
             return "redirect:/users/resetPassword";
-        } else if (user.getFailedVerificationCount() < 3) {
+        } else if (user.getFailedVerificationCount() < 2) {
             user.increaseFailedVerificationCount();
             userService.updateUser(user);
             redirectAttributes.addFlashAttribute("username", username);

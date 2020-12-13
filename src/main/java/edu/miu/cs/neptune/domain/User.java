@@ -35,7 +35,7 @@ public class User {
 //    @NotBlank
     private String licenseNumber;
     @Enumerated (EnumType.STRING)
-    private ProfileVerificationType profileVerificationType = ProfileVerificationType.VERIFIED;
+    private ProfileVerificationType profileVerificationType = ProfileVerificationType.NEED_TO_VERIFY;
     private String verificationCode = null;
     @Enumerated (EnumType.STRING)
     private UserVerificationType userVerificationType = UserVerificationType.NEED_TO_VERIFY;

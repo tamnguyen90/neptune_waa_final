@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
   }
   public void sendVerificationCode(String mailSubject, User user){
     String mailFrom = "asdproject287@gmail.com";
-    String mailContent = "Please use this verification code: "+user.getVerificationCode()+" to verify.";
+    String mailContent = "Please use this verification code: "+user.getVerificationCode()+" to verify. \n Go to this link to login: http://localhost:9999/login";
     mailService.sendEmail(mailFrom,user.getEmail(),mailSubject,mailContent);
   }
 

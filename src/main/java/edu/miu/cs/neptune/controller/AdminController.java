@@ -50,7 +50,7 @@ public class AdminController {
             ProfileVerificationType verificationType = dmvService.verifyProfile(user);
 
             user.setProfileVerificationType(verificationType);
-            userService.saveUser(user);
+            userService.updateUser(user);
         }
 
         return "redirect:/admin/profile/review_list";
