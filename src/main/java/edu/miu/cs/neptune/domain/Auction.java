@@ -139,6 +139,10 @@ public class Auction implements Serializable {
         this.beginPrice = beginPrice;
     }
 
+    public boolean isEnded() {
+        return getEndDate().isBefore(LocalDateTime.now()) || AuctionStatus.ENDED.equals(getAuctionStatus());
+    }
+
     @Override
     public String toString() {
         return "Auction{" +
