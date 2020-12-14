@@ -95,6 +95,9 @@ public class ProductController {
                               BindingResult result, Model model) {
         Auction auction = product.getAuction();
         List<String> errors = new ArrayList<>();
+        if (product.getProductPrice() <= 0) {
+            errors.add("The product price must be greater than 0.");
+        }
         if(action.equals("Save And Release")) {
             LocalDateTime begin = auction.getBeginDate();
             LocalDateTime end = auction.getEndDate();
