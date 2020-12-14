@@ -179,7 +179,7 @@ public class Product {
                 '\"' + "productId" + '\"' + ':' + '\"'  +productId +
 //                '\"' +",productState" + '\"' + ':' + '\"' +productState  +
                 '\"' +";\"productName" + '\"'+ ':' + '\"' +productName +
-
+                '\"' +";\"categoryId" + '\"'+ ':' + '\"' +categoryId +
 
                 '\"' + ";\"productDescription" + '\"'+ ':' + '\"' +productDescription +
                 '\"' + ";\"productPrice"+ '\"' + ':' + '\"' +productPrice +
