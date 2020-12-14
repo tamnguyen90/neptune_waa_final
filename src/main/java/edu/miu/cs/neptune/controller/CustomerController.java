@@ -93,16 +93,11 @@ public class CustomerController {
 
     @PostMapping(value = "category/productsNext")
     @ResponseBody
-    public String listProductByCategoryOrder(@RequestBody String request, Model model) throws JsonProcessingException {
+    public String listProductByCategoryOrder(@RequestParam("categoryId") Long categoryId, Model model) throws JsonProcessingException {
         count++;
-        System.out.println("test ......" + request);
-        JsonObject jsonObject = new JsonParser().parse(request).getAsJsonObject();
-        int pageNum = jsonObject.get("currentPage").getAsInt();
-        Long categoryId = jsonObject.get("categoryId").getAsLong();
-        String sortDir = jsonObject.get("sortDir").getAsString();
-        String sortField = jsonObject.get("sortField").getAsString();
-        Page<Product> page = productService.getProductsByCategoryIdAndProductStateEquals(categoryId,ProductState.SAVE_AND_RELEASE, count, sortField, sortDir);
-        general(model, page, pageNum, sortField, sortDir);
+        System.out.println(categoryId);
+        Page<Product> page = productService.getProductsByCategoryIdAndProductStateEquals(categoryId,ProductState.SAVE_AND_RELEASE, count, "uploadDate", "decs");
+        general(model, page, count, "uploadDate", "decs");
         List<Product> list = page.getContent();
 
         if(page.getTotalPages()>=count){
@@ -124,17 +119,8 @@ public class CustomerController {
     public String getProductById(@RequestParam("id") Long productId, Model model){
         count = 1;
         System.out.println("product ID: " + productId);
-        List<Category> categories = categoryService.getAll();
         Product product = productService.getProductById(productId);
-        System.out.println(categories + "cate list");
-        StringBuilder categoryName = new StringBuilder();
-        for (Category cat:categories){
-            if(cat.getCategoryId()==product.getCategoryId()){
-                categoryName.append(cat.getCategoryName()+ " ");
-            }
-        }
         model.addAttribute("product", product);
-        model.addAttribute("categories", categoryName);
         model.addAttribute("images", product.getDbImages());
         System.out.println(product.getDbImages());
         return "customer/product";

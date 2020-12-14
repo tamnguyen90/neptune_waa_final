@@ -33,6 +33,9 @@
                             <ul th:if="${#fields.hasErrors('*')}">
                                 <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input is incorrect</li>
                             </ul>
+                            <ul th:if="${not #lists.isEmpty(errors)}">
+                                <li th:each="err : ${errors}" th:text="${err}"></li>
+                            </ul>
                         </div>
                         <div class="form-group">
                             <label for="id">Name: </span></label>

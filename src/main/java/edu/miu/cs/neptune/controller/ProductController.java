@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,19 +92,45 @@ public class ProductController {
 
     @PostMapping("/saveProduct")
     public String saveProduct(Product product, Principal principal, @RequestParam(value="action", required=true) String action,
-                              BindingResult result) {
-        if (result.hasErrors()) {
-            return "seller/ProductForm";
-        }
-
+                              BindingResult result, Model model) {
         Auction auction = product.getAuction();
+        List<String> errors = new ArrayList<>();
+        if (product.getProductPrice() <= 0) {
+            errors.add("The product price must be greater than 0.");
+        }
         if(action.equals("Save And Release")) {
+            LocalDateTime begin = auction.getBeginDate();
+            LocalDateTime end = auction.getEndDate();
+            if (begin == null || end == null) {
+                errors.add("The start date and end date must not be null.");
+            } else if (begin != null && end != null) {
+                LocalDateTime now = LocalDateTime.now().minusMinutes(1);
+                if (begin.isBefore(now) || end.isBefore(now)) {
+                    errors.add("The start date and end date must be in the future.");
+                } else if (begin.isAfter(end)) {
+                    errors.add("The end date must be after the begin date.");
+                }
+            }
+            Double beginPrice = auction.getBeginPrice();
+            if (beginPrice == null) {
+                errors.add("The begin price must not be null.");
+            } else if (beginPrice <= 0) {
+                errors.add("The begin price must be greater than 0.");
+            }
             product.setProductState(ProductState.SAVE_AND_RELEASE);
             auction.setAuctionStatus(AuctionStatus.ACTIVE);
         } else {
             product.setProductState(ProductState.SAVE_WITHOUT_RELEASE);
             auction.setAuctionStatus(AuctionStatus.INACTIVE);
         }
+
+        if (result.hasErrors() || !errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            model.addAttribute("categories", categoryService.getAll());
+            return "seller/ProductForm";
+        }
+
+
 
         if (auction.getDepositAmount() == null) {
             //the deposit is 10% of the starting price by default.
