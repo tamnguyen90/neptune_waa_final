@@ -1,6 +1,6 @@
 -- create sellers
 insert into users values (1,'namco2011@gmail.com',true,false,'tam', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED','ROLE_SELLER','VERIFIED', 'user', 'baon01','2020-12-08 21:50:41.644283',null);
-insert into users values (2,'namco2011@gmail.com',true,false, 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_BUYER','VERIFIED', 'user1', 'namn01','2020-12-08 21:50:41.644283',null);
+insert into users values (2,'namco2011@gmail.com',true,false, 'test1', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_SELLER','VERIFIED', 'user1', 'namn01','2020-12-08 21:50:41.644283',null);
 insert into users values (3,'namco2011@gmail.com', true,false,'test2', false, 'nguyen', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_SELLER','NEED_TO_VERIFY', 'user2', 'tamn01','2020-12-08 21:50:41.644283',null);
 -- create buyers
 insert into users values (4,'bobby@miu.com',true,false, 'Bobby', false, 'Johnson', '12345', '$2a$10$/6W.d4JZ2IiqMjo0vwxks.oH8pwurBlO376.UlEnNdhTXGRKjvVla', 'VERIFIED', 'ROLE_BUYER','VERIFIED', 'bobbyj','ganz01','2020-12-08 21:50:41.644283',null);
@@ -45,7 +45,7 @@ INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRI
 INSERT INTO PRODUCT VALUES(7,1, null , 'Apple iPhone 12 smartphone with 4.00-inch 640X1136 diplay and 8-megapixel rear camera', 'Iphone12',900, 'SAVE_AND_RELEASE', 1,'2020-11-02',7 , 1);
 
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)
-                values (8, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null, 100);
+                values (8, '2020-12-06 15:00:00', '2020-12-15 15:00:00', 1, 100 , null, null, null, 30);
 INSERT INTO PRODUCT VALUES(8,2, null , 'Dell 2020 14-inch Laptop with 3rd Generation Intel Core processors', 'Dell 2020',1000, 'SAVE_AND_RELEASE', 1,'2020-11-10', 8 ,2);
 
 INSERT into AUCTION (AUCTION_ID, BEGIN_DATE, END_DATE, AUCTION_STATUS, BEGIN_PRICE, WINNER_ID, SHIPPING_DATE, SHIPPING_STATUS, DEPOSIT_AMOUNT)

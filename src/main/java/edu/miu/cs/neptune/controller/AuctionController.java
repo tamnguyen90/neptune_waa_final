@@ -211,15 +211,18 @@ public class AuctionController {
         return "redirect:/";
     }
 
+
+    // product payment
     @PostMapping(value = "/pay")
     public String doPayment(@ModelAttribute("order") AuctionOrder auctionOrder, HttpSession session, Model model) {
+        session.setAttribute("sessionAuctionOrder1", auctionOrder);
+        auctionOrder.setIntent("authorize");
+        System.out.println(auctionOrder);
         // save user address;
         User theUser = auctionFacade.getUserByUserId(auctionOrder.getUser().getUserId());
         theUser.setAddress(auctionOrder.getUser().getAddress());
         auctionFacade.updateUser(theUser);
-        session.setAttribute("sessionAuctionOrder", auctionOrder);
-        auctionOrder.setIntent("authorize");
-        System.out.println(auctionOrder);
+
         try {
             Payment payment = auctionFacade.createPayment(auctionOrder.getPrice(), auctionOrder.getCurrency(), auctionOrder.getMethod(), auctionOrder.getIntent(),
                     auctionOrder.getDescription(), "http://localhost:9999/auction"+CANCEL_URL, "http://localhost:9999/auction"+PAY_SUCCESS);
@@ -247,21 +250,23 @@ public class AuctionController {
             Payment payment = auctionFacade.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
-                AuctionOrder theAuctionOrder = (AuctionOrder)session.getAttribute("sessionAuctionOrder");
+                AuctionOrder theAuctionOrder = (AuctionOrder)session.getAttribute("sessionAuctionOrder1");
 
                 Authorization authorization = payment.getTransactions().get(0).getRelatedResources().get(0).getAuthorization();
 
                 String saleId = authorization.getId(); //Util.parseJSONSaleId(payment.toJSON());
                 System.out.println("AuthorizationId:" + saleId);
-
+                System.out.println("paid amount:"+theAuctionOrder.getPrice());
                 SystemPayment systemPayment = new SystemPayment(theAuctionOrder.getAuctionId(), theAuctionOrder.getUser().getUserId(), theAuctionOrder.getPrice(),
                         PaymentStatus.PAID, PaymentType.PRODUCT_PAYMENT, saleId);
                 // store payment information in the database;
                 auctionFacade.savePayment(systemPayment);
                 auctionFacade.productSold(theAuctionOrder.getAuctionId());
 
+                Auction auction = auctionFacade.getAuctionById(theAuctionOrder.getAuctionId());
                 model.addAttribute("auctionOrder", theAuctionOrder);
-                Invoice invoice = new Invoice(LocalDate.now(), theAuctionOrder.getPrice(), theAuctionOrder.getUser().getUserId(), theAuctionOrder.getAuctionId());
+                Double depositAmount = auction.getDepositAmount()==null?0:auction.getDepositAmount();
+                Invoice invoice = new Invoice(LocalDate.now(),  depositAmount+theAuctionOrder.getPrice(), theAuctionOrder.getUser().getUserId(), theAuctionOrder.getAuctionId());
 
                 User user = auctionFacade.getUserByUserName(principal.getName());
                 if (user != null) {
@@ -269,7 +274,7 @@ public class AuctionController {
                     auctionFacade.updateUser(user);
                 }
 
-                session.removeAttribute("sessionAuctionOrder");
+                session.removeAttribute("sessionAuctionOrder1");
                 return "orderConfirmation";
             }
         } catch (PayPalRESTException e) {

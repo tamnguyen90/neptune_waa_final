@@ -71,7 +71,7 @@ public class AuctionFacadeImpl implements AuctionFacade {
     @Override
     public Auction closeAuction(Auction currentAuction) {
 
-        if (currentAuction.getEndDate().isBefore(LocalDateTime.now()) && !AuctionStatus.ENDED.equals(currentAuction.getAuctionStatus())) {
+        if (currentAuction.getEndDate().isBefore(LocalDateTime.now()) && AuctionStatus.ACTIVE.equals(currentAuction.getAuctionStatus())) {
             currentAuction.setAuctionStatus(AuctionStatus.ENDED);
             if (currentAuction.getBids().size() > 0) {
                 Bid highest = getTheHighestBid(currentAuction);
@@ -209,13 +209,13 @@ public class AuctionFacadeImpl implements AuctionFacade {
         // delivery time is expired, need to refund the money back
         List<SystemPayment> listSystemPayment = systemPaymentService.getPaymentsByAuction(auctionId);
         for (SystemPayment systemPayment : listSystemPayment) {
-            if (systemPayment.getUserId()==userId && systemPayment.getPaymentStatus()==PaymentStatus.PAID) { //&& systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT
+            if (systemPayment.getUserId()==userId ) { //&& systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT && systemPayment.getPaymentStatus()==PaymentStatus.PAID
                 String authorizationId = systemPayment.getSaleId();
                 System.out.println("authorizationId:"+authorizationId+", is refunded");
                 cancelPayment(authorizationId);
                 systemPayment.setPaymentStatus(PaymentStatus.REFUNDED);
                 systemPaymentService.save(systemPayment);
-                return true;
+                //return true;
             }
         }
         return false;
@@ -230,9 +230,9 @@ public class AuctionFacadeImpl implements AuctionFacade {
             return false;
         }
 
-
+        System.out.println("number of authorizations:"+listSystemPayment.size());
         for (SystemPayment systemPayment : listSystemPayment) {
-            if (systemPayment.getUserId()==userId && systemPayment.getPaymentStatus()==PaymentStatus.PAID) { //systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT
+            if (systemPayment.getUserId()==userId) { //systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT  && systemPayment.getPaymentStatus()==PaymentStatus.PAID
                 String authorizationId = systemPayment.getSaleId();
 
                 System.out.println("authorizationId:"+authorizationId);
@@ -241,9 +241,37 @@ public class AuctionFacadeImpl implements AuctionFacade {
                 finalizePayment(authorizationId, systemPayment.getPaymentAmount());
                 systemPayment.setPaymentStatus(PaymentStatus.SENT);
                 systemPaymentService.save(systemPayment);
+                //return true;
+            }
+        }
+        return false;
+    }
+
+    // buy didn't pay for the product after winning
+    @Override
+    public boolean chargeTheDeposit(Long auctionId, Long userId) {
+        List<SystemPayment> listSystemPayment = systemPaymentService.getPaymentsByAuction(auctionId);
+        if (listSystemPayment==null) {
+            System.out.println("no payment history found for auctionId:"+auctionId);
+            return false;
+        }
+
+        for (SystemPayment systemPayment : listSystemPayment) {
+            if (systemPayment.getUserId()==userId) { //systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT  //&& systemPayment.getPaymentStatus()==PaymentStatus.PAID
+                String authorizationId = systemPayment.getSaleId();
+
+                System.out.println("authorizationId:"+authorizationId);
+                System.out.println("Amount is paid:"+systemPayment.getPaymentAmount());
+                System.out.println("buyer didn't pay after winning");
+
+                finalizePayment(authorizationId, systemPayment.getPaymentAmount());
+                systemPayment.setPaymentStatus(PaymentStatus.SENT);
+                systemPaymentService.save(systemPayment);
                 return true;
             }
         }
+
+
         return false;
     }
 

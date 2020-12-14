@@ -54,5 +54,7 @@ public interface AuctionFacade {
 
     boolean payTheProduct(Long auctionId, Long userId);
 
+    boolean chargeTheDeposit(Long auctionId, Long userId);
+
 //    boolean updateUserAddress(User)
 }

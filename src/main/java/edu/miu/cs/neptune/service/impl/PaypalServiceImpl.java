@@ -2,6 +2,7 @@ package edu.miu.cs.neptune.service.impl;
 
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.HttpMethod;
 import com.paypal.base.rest.PayPalRESTException;
 import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.service.AuctionService;
@@ -46,7 +47,7 @@ public class PaypalServiceImpl implements PaypalService {
             // create paypal order object
             AuctionOrder auctionOrder = new AuctionOrder();
             auctionOrder.setDescription(theProduct.getProductName());
-            System.out.println("highes bid amount:"+highestBid.getBiddingAmount());
+            System.out.println("highest bid amount:"+highestBid.getBiddingAmount());
             System.out.println("deposited amount:"+(theAuction.getDepositAmount()==null?theAuction.getBeginPrice()/10.0:theAuction.getDepositAmount()));
             double price = highestBid.getBiddingAmount() - (theAuction.getDepositAmount()==null?theAuction.getBeginPrice()/10.0:theAuction.getDepositAmount());
             auctionOrder.setPrice(price);
@@ -96,6 +97,7 @@ public class PaypalServiceImpl implements PaypalService {
         return payment.create(apiContext);
     }
 
+
     @Override
     public void finalizePayment(String authorizationId, Double unitAmount) {
 
@@ -115,6 +117,8 @@ public class PaypalServiceImpl implements PaypalService {
 
         // Capture payment
         Capture responseCapture = null;
+
+        apiContext.setRequestId((String)null);
         try {
             responseCapture = authorization.capture(apiContext, capture);
         } catch (PayPalRESTException e) {
@@ -128,6 +132,7 @@ public class PaypalServiceImpl implements PaypalService {
     public void cancelPayment(String authorizationId) {
         Authorization authorization = new Authorization();
         authorization.setId(authorizationId);
+        apiContext.setRequestId((String)null);
         try {
             authorization.doVoid(apiContext);
         } catch (PayPalRESTException e) {

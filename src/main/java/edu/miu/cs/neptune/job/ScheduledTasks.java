@@ -48,22 +48,25 @@ public class ScheduledTasks {
         List<Auction> list = auctionService.getAllEndedAuction();
         for (Auction auction : list) {
             if (auction.getAuctionStatus() == AuctionStatus.ENDED) {
-                System.out.println("Auction is ended");
-                System.out.println("auctiondId:"+auction.getAuctionId());
-                System.out.println("payment Due date:"+auction.getProduct().getPaymentDueDate());
+//                System.out.println("Auction is ended");
+//                System.out.println("auctiondId:"+auction.getAuctionId());
+//                System.out.println("payment Due date:"+auction.getProduct().getPaymentDueDate());
                 LocalDateTime paymentDueDate = auction.getProduct().getPaymentDueDate();
                 if (paymentDueDate!=null && paymentDueDate.compareTo(LocalDateTime.now())<0) {
                     // CASE 1
-                    // Person didn't pay within paymentDueDate
+                    // Person didn't pay within paymentDueDate, charge the deposit
                     System.out.println("Auction is over but haven't paid within given time");
                     System.out.println("auctionProduct:"+auction.getProduct().getProductName());
+                    // charge the deposit
+                    auctionFacade.chargeTheDeposit(auction.getAuctionId(), auction.getWinnerId());
                     auction.setAuctionStatus(AuctionStatus.NOT_PAID);
                     auctionService.save(auction);
                 }
             }
 
             if (auction.getShippingStatus()== ShippingStatus.IN_TRANSIT) {
-                if (auction.getShippingDate().plusMinutes(2).compareTo(LocalDateTime.now())<0){
+                System.out.println(auction.getShippingDate());
+                if (auction.getShippingDate().plusMinutes(1).compareTo(LocalDateTime.now())<0){
                     // delivery time is expired
                     // CASE 2
                     // Person paid, but he/she didn't receive it within given time.

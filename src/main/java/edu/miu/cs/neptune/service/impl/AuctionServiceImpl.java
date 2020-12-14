@@ -70,7 +70,7 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     public List<Auction> getAllEndedAuction() {
         List<Auction> auctionList = getAll();
-        return auctionList.stream().filter(e -> e.getAuctionStatus()==AuctionStatus.ENDED).collect(Collectors.toList());
+        return auctionList.stream().filter(e -> e.getAuctionStatus()==AuctionStatus.ENDED || e.getAuctionStatus()==AuctionStatus.PAID).collect(Collectors.toList());
     }
 
     @Override
@@ -81,6 +81,7 @@ public class AuctionServiceImpl implements AuctionService {
             Auction theAuction = auction.get();
 
             theAuction.getProduct().setProductStatus(ProductStatus.PRODUCT_SOLD);
+            theAuction.setAuctionStatus(AuctionStatus.PAID);
             auctionRepository.save(theAuction);
         }
     }
