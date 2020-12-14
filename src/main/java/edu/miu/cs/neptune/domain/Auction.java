@@ -1,8 +1,4 @@
 package edu.miu.cs.neptune.domain;
-
-import edu.miu.cs.neptune.validator.AuctionDatesMatch;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
