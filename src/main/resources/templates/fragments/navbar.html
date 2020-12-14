@@ -1,12 +1,13 @@
 <div th:fragment="navbar"
-     xmlns:th="http://www.thymeleaf.org">
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Auction System</a>
         <button class="btn btn-link btn-sm order-1 order-lg-0" href="#" id="sidebarToggle"><i class="fas fa-bars"></i>
         </button>
         <!-- Navbar Search-->
         <form th:action="@{/customer/product_search/}" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-            <div class="input-group">
+            <div class="input-group" sec:authorize="!hasAuthority('ROLE_ADMIN')">
                 <input name="keyword" aria-describedby="basic-addon2" aria-label="Search" class="form-control"
                        placeholder="Search for..."
                        type="text" th:value="${keyword}" />

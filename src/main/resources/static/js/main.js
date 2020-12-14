@@ -14,17 +14,17 @@ $(document).ready(function() {
             pageNum = pageNum+1;
             let $categoryId = $("#categoryId").val();
 
-            let data = JSON.stringify($('#nextPage').serializeFormJSON());
+            // let data = JSON.stringify($('#nextPage').serializeFormJSON());
 
-           // let data = {"categoryId": $categoryId, "currentPage" : "2", "sortDir": "asc", "sortField":"uploadDate"};
-            console.log(data);
+            let data = {"categoryId": $categoryId};
+           //  console.log(data);
             var conextRoot = "/" + window.location.pathname.split('/')[1];
 
             $.ajax({
                 type: "POST",
                 url: conextRoot + "/category/productsNext/",
                 data: data,
-                contentType: "application/json",
+                // contentType: "application/json",
                 success: function (data) {
                     console.log(data);
                     if(data=="done" ||data==null){
@@ -53,24 +53,6 @@ $(document).ready(function() {
 
     });
 });
-(function ($) {
-    $.fn.serializeFormJSON = function () {
-
-        var o = {};
-        var a = this.serializeArray();
-        $.each(a, function () {
-            if (o[this.name]) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
-        });
-        return o;
-    };
-})(jQuery);
 
 function dispList(resp) {
     // Remove old Data

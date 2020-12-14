@@ -335,7 +335,9 @@ public class AuctionController {
         }
         String error = "";
         Bid highestBid = auctionFacade.getTheHighestBid(auction);
-        if (bidAmount < auction.getBeginPrice() || (highestBid != null && bidAmount <= highestBid.getBiddingAmount())) {
+        if (auction.isEnded()) {
+            error = "The auction is ended. You can not bid any more.";
+        } else if (bidAmount < auction.getBeginPrice() || (highestBid != null && bidAmount <= highestBid.getBiddingAmount())) {
             error = "The bidding amount must greater than the current price.";
             redirectAttributes.addFlashAttribute("error", error);
         } else {

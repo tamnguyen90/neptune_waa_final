@@ -1,9 +1,6 @@
 package edu.miu.cs.neptune.controller;
 
-import edu.miu.cs.neptune.domain.Product;
-import edu.miu.cs.neptune.domain.ProductState;
-import edu.miu.cs.neptune.domain.User;
-import edu.miu.cs.neptune.domain.UserVerificationType;
+import edu.miu.cs.neptune.domain.*;
 import edu.miu.cs.neptune.service.ProductService;
 import edu.miu.cs.neptune.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +45,10 @@ public class LoginController {
             model.addAttribute("userId", user.getUserId());
             return "redirect:/verification";
         } else {
+            if(authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                return "redirect:/admin/profile/review_list";
+            }
+
             return "redirect:/index";
         }
     }

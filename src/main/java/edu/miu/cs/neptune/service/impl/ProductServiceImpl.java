@@ -5,10 +5,12 @@ import edu.miu.cs.neptune.domain.Bid;
 import edu.miu.cs.neptune.domain.Category;
 import edu.miu.cs.neptune.domain.Product;
 import edu.miu.cs.neptune.domain.ProductState;
+import edu.miu.cs.neptune.repository.AuctionRepository;
 import edu.miu.cs.neptune.repository.BiddingRepository;
 import edu.miu.cs.neptune.repository.CategoryRepository;
 import edu.miu.cs.neptune.repository.ProductRepository;
 import edu.miu.cs.neptune.service.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-
+@Slf4j
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
@@ -30,6 +32,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     BiddingRepository biddingRepository;
+
+    @Autowired
+    AuctionRepository auctionRepository;
 
     @Override
     public List<Product> getAll() {
@@ -120,7 +125,11 @@ public class ProductServiceImpl implements ProductService {
         if(bids.size()>0) {
             throw new RuntimeException("Product has already been started bidding.");
         }
+       Product product = productRepository.getProductByProductId(productId);
+        Long auctionId = product.getAuction().getAuctionId();
+
         productRepository.deleteById(productId);
+        auctionRepository.deleteById(auctionId);
     }
 
     @Override

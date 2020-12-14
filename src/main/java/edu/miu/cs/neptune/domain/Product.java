@@ -5,6 +5,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,7 +20,9 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
     private Long categoryId;
+    @NotBlank(message = "The product name is required.")
     private String productName;
+    @NotNull(message = "The product price is required.")
     private Double productPrice;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
@@ -175,7 +179,7 @@ public class Product {
                 '\"' + "productId" + '\"' + ':' + '\"'  +productId +
 //                '\"' +",productState" + '\"' + ':' + '\"' +productState  +
                 '\"' +";\"productName" + '\"'+ ':' + '\"' +productName +
-
+                '\"' +";\"categoryId" + '\"'+ ':' + '\"' +categoryId +
 
                 '\"' + ";\"productDescription" + '\"'+ ':' + '\"' +productDescription +
                 '\"' + ";\"productPrice"+ '\"' + ':' + '\"' +productPrice +

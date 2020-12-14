@@ -1,12 +1,10 @@
 package edu.miu.cs.neptune.domain;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -135,6 +133,10 @@ public class Auction implements Serializable {
 
     public void setBeginPrice(Double beginPrice) {
         this.beginPrice = beginPrice;
+    }
+
+    public boolean isEnded() {
+        return getEndDate().isBefore(LocalDateTime.now()) || AuctionStatus.ENDED.equals(getAuctionStatus());
     }
 
     @Override
