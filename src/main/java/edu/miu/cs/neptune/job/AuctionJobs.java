@@ -18,7 +18,7 @@ public class AuctionJobs {
     @Autowired
     private AuctionFacade auctionFacade;
 
-    @Scheduled(fixedRate = 500000)
+    @Scheduled(fixedRate = 60000)
     public void closingEndedAuctions() {
         System.out.println("[Scheduling]---The task started at "  + LocalDateTime.now().format(formatter));
         List<Auction> endedAuctions = auctionFacade.closingEndedAuctions();

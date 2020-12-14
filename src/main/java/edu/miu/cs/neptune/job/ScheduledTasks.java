@@ -53,7 +53,8 @@ public class ScheduledTasks {
                 System.out.println("payment Due date:"+auction.getProduct().getPaymentDueDate());
                 LocalDateTime paymentDueDate = auction.getProduct().getPaymentDueDate();
                 if (paymentDueDate!=null && paymentDueDate.compareTo(LocalDateTime.now())<0) {
-                    // buying time is expired
+                    // CASE 1
+                    // Person didn't pay within paymentDueDate
                     System.out.println("Auction is over but haven't paid within given time");
                     System.out.println("auctionProduct:"+auction.getProduct().getProductName());
                     auction.setAuctionStatus(AuctionStatus.NOT_PAID);
@@ -64,6 +65,9 @@ public class ScheduledTasks {
             if (auction.getShippingStatus()== ShippingStatus.IN_TRANSIT) {
                 if (auction.getShippingDate().plusMinutes(2).compareTo(LocalDateTime.now())<0){
                     // delivery time is expired
+                    // CASE 2
+                    // Person paid, but he/she didn't receive it within given time.
+
                     auction.setShippingStatus(ShippingStatus.DELIVERY_EXPIRED);
                     auctionService.save(auction);
                     auctionFacade.refundProductPayment(auction.getAuctionId(),auction.getWinnerId());

@@ -212,8 +212,9 @@ public class AuctionFacadeImpl implements AuctionFacade {
         // delivery time is expired, need to refund the money back
         List<SystemPayment> listSystemPayment = systemPaymentService.getPaymentsByAuction(auctionId);
         for (SystemPayment systemPayment : listSystemPayment) {
-            if (systemPayment.getUserId()==userId && systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT && systemPayment.getPaymentStatus()==PaymentStatus.PAID) {
+            if (systemPayment.getUserId()==userId && systemPayment.getPaymentStatus()==PaymentStatus.PAID) { //&& systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT
                 String authorizationId = systemPayment.getSaleId();
+                System.out.println("authorizationId:"+authorizationId+", is refunded");
                 cancelPayment(authorizationId);
                 systemPayment.setPaymentStatus(PaymentStatus.REFUNDED);
                 systemPaymentService.save(systemPayment);
@@ -234,11 +235,11 @@ public class AuctionFacadeImpl implements AuctionFacade {
 
 
         for (SystemPayment systemPayment : listSystemPayment) {
-            if (systemPayment.getUserId()==userId && systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT && systemPayment.getPaymentStatus()==PaymentStatus.PAID) {
+            if (systemPayment.getUserId()==userId && systemPayment.getPaymentStatus()==PaymentStatus.PAID) { //systemPayment.getPaymentType()==PaymentType.PRODUCT_PAYMENT
                 String authorizationId = systemPayment.getSaleId();
 
                 System.out.println("authorizationId:"+authorizationId);
-                System.out.println("Amount:"+systemPayment.getPaymentAmount());
+                System.out.println("Amount is paid:"+systemPayment.getPaymentAmount());
 
                 finalizePayment(authorizationId, systemPayment.getPaymentAmount());
                 systemPayment.setPaymentStatus(PaymentStatus.SENT);
