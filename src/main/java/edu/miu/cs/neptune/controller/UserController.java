@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -27,8 +28,8 @@ public class UserController {
     //click Create User button, go to createUser page
     @RequestMapping("/create")
     public String createUserGet(@ModelAttribute("user") User user, Model model) {
-        List<Role> roleList = Arrays.asList(Role.values());
-//        roleList.remove(2);
+        List<Role> roleList = Arrays.asList(Role.values())
+                            .stream().filter(r->r!=Role.ROLE_ADMIN).collect(Collectors.toList());
         model.addAttribute("availableRoles", roleList);
         return "user/createUser";
     }
