@@ -1,8 +1,6 @@
 package edu.miu.cs.neptune.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.miu.cs.neptune.domain.Category;
@@ -92,10 +90,8 @@ public class CustomerController {
         model.addAttribute("categoryId", categoryId);
         return "customer/productsByCategory";
     }
-    @PostMapping("category/productsNext")
-    @RequestMapping(value = "category/productsNext",
-    method = RequestMethod.POST
-    )
+
+    @PostMapping(value = "category/productsNext")
     @ResponseBody
     public String listProductByCategoryOrder(@RequestBody String request, Model model) throws JsonProcessingException {
         count++;
@@ -115,6 +111,7 @@ public class CustomerController {
         else
             return "done";
     }
+
 
     @GetMapping("categories")
     public String listCategory(Model model){
@@ -139,10 +136,8 @@ public class CustomerController {
         model.addAttribute("product", product);
         model.addAttribute("categories", categoryName);
         model.addAttribute("images", product.getDbImages());
-//        model.addAttribute("searchURL", "/customer/products");
         System.out.println(product.getDbImages());
         return "customer/product";
-//        return "fragments/sidenav_cus";
     }
 
     @RequestMapping("product_search")
@@ -158,7 +153,6 @@ public class CustomerController {
         general(model, page, 1, "uploadDate", "desc");
         model.addAttribute("products", list);
         model.addAttribute("keyword", keyword);
-       // model.addAttribute("searchURL", "/customer/products");
         return "customer/productList";
     }
 

@@ -31,4 +31,5 @@ public interface ProductService {
     //For Sell module
     Product save(Product product);
     void delete(Long productId);
+    List<Product> findProductsBySeller(String username);
 }

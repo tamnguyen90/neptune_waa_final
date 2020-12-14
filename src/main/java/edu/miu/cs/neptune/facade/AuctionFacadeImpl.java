@@ -22,8 +22,12 @@ public class AuctionFacadeImpl implements AuctionFacade {
     private final SystemPaymentService systemPaymentService;
     private final MailService mailService;
     private final PaypalService paypalService;
+    private final ProductService productService;
 
-    public AuctionFacadeImpl(UserService userService, BiddingService biddingService, AuctionService auctionService, ShippingService shippingService, SystemPaymentService systemPaymentService, MailService mailService, PaypalService paypalService) {
+    public AuctionFacadeImpl(UserService userService, BiddingService biddingService,
+                             AuctionService auctionService, ShippingService shippingService,
+                             SystemPaymentService systemPaymentService, MailService mailService,
+                             PaypalService paypalService, ProductService productService) {
         this.userService = userService;
         this.biddingService = biddingService;
         this.auctionService = auctionService;
@@ -31,6 +35,7 @@ public class AuctionFacadeImpl implements AuctionFacade {
         this.systemPaymentService = systemPaymentService;
         this.mailService = mailService;
         this.paypalService = paypalService;
+        this.productService = productService;
     }
 
     @Override
@@ -71,20 +76,17 @@ public class AuctionFacadeImpl implements AuctionFacade {
             if (currentAuction.getBids().size() > 0) {
                 Bid highest = getTheHighestBid(currentAuction);
                 currentAuction.setWinnerId(highest.getBidder().getUserId());
-                //Send a notification email to seller and winner
-                sendMailToWinner(highest.getBidder());
                 //Charge the deposit amount from the winner
                 SystemPayment winnerPayment = systemPaymentService.getDepositPaymentByUser(highest.getBidder(), currentAuction);
                 paypalService.finalizePayment(winnerPayment.getSaleId(), winnerPayment.getPaymentAmount());
+                Product product = currentAuction.getProduct();
+                product.setPaymentDueDate(LocalDateTime.now().plusMinutes(3));
+                productService.save(product);
             }
             auctionService.save(currentAuction);
             return currentAuction;
         }
         return null;
-    }
-
-    private void sendMailToWinner(User bidder) {
-        //TODO send mail to the winner
     }
 
     @Override

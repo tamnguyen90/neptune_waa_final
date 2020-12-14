@@ -29,7 +29,9 @@
                         </div>
                         <div class="modal-body">
                                 <div>
-                                    <span th:text="${error}">ID</span>
+                                    <div class="alert-danger">
+                                        <span th:text="${error}">ID</span>
+                                    </div>
                                     <ul th:if="${#fields.hasErrors('*')}">
                                     <li th:each="err : ${#fields.errors('*')}" th:text="${err}" >Input is incorrect</li>
                                 </ul>
