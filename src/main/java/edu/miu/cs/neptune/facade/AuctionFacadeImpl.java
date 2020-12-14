@@ -76,12 +76,11 @@ public class AuctionFacadeImpl implements AuctionFacade {
             if (currentAuction.getBids().size() > 0) {
                 Bid highest = getTheHighestBid(currentAuction);
                 currentAuction.setWinnerId(highest.getBidder().getUserId());
-                //Charge the deposit amount from the winner
-                SystemPayment winnerPayment = systemPaymentService.getDepositPaymentByUser(highest.getBidder(), currentAuction);
-                paypalService.finalizePayment(winnerPayment.getSaleId(), winnerPayment.getPaymentAmount());
                 Product product = currentAuction.getProduct();
                 product.setPaymentDueDate(LocalDateTime.now().plusMinutes(3));
                 productService.save(product);
+                //return the deposit to the losers
+                returnDeposit(currentAuction);
             }
             auctionService.save(currentAuction);
             return currentAuction;
@@ -90,19 +89,17 @@ public class AuctionFacadeImpl implements AuctionFacade {
     }
 
     @Override
-    public boolean returnDeposit(Long auctionId) {
-        Optional<Auction> optAuction = auctionService.getById(auctionId);
-        if (!optAuction.isPresent()) {
-            throw new RuntimeException("The auction is not found.");
-        }
-        Auction currentAuction = optAuction.get();
-        if (!currentAuction.getAuctionStatus().equals(AuctionStatus.ENDED)) {
+    public boolean returnDeposit(Auction closedAuction) {
+
+        if (!closedAuction.getAuctionStatus().equals(AuctionStatus.ENDED)) {
             throw new RuntimeException("The auction isn't finished yet.");
         }
-        List<SystemPayment> systemPayments = systemPaymentService.getPaymentsByAuction(currentAuction.getAuctionId());
+        List<SystemPayment> systemPayments = systemPaymentService.getPaymentsByAuction(closedAuction.getAuctionId());
         systemPayments.forEach(payment -> {
-            if (!payment.getUserId().equals(currentAuction.getWinnerId())) {
+            if (!payment.getUserId().equals(closedAuction.getWinnerId())) {
                 paypalService.cancelPayment(payment.getSaleId());
+                payment.setPaymentStatus(PaymentStatus.REFUNDED);
+                systemPaymentService.save(payment);
             }
         });
         return false;

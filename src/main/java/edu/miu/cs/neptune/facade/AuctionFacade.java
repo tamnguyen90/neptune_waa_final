@@ -10,7 +10,7 @@ public interface AuctionFacade {
     Bid createBid(Bid bid, User user, Auction auction);
     List<Bid> getUserBidsByAuction(Long auctionId, User user);
     Auction closeAuction(Auction auction);
-    boolean returnDeposit(Long auctionId);
+    boolean returnDeposit(Auction closedAuction);
     User winner(Long auctionId);
     Bid getTheHighestBid(Auction auction);
 

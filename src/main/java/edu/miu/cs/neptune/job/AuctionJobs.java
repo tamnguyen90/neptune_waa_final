@@ -20,13 +20,13 @@ public class AuctionJobs {
 
     @Scheduled(fixedRate = 60000)
     public void closingEndedAuctions() {
-        System.out.println("[Scheduling]---The task started at "  + LocalDateTime.now().format(formatter));
+        System.out.println("[Closing ended auctions]---The task started at "  + LocalDateTime.now().format(formatter));
         List<Auction> endedAuctions = auctionFacade.closingEndedAuctions();
         if (endedAuctions != null && !endedAuctions.isEmpty()) {
             endedAuctions.forEach(auction -> {
                 System.out.println(auction);
             });
         }
-        System.out.println("[Scheduling]---The task ended at "  + LocalDateTime.now().format(formatter));
+        System.out.println("[Closing ended auctions]---The task ended at "  + LocalDateTime.now().format(formatter));
     }
 }
