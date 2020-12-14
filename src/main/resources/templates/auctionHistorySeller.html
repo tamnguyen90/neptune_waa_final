@@ -8,7 +8,7 @@
 <div id="layoutSidenav">
     <th:block th:insert="fragments/sidenav :: sidenav"></th:block>
     <div id="layoutSidenav_content">
-        <main>
+        <main class="mx-2 my-5">
             <h3 class="display-5 text-center">List of Auctions</h3>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Duration</label>
@@ -19,18 +19,20 @@
                 </select>
             </div>
 
-            <table class="table">
+            <table class="table table-bordered">
                 <tr>
-                    <th style="width:10%" scope="col">#</th>
-                    <th style="width:20%" scope="col">Product</th>
+                    <th style="width:5%" scope="col">#</th>
+                    <th style="width:15%" scope="col">Product</th>
+                    <th style="width:20%" scope="col">Auction BeginDate</th>
                     <th style="width:20%" scope="col">Auction Deadline</th>
-                    <th style="width:20%" scope="col">Status</th>
+                    <th style="width:10%" scope="col">Status</th>
                     <th style="width:20%" scope="col">Payment Due Date</th>
                     <th style="width:10%" scope="col">Action</th>
                 </tr>
                 <tr th:each="auction: ${auctions}">
                     <th scope="row" th:text="${auctionStat.index+1}"/>
                     <td><a th:href="@{'/auction/' + ${auction.auctionId}}"> <span th:text="${auction.product.productName}">error</span></a> </td>
+                    <td th:text="${#temporals.format(auction.beginDate, 'yyyy-MM-dd HH:mm:ss')}" />
                     <td th:text="${#temporals.format(auction.endDate, 'yyyy-MM-dd HH:mm:ss')}" />
                     <td th:text="${auction.AuctionStatus}"></td>
                     <td>
@@ -39,7 +41,7 @@
                         </div>
                     </td>
                     <td>
-                        <div th:if="${auction.product.productStatus!=T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD}">
+                        <div th:if="${auction.product.productStatus!=T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD and auction.AuctionStatus==T(edu.miu.cs.neptune.domain.AuctionStatus).ENDED}">
                             <span>Payment pending</span>
                         </div>
                         <div th:if="${auction.product.productStatus==T(edu.miu.cs.neptune.domain.ProductStatus).PRODUCT_SOLD}">
@@ -54,7 +56,6 @@
                     </td>
                 </tr>
             </table>
-            <a href="#" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Back</a>
 
         </main>
         <th:block th:insert="fragments/footer :: footer"></th:block>

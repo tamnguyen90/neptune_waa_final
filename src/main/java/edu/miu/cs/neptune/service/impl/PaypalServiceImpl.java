@@ -46,7 +46,10 @@ public class PaypalServiceImpl implements PaypalService {
             // create paypal order object
             AuctionOrder auctionOrder = new AuctionOrder();
             auctionOrder.setDescription(theProduct.getProductName());
-            auctionOrder.setPrice(highestBid.getBiddingAmount());
+            System.out.println("highes bid amount:"+highestBid.getBiddingAmount());
+            System.out.println("deposited amount:"+(theAuction.getDepositAmount()==null?theAuction.getBeginPrice()/10.0:theAuction.getDepositAmount()));
+            double price = highestBid.getBiddingAmount() - (theAuction.getDepositAmount()==null?theAuction.getBeginPrice()/10.0:theAuction.getDepositAmount());
+            auctionOrder.setPrice(price);
             auctionOrder.setUser(theUser);
             auctionOrder.setCurrency("USD");
             auctionOrder.setMethod("paypal");

@@ -57,7 +57,6 @@ public class AuctionController {
 
     @GetMapping(value="")
     public String showAllAuctions(Model model, Principal principal) {
-        System.out.println("username:"+principal.getName());
         User theUser = auctionFacade.getUserByUserName(principal.getName());
 
         if (theUser != null) {
@@ -146,8 +145,8 @@ public class AuctionController {
         if (auctionOrder==null) {
             return "redirect:/auction?error=1";
         }
-        auctionOrder.setPrice(2.0);
-        //System.out.println(auctionOrder);
+        //auctionOrder.setPrice(2.0);
+        System.out.println(auctionOrder);
 
         model.addAttribute("auctionOrder", auctionOrder);
         return "reviewPayment";
@@ -214,7 +213,10 @@ public class AuctionController {
 
     @PostMapping(value = "/pay")
     public String doPayment(@ModelAttribute("order") AuctionOrder auctionOrder, HttpSession session, Model model) {
-
+        // save user address;
+        User theUser = auctionFacade.getUserByUserId(auctionOrder.getUser().getUserId());
+        theUser.setAddress(auctionOrder.getUser().getAddress());
+        auctionFacade.updateUser(theUser);
         session.setAttribute("sessionAuctionOrder", auctionOrder);
         auctionOrder.setIntent("authorize");
         System.out.println(auctionOrder);

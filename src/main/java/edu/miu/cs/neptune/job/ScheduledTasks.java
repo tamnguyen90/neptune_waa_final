@@ -43,20 +43,26 @@ public class ScheduledTasks {
 
     // check if user hasn't paid the product within allowed time,
     // if yes, remove the pay button, don't refund the deposit
-    @Scheduled(initialDelay = 60000, fixedRate = 60000)
+    @Scheduled(initialDelay = 6000, fixedRate = 60000)
     public void performDelayedTask() {
         List<Auction> list = auctionService.getAllEndedAuction();
         for (Auction auction : list) {
-            if (auction.getProduct().getPaymentDueDate().compareTo(LocalDateTime.now())<0) {
-                // buying time is expired
-                System.out.println("Auction is over but haven't paid within given time");
-                System.out.println("auctionProduct:"+auction.getProduct().getProductName());
-                auction.setAuctionStatus(AuctionStatus.NOT_PAID);
-                auctionService.save(auction);
+            if (auction.getAuctionStatus() == AuctionStatus.ENDED) {
+                System.out.println("Auction is ended");
+                System.out.println("auctiondId:"+auction.getAuctionId());
+                System.out.println("payment Due date:"+auction.getProduct().getPaymentDueDate());
+                LocalDateTime paymentDueDate = auction.getProduct().getPaymentDueDate();
+                if (paymentDueDate!=null && paymentDueDate.compareTo(LocalDateTime.now())<0) {
+                    // buying time is expired
+                    System.out.println("Auction is over but haven't paid within given time");
+                    System.out.println("auctionProduct:"+auction.getProduct().getProductName());
+                    auction.setAuctionStatus(AuctionStatus.NOT_PAID);
+                    auctionService.save(auction);
+                }
             }
 
             if (auction.getShippingStatus()== ShippingStatus.IN_TRANSIT) {
-                if (auction.getShippingDate().plusDays(3).compareTo(LocalDateTime.now())<0){
+                if (auction.getShippingDate().plusMinutes(2).compareTo(LocalDateTime.now())<0){
                     // delivery time is expired
                     auction.setShippingStatus(ShippingStatus.DELIVERY_EXPIRED);
                     auctionService.save(auction);
